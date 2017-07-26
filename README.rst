@@ -1,5 +1,63 @@
-skele-cli
-=========
+Snips Skills Manager
+====================
+
+|Build Status| |PyPI| |MIT License|
+
+
+Installation
+------------
+
+The skill is on `PyPI`_, so you can just install it with `pip`_:
+
+.. code-block:: console
+
+    $ pip install snipslocalmusic
+
+Usage
+-----
+
+The skill allows you to play music using local files.
+
+.. code-block:: python
+
+    from snipslocalmusic.snipslocalmusic import SnipsLocalMusic
+
+    music = SnipsLocalMusic("db.json") 
+    music.play(None, None, None, "Bach")
+
+Copyright
+---------
+
+This skill is provided by `Snips`_ as Open Source software. See `LICENSE.txt`_ for more
+information.
+
+.. |Build Status| image:: https://travis-ci.org/snipsco/snips-skill-localmusic.svg
+   :target: https://travis-ci.org/snipsco/snips-skill-localmusic
+   :alt: Build Status
+.. |PyPI| image:: https://img.shields.io/pypi/v/snipslocalmusic.svg
+   :target: https://pypi.python.org/pypi/snipslocalmusic
+   :alt: PyPI
+.. |MIT License| image:: https://img.shields.io/badge/license-MIT-blue.svg
+   :target: https://raw.githubusercontent.com/snipsco/snips-skill-localmusic/master/LICENSE.txt
+   :alt: MIT License
+
+.. _`PyPI`: https://pypi.python.org/pypi/snipshue
+.. _`pip`: http://www.pip-installer.org
+.. _`Snips`: https://www.snips.ai
+.. _`LICENSE.txt`: https://github.com/snipsco/snips-skill-smartercoffee/blob/master/LICENSE.txt
+
+
+
+
+
+
+
+
+
+
+
+Snips Skills Manager
+====================
 
 *A skeleton command line program in Python.*
 

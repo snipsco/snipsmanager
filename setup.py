@@ -7,7 +7,7 @@ from subprocess import call
 
 from setuptools import Command, find_packages, setup
 
-from skele import __version__
+from snipsskills import __version__
 
 
 this_dir = abspath(dirname(__file__))
@@ -28,19 +28,19 @@ class RunTests(Command):
 
     def run(self):
         """Run all tests!"""
-        errno = call(['py.test', '--cov=skele', '--cov-report=term-missing'])
+        errno = call(['py.test', '--cov=snipsskills', '--cov-report=term-missing'])
         raise SystemExit(errno)
 
 
 setup(
-    name = 'skele',
+    name = 'snipsskills',
     version = __version__,
-    description = 'A skeleton command line program in Python.',
+    description = 'Snips Skills Manager',
     long_description = long_description,
-    url = 'https://github.com/rdegges/skele-cli',
-    author = 'Randall Degges',
-    author_email = 'r@rdegges.com',
-    license = 'UNLICENSE',
+    url = 'https://github.com/snipsco/snipsskills',
+    author = 'Snips',
+    author_email = 'michael.fester@snips.ai',
+    license='MIT',
     classifiers = [
         'Intended Audience :: Developers',
         'Topic :: Utilities',
@@ -55,16 +55,18 @@ setup(
         'Programming Language :: Python :: 3.3',
         'Programming Language :: Python :: 3.4',
     ],
-    keywords = 'cli',
+    keywords = ['cli', 'snips'],
     packages = find_packages(exclude=['docs', 'tests*']),
-    install_requires = ['docopt'],
+    install_requires = ['docopt', 'Jinja2', 'pyyaml', 'urllib2', 'pip', 'snipsskillscore'],
     extras_require = {
         'test': ['coverage', 'pytest', 'pytest-cov'],
     },
     entry_points = {
         'console_scripts': [
-            'skele=skele.cli:main',
+            'snipsskills=snipsskills.cli:main',
         ],
     },
+    package_data={'': ['templates', 'config']},
+    include_package_data=True,
     cmdclass = {'test': RunTests},
 )

@@ -1,6 +1,10 @@
 exclude .gitignore
 exclude .coverage
 exclude .travis.yml
+exclude Makefile
+exclude Snipsfile
+exclude test.py
+exclude .snips
 include README.rst
 include setup.cfg
 prune .cache
@@ -9,3 +13,5 @@ prune build
 prune dist
 recursive-exclude *.egg-info *
 recursive-include tests *
+recursive-include templates *
+recursive-include config *

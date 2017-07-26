@@ -3,3 +3,8 @@
 *.egg-info
 build
 dist
+.DS_Store
+Makefile
+Snipsfile
+test.py
+.snips
