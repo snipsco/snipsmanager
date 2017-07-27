@@ -9,8 +9,8 @@ A single configuration file, the Snipsfile, is required to create a Snips assist
 
 - The URL of your assistant, as created in the `Snips Console <https://console.snips.ai>`_
 - The `skills <https://github.com/michaelfester/awesome-snips/>`_ you want to install
-- If required, additional parameters for you skill, such as an API key, or the IP address of a lamp
-- A simple set of rules which tell how skills should react to incoming intents
+- If required, additional parameters for you skill, such as an API key or the address of a lamp
+- Bindings between intents and skills
 - Various configuration parameters, such as language and logging preferences.
 
 Check out `Awesome Snips <https://github.com/michaelfester/awesome-snips/>`_, a curated list of Snips skills, assistants and other resources to get you started. In particular, make sure to read the `Getting Started guide <https://github.com/michaelfester/awesome-snips/>`_.
