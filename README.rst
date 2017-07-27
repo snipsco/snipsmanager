@@ -7,6 +7,7 @@ Snips Skills Manager
 The Snips Skills Manager manages configuration of your Snips assistant.
 
 A single configuration file, the Snipsfile, is required to creating a Snips assistant. In it, you specify:
+
 - The URL of your assistant, as created in the `Snips Console <https://console.snips.ai>`_
 - The `skills <https://github.com/michaelfester/awesome-snips/>`_ you want to install.
 - If required, additional parameters for you skill, such as an API key, or the IP address of a lamp
