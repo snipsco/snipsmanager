@@ -32,7 +32,7 @@ Start by creating a ``Snipsfile``, which is where all the configuration is set. 
 
 .. code-block:: yaml
 
-    assistant: https://external-gateway.snips.ai/v1/registry/assistants/proj_9po3YAeBV/download?apiToken=BJWb0fIsClryMb0zLo0lrJmWCGLoCxrkVbRMIiAg
+    assistant: SNIPS_ASSISTANT_URL
     locale: en_US
     logging: True
     default_location: Paris,fr
@@ -41,8 +41,8 @@ Start by creating a ``Snipsfile``, which is where all the configuration is set. 
         class_name: SnipsHue
         pip: snipshue=0.1.2
         params:
-          hostname: 192.168.163.96
-          username: XyWT7TlG3RkMAzbKRt4fWpHEo1TudukIgH2OKz79
+          hostname: PHILIPS_HUE_IP
+          username: PHILIPS_HUE_USERNAME
           light_ids: [1, 2, 3, 4, 5, 6]
         intents:
           - intent: DeactivateObject
