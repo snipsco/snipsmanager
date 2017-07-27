@@ -36,8 +36,6 @@ def main():
         if not value:
             continue
         if key == 'install':
-            command = Install(options)
-            command.run()
+            Install(options).run()
         elif key == 'run':
-            command = Run(options)
-            command.run()
+            Run(options).run()

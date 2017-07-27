@@ -1,8 +1,0 @@
-default:
-    locale: en_US
-    logging: True
-    tts:
-        service: snips
-    mqtt_broker:
-        hostname: localhost
-        port: 9898

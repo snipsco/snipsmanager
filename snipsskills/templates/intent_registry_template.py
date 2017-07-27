@@ -13,10 +13,10 @@
 # *****************************************************************************
 
 # pylint: disable=line-too-long
+
 {% for intent in intents -%}
 from models.intents.{{camel_case_to_underscore(to_camelcase_capitalized(intent.name))}}_intent import {{to_camelcase_capitalized(intent.name)}}Intent
 {% endfor %}
-
 
 class IntentRegistry:
     """ Class for holding all the intent classes present in the assistant. """

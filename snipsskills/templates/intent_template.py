@@ -14,7 +14,6 @@
 
 from utils.intent_parser import IntentParser as ip
 
-
 class {{to_camelcase_capitalized(intent.name)}}Intent:
 
     intentName = "{{ intent.name }}"
