@@ -27,7 +27,7 @@ The Snips Skills Manager is on `PyPI <https://pypi.python.org/pypi/snipsskills>`
 Usage
 -----
 
-Start by creating a ``Snipsfile``, which is where all the configuration is set. This is a simple text file, adhering to the YAML format. Here is a basic configuration:
+Start your project by creating a ``Snipsfile``, which is where all the configuration is set. This is a simple text file, adhering to the YAML format. Here is a basic configuration:
 
 .. code-block:: yaml
 
