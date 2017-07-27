@@ -3,7 +3,6 @@ Snips Skills Manager
 
 |Build Status| |PyPI| |MIT License|
 
-
 The Snips Skills Manager is a tool for easily setting up and managing a Snips assistant.
 
 A single configuration file, the Snipsfile, is required to create a Snips assistant. In it, you specify:
