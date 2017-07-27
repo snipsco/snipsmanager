@@ -1,5 +1,5 @@
-#!/usr/bin/env python3
-# encoding: utf-8
+# -*-: coding utf-8 -*-
+""" Auto-generated intent class. """
 
 # *****************************************************************************
 # *****************************************************************************
@@ -12,7 +12,9 @@
 # *****************************************************************************
 # *****************************************************************************
 
-from utils.intent_parser import IntentParser as ip
+# pylint: disable=line-too-long
+
+from snipsskillscore.intent_parser import IntentParser
 
 class {{to_camelcase_capitalized(intent.name)}}Intent:
 
@@ -27,11 +29,11 @@ class {{to_camelcase_capitalized(intent.name)}}Intent:
 
     @staticmethod
     def parse(payload):
-        intentName = ip.get_intent_name(payload)
+        intentName = IntentParser.get_intent_name(payload)
         if intentName != {{to_camelcase_capitalized(intent.name)}}Intent.intentName:
             return None
         return {{to_camelcase_capitalized(intent.name)}}Intent(
             {% for slot in intent.slots -%}
-            ip.get_slot_value(payload, "{{ slot.name}}"){{"," if not loop.last}}
+            IntentParser.get_slot_value(payload, "{{ slot.name}}"){{"," if not loop.last}}
             {% endfor -%}
         )
