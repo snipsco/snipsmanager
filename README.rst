@@ -4,17 +4,17 @@ Snips Skills Manager
 |Build Status| |PyPI| |MIT License|
 
 
-The Snips Skills Manager manages configuration of your Snips assistant.
+The Snips Skills Manager is a tool for easily setting up and managing a Snips assistant.
 
-A single configuration file, the Snipsfile, is required to creating a Snips assistant. In it, you specify:
+A single configuration file, the Snipsfile, is required to create a Snips assistant. In it, you specify:
 
 - The URL of your assistant, as created in the `Snips Console <https://console.snips.ai>`_
-- The `skills <https://github.com/michaelfester/awesome-snips/>`_ you want to install.
+- The `skills <https://github.com/michaelfester/awesome-snips/>`_ you want to install
 - If required, additional parameters for you skill, such as an API key, or the IP address of a lamp
 - A simple set of rules which tell how skills should react to incoming intents
 - Various configuration parameters, such as language and logging preferences.
 
-Check out `Awesome Snips <https://github.com/michaelfester/awesome-snips/>`_, a curated list of Snips skills, assistants and other resources to get you started. In particular, make sure to read the `Getting Started guide <>`_.
+Check out `Awesome Snips <https://github.com/michaelfester/awesome-snips/>`_, a curated list of Snips skills, assistants and other resources to get you started. In particular, make sure to read the `Getting Started guide <https://github.com/michaelfester/awesome-snips/>`_.
 
 Installation
 ------------
@@ -31,23 +31,23 @@ Usage
 Start by creating a ``Snipsfile``, which is where all the configuration is set. This is a simple text file, adhering to the YAML format. Here is a basic configuration:
 
 .. code-block:: yaml
-  assistant: https://external-gateway.snips.ai/v1/registry/assistants/proj_9po3YAeBV/download?apiToken=BJWb0fIsClryMb0zLo0lrJmWCGLoCxrkVbRMIiAg
-  locale: en_US
-  logging: True
-  default_location: Paris,fr
-  skills:
-    - package_name: snipshue
-      class_name: SnipsHue
-      pip: snipshue=0.1.2
-      params:
-        hostname: 192.168.163.96
-        username: XyWT7TlG3RkMAzbKRt4fWpHEo1TudukIgH2OKz79
-        light_ids: [1, 2, 3, 4, 5, 6]
-      intents:
-        - intent: DeactivateObject
-          action: "turn_off"
-        - intent: ActivateLightColor
-          action: "turn_on"
+    assistant: https://external-gateway.snips.ai/v1/registry/assistants/proj_9po3YAeBV/download?apiToken=BJWb0fIsClryMb0zLo0lrJmWCGLoCxrkVbRMIiAg
+    locale: en_US
+    logging: True
+    default_location: Paris,fr
+    skills:
+      - package_name: snipshue
+        class_name: SnipsHue
+        pip: snipshue=0.1.2
+        params:
+          hostname: 192.168.163.96
+          username: XyWT7TlG3RkMAzbKRt4fWpHEo1TudukIgH2OKz79
+          light_ids: [1, 2, 3, 4, 5, 6]
+        intents:
+          - intent: DeactivateObject
+            action: "turn_off"
+          - intent: ActivateLightColor
+            action: "turn_on"
 
 For further explanations and examples, check out our `Snipsfile Wiki <https://github.com/michaelfester/awesome-snips/>`_.
 
