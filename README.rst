@@ -31,6 +31,7 @@ Usage
 Start by creating a ``Snipsfile``, which is where all the configuration is set. This is a simple text file, adhering to the YAML format. Here is a basic configuration:
 
 .. code-block:: yaml
+
     assistant: https://external-gateway.snips.ai/v1/registry/assistants/proj_9po3YAeBV/download?apiToken=BJWb0fIsClryMb0zLo0lrJmWCGLoCxrkVbRMIiAg
     locale: en_US
     logging: True
@@ -55,13 +56,13 @@ Next, setup the system by running the ``install`` command:
 
 .. code-block:: console
 
-    $ pip install install
+    $ snipsskills install
 
 We are now ready to start the service, using the ``run`` command:
 
 .. code-block:: console
 
-    $ pip install run
+    $ snipsskills run
 
 Copyright
 ---------
