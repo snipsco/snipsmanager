@@ -4,15 +4,14 @@
 import os
 import shutil
 
-from .base import Base, SNIPSFILE, ASSISTANT_DIR, ASSISTANT_ZIP_FILENAME, \
+from .base import Base, ASSISTANT_DIR, ASSISTANT_ZIP_FILENAME, \
     ASSISTANT_ZIP_PATH, INTENTS_DIR
 
 from ..utils.assistant_downloader import AssistantDownloader, \
     AssistantDownloaderException
 from ..utils.intent_class_generator import IntentClassGenerator
-from ..utils.snipsfile_parser import Snipsfile, SnipsfileParseException, \
-    SnipsfileNotFoundError
 from ..utils.pip_installer import PipInstaller
+from ..utils.snips_installer import SnipsInstaller
 
 
 # pylint: disable=too-few-public-methods
@@ -21,22 +20,16 @@ class Install(Base):
 
     def run(self):
         """ Command runner. """
-        try:
-            snipsfile = Snipsfile(SNIPSFILE)
-        except SnipsfileNotFoundError:
-            print("Snipsfile not found. Please create one.")
-            return
-        except SnipsfileParseException as err:
-            print(err)
-            return
+        snipsfile = Base.load_snipsfile()
 
         snips_sdk_version = SnipsInstaller.get_version()
-        if snips_sdk_version is None:
-            print("Installing the Snips toolchain.")
-            SnipsInstaller.install()
-        else:
+        if snips_sdk_version is not None and \
+                snipsfile.snips_sdk_version == snips_sdk_version:
             print("Found Snips SDK version {} on the system.".format(
                 snips_sdk_version))
+        else:
+            print("Installing the Snips toolchain.")
+            SnipsInstaller.install(snips_sdk_version)
 
         if snipsfile.assistant_url is None:
             print("No assistants found in Snipsfile.")
@@ -52,7 +45,10 @@ class Install(Base):
                   "and that there is a working network connection.")
             return
 
-        print("Generating definitions")
+        print("Loading Snips assistant.")
+        SnipsInstaller.load_assistant(ASSISTANT_ZIP_PATH)
+
+        print("Generating definitions.")
         try:
             shutil.rmtree(INTENTS_DIR)
         except Exception:
@@ -62,10 +58,10 @@ class Install(Base):
         generator.generate(ASSISTANT_ZIP_PATH, INTENTS_DIR)
 
         if snipsfile.skills is not None and len(snipsfile.skills) > 0:
-            print("Installing skills")
+            print("Installing skills.")
             for skill in snipsfile.skills:
-                print("Installing {}".format(skill.package_name))
+                print("Installing {}.".format(skill.package_name))
                 PipInstaller.install(skill.package_name)
 
-        print("Cleaning up")
+        print("Cleaning up.")
         os.remove(ASSISTANT_ZIP_PATH)

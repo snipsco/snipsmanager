@@ -2,46 +2,32 @@
 """The run command."""
 # pylint: disable=too-few-public-methods,import-error
 
-import glob
-import os
-import sys
-import yaml
-
 from sys import path
 
 from snipsskillscore.server import Server
-from snipsskillscore.yaml_config import YamlConfig
 
-from .base import Base, SNIPSFILE, ASSISTANT_DIR, ASSISTANT_ZIP_FILENAME, \
-    ASSISTANT_ZIP_PATH, INTENTS_DIR
-
-from ..utils.snipsfile_parser import Snipsfile, SnipsfileParseException, \
-    SnipsfileNotFoundError
-
-BINDINGS_FILE = "bindings.py"
-INTENT_REGISTRY_FILE = ".snips/intents/intent_registry.py"
+from .base import Base
 
 path.append(".snips/intents")
 path.append(".snips/intents/intents")
 
+# pylint: disable=wrong-import-position,wrong-import-order
 from intent_registry import IntentRegistry
+# pylint: disable=wildcard-import,wrong-import-position,wrong-import-order
 from intents import *
+
+BINDINGS_FILE = "bindings.py"
+INTENT_REGISTRY_FILE = ".snips/intents/intent_registry.py"
+
 
 
 class Run(Base):
     """The run command."""
 
-    # pylint: disable=undefined-variable,exec-used
+    # pylint: disable=undefined-variable,exec-used,eval-used
     def run(self):
         """ Command runner. """
-        try:
-            self.snipsfile = Snipsfile(SNIPSFILE)
-        except SnipsfileNotFoundError:
-            print("Snipsfile not found. Please create one.")
-            return
-        except SnipsfileParseException as err:
-            print(err)
-            return
+        self.snipsfile = Base.load_snipsfile()
 
         self.skills = {}
         for skilldef in self.snipsfile.skills:

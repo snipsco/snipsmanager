@@ -5,6 +5,7 @@
 class SkillDef:
     """ Skill definition from a YAML config. """
 
+    # pylint: disable=too-many-arguments
     def __init__(self, package_name, class_name, pip, params, intent_defs):
         """ Initialisation.
 
@@ -21,6 +22,13 @@ class SkillDef:
         self.intent_defs = intent_defs
 
     def find(self, intent):
+        """ Find an intent definition in the list of intents that the skill
+            declares.
+
+        :param intent: the intent object to look for.
+        :return: an intent definition, from the skill definition, if found,
+                 or None.
+        """
         for intent_def in self.intent_defs:
             if intent_def.name == intent.intentName:
                 return intent_def

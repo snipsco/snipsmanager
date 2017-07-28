@@ -21,6 +21,15 @@ class SnipsfileNotFoundError(Exception):
 
 
 def get(yaml_config, key, default_value=None):
+    """ Get a value in a yaml_config, or return a default value.
+
+    :param yaml_config: the YAML config.
+    :param key: a key to look for. This can also be a list, looking at
+                more depth.
+    :param default_value: a default value to return in case the key is
+                          not found.
+    :return: the value at the given key path, or default_value if not found.
+    """
     if hasattr(key, '__iter__') and len(key) > 0:
         key_list = key
         node = yaml_config
@@ -37,6 +46,7 @@ def get(yaml_config, key, default_value=None):
         return default_value
 
 
+# pylint: disable=too-many-instance-attributes,too-many-locals
 class Snipsfile:
     """ Utilities for handling Snipsfiles. """
 
@@ -71,6 +81,7 @@ class Snipsfile:
         if not self.assistant_url:
             raise SnipsfileParseException("No assistant definitions found.")
 
+        self.snips_sdk_version = get(yaml_config, 'snips_sdk', 'version')
         self.locale = get(yaml_config, 'locale', 'en_US')
         self.logging = get(yaml_config, 'logging', True)
         self.default_location = get(
