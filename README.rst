@@ -5,7 +5,7 @@ Snips Skills Manager
 
 The Snips Skills Manager is a tool for easily setting up and managing a Snips assistant.
 
-A single configuration file, the Snipsfile, is required to create a Snips assistant. In it, you specify:
+A single configuration file, the `Snipsfile <https://github.com/michaelfester/awesome-snips/>`_, is required to create a Snips assistant. In it, you specify:
 
 - The URL of your assistant, as created in the `Snips Console <https://console.snips.ai>`_
 - The `skills <https://github.com/michaelfester/awesome-snips/>`_ you want to install

@@ -27,17 +27,6 @@ path.append(".snips/intents/intents")
 from intent_registry import IntentRegistry
 from intents import *
 
-DEFAULT_CONFIG = """
-default:
-    locale: en_US
-    logging: True
-    tts:
-        service: snips
-    mqtt_broker:
-        hostname: localhost
-        port: 9898
-"""
-
 
 class Run(Base):
     """The run command."""
@@ -66,8 +55,19 @@ class Run(Base):
         server.start()
 
     def handle_intent(self, intent):
+        """ Handle an intent.
+
+        :param intent: the incoming intent to handle.
+        """
         for skilldef in self.snipsfile.skills:
             intent_def = skilldef.find(intent)
             if intent_def != None:
                 skill = self.skills[skilldef.package_name]
-                getattr(skill, intent_def.action)()
+                if intent_def.action.startswith("{%"):
+                    action = intent_def.action \
+                        .replace("{%", "") \
+                        .replace("%}", "") \
+                        .strip()
+                    exec(action)
+                else:
+                    getattr(skill, intent_def.action)()

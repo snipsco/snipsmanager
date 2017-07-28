@@ -30,6 +30,14 @@ class Install(Base):
             print(err)
             return
 
+        snips_sdk_version = SnipsInstaller.get_version()
+        if snips_sdk_version is None:
+            print("Installing the Snips toolchain.")
+            SnipsInstaller.install()
+        else:
+            print("Found Snips SDK version {} on the system.".format(
+                snips_sdk_version))
+
         if snipsfile.assistant_url is None:
             print("No assistants found in Snipsfile.")
 
