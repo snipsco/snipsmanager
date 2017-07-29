@@ -49,7 +49,7 @@ Start your project by creating a ``Snipsfile``, which is where all the configura
           - intent: ActivateLightColor
             action: "turn_on"
 
-For further explanations and examples, check out our `Snipsfile Wiki <https://github.com/michaelfester/awesome-snips/>`_.
+For further explanations and examples, check out our `Snipsfile Wiki <https://github.com/snipsco/snipsskills/wiki/The-Snipsfile>`_.
 
 Next, setup the system by running the ``install`` command:
 
