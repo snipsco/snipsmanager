@@ -1,6 +1,7 @@
 # -*-: coding utf-8 -*-
 """ Utilities for handline Snipsfiles. """
 
+import pkgutil
 import os
 import yaml
 
@@ -15,6 +16,11 @@ class SnipsfileParseException(Exception):
 
 class SnipsfileNotFoundError(Exception):
     """ Snipsfile not found error class. """
+    pass
+
+
+class SnipsspecNotFoundError(Exception):
+    """ Snipsspec not found error class. """
     pass
 
 # pylint: disable=too-few-public-methods
@@ -46,7 +52,21 @@ def get(yaml_config, key, default_value=None):
         return default_value
 
 
+def find_intent(intent_name, intent_defs):
+    """ Find an intent by name in a list of intent definitions.
+
+    :param intent_name: the name of the intent to look for.
+    :param intent_defs: a list of intent definitions.
+    :return: the intent_def with matching name, or None.
+    """
+    for intent_def in intent_defs:
+        if intent_def.name == intent_name:
+            return intent_def
+    return None
+
 # pylint: disable=too-many-instance-attributes,too-many-locals
+
+
 class Snipsfile:
     """ Utilities for handling Snipsfiles. """
 
@@ -90,19 +110,112 @@ class Snipsfile:
             yaml_config, ['mqtt_broker', 'hostname'], 'localhost')
         self.mqtt_port = get(yaml_config, ['mqtt_broker', 'port'], 9898)
 
-        self.skills = []
+        self.skilldefs = []
         for skill in get(yaml_config, 'skills', []):
             package_name = get(skill, 'package_name')
-            class_name = get(skill, 'class_name')
             pip = get(skill, 'pip')
             params = {}
             for key, value in get(skill, 'params', {}).iteritems():
                 params[key] = value
-            intent_defs = []
-            for intent in get(skill, 'intents', []):
-                name = get(intent, 'intent', None)
-                action = get(intent, 'action', None)
-                intent_defs.append(IntentDef(name, action))
-            skilldef = SkillDef(package_name, class_name,
-                                pip, params, intent_defs)
-            self.skills.append(skilldef)
+
+            try:
+                snipsspec_file = SnipsSpec(package_name)
+            except (SnipsspecNotFoundError, SnipsfileParseException):
+                snipsspec_file = None
+
+            class_name = self.get_class_name(skill, snipsspec_file)
+            intent_defs = self.get_intent_defs(skill, snipsspec_file)
+
+            self.skilldefs.append(SkillDef(package_name, class_name, pip,
+                                           params, intent_defs))
+
+    def get_class_name(self, skill, snipsspec_file):
+        """ Get the class name of a skill. The value, if provided, by the Snipsfile
+            takes precedence over that of the Snipsspec file.
+
+        :param skill: the skill def, as extracted from the Snipsfile.
+        :param snipsspec_file: a SnipsSpec object, holding a fallback value
+                               for the class name.
+        :return: the class name of the skill.
+        """
+        class_name = get(skill, 'class_name')
+        if class_name is not None:
+            return class_name
+        if snipsspec_file is not None:
+            try:
+                return snipsspec_file.class_name
+            except AttributeError:
+                pass
+        return None
+
+    def get_intent_defs(self, skill, snipsspec_file):
+        """ Get the intent definitions for a skill. The definitions for the
+            skills found in skill has precendence over those in the
+            snipsspec_file definitions, which act as fallbacks.
+
+
+        :param skill: the skill def, as extracted from the Snipsfile.
+        :param snipsspec_file: a SnipsSpec object, holding a fallback list of
+                               intents.
+        :return: the list of intents for the skill.
+        """
+        intents_snipsfile = []
+        for intent in get(skill, 'intents', []):
+            name = get(intent, 'intent', None)
+            action = get(intent, 'action', None)
+            intents_snipsfile.append(IntentDef(name, action))
+
+        if snipsspec_file is None:
+            return intents_snipsfile
+
+        try:
+            intents_snipsspec = snipsspec_file.intent_defs
+        except AttributeError:
+            return intents_snipsfile
+
+        intents = []
+        for intent in intents_snipsfile:
+            intents.append(intent)
+
+        for intent in intents_snipsspec:
+            found = find_intent(intent.name, intents_snipsfile)
+            if not found:
+                intents.append(intent)
+        return intents
+
+
+# pylint: disable=too-many-instance-attributes,too-many-locals
+class SnipsSpec:
+    """ Utilities for handling Snipsfiles. """
+
+    def __init__(self, package_name):
+        """ Initialisation.
+
+        :param package_name: the name of the skills package, in which to look
+                             for a Snipsspec file.
+        """
+        try:
+            data = pkgutil.get_data(package_name, 'Snipsspec')
+        except IOError:
+            raise SnipsspecNotFoundError('No Snipsspec found.')
+
+        if data is None:
+            raise SnipsspecNotFoundError('No Snipsspec found.')
+
+        yaml_config = None
+        try:
+            yaml_config = yaml.load(data)
+        except yaml.scanner.ScannerError as err:
+            raise SnipsfileParseException("Error parsing Snipsfile: " +
+                                          str(err))
+
+        if not yaml_config:
+            return
+
+        self.class_name = get(yaml_config, 'class_name')
+
+        self.intent_defs = []
+        for intent in get(yaml_config, 'intents', []):
+            name = get(intent, 'intent', None)
+            action = get(intent, 'action', None)
+            self.intent_defs.append(IntentDef(name, action))

@@ -19,8 +19,6 @@ from intents import *
 BINDINGS_FILE = "bindings.py"
 INTENT_REGISTRY_FILE = ".snips/intents/intent_registry.py"
 
-
-
 class Run(Base):
     """The run command."""
 
