@@ -57,7 +57,14 @@ setup(
     ],
     keywords = ['cli', 'snips'],
     packages = find_packages(exclude=['docs', 'tests*']),
-    install_requires = ['docopt', 'Jinja2', 'pyyaml', 'urllib2', 'pip', 'snipsskillscore'],
+    install_requires = [
+        'docopt',
+        'Jinja2',
+        'pyyaml',
+        'urllib2',
+        'pip',
+        'snipsskillscore==0.1.4.1'
+    ],
     extras_require = {
         'test': ['coverage', 'pytest', 'pytest-cov'],
     },
