@@ -11,7 +11,7 @@ from ..utils.assistant_downloader import AssistantDownloader, \
     AssistantDownloaderException
 from ..utils.intent_class_generator import IntentClassGenerator
 from ..utils.pip_installer import PipInstaller
-from ..utils.snips_installer import SnipsInstaller
+from ..utils.snips_installer import SnipsInstaller, SnipsUnsupportedPlatform
 
 
 # pylint: disable=too-few-public-methods
@@ -28,8 +28,13 @@ class Install(Base):
             print("Found Snips SDK version {} on the system.".format(
                 snips_sdk_version))
         else:
-            print("Installing the Snips toolchain.")
-            SnipsInstaller.install(snips_sdk_version)
+            try:
+                print("Installing the Snips toolchain.")
+                SnipsInstaller.install(snips_sdk_version)
+            except SnipsUnsupportedPlatform:
+                print("\033[91mCurrently, Snips only runs on a Raspberry Pi. " +
+                      "Please run this command from a Raspberry Pi.\033[0m")
+                return
 
         if snipsfile.assistant_url is None:
             print("No assistants found in Snipsfile.")
