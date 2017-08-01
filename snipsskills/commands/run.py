@@ -2,11 +2,13 @@
 """The run command."""
 # pylint: disable=too-few-public-methods,import-error
 
+import asyncio
 import os
 import subprocess
 from sys import path
 
 from snipsskillscore.server import Server
+from snipsskillscore.thread_handler import ThreadHandler
 
 from .base import Base
 
@@ -21,6 +23,8 @@ from intents import *
 BINDINGS_FILE = "bindings.py"
 INTENT_REGISTRY_FILE = ".snips/intents/intent_registry.py"
 
+import threading
+
 
 class Run(Base):
     """The run command."""
@@ -29,7 +33,9 @@ class Run(Base):
     def run(self):
         """ Command runner. """
         self.snipsfile = Base.load_snipsfile()
-        
+
+        self.ioloop = asyncio.get_event_loop()
+
         self.skills = {}
         for skilldef in self.snipsfile.skilldefs:
             module_name = skilldef.package_name + "." + skilldef.package_name
@@ -37,11 +43,20 @@ class Run(Base):
             cls = eval(skilldef.class_name)
             self.skills[skilldef.package_name] = cls(**skilldef.params)
 
+        self.thread_handler = ThreadHandler()
+
         registry = IntentRegistry()
         server = Server(self.snipsfile, registry, self.handle_intent)
         server.start()
 
     def handle_intent(self, intent):
+        if self.ioloop is None:
+            self.ioloop = asyncio.get_event_loop()
+        wait_tasks = asyncio.wait(
+            [self.ioloop.create_task(self.handle_intent_async(intent))])
+        self.ioloop.run_until_complete(wait_tasks)
+
+    async def handle_intent_async(self, intent):
         """ Handle an intent.
 
         :param intent: the incoming intent to handle.

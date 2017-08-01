@@ -3,10 +3,7 @@
 
 import os
 
-try:
-    from urllib.request import urlopen
-except ImportError:
-    from urllib2 import urlopen
+from urllib.request import urlopen
 
 class AssistantDownloaderException(Exception):
     """ Exceptions related to downloads of Snips assistants. """
@@ -43,5 +40,5 @@ class AssistantDownloader:
         if not os.path.exists(output_dir):
             os.makedirs(output_dir)
         output_filename = "{}/{}".format(output_dir, assistant_filename)
-        with open(output_filename, "w") as output_file:
+        with open(output_filename, "wb") as output_file:
             output_file.write(content)

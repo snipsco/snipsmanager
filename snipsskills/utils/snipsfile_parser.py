@@ -26,7 +26,7 @@ class SnipsspecNotFoundError(Exception):
 # pylint: disable=too-few-public-methods
 
 
-def get(yaml_config, key, default_value=None):
+def get(yaml_config, key_path, default_value=None):
     """ Get a value in a yaml_config, or return a default value.
 
     :param yaml_config: the YAML config.
@@ -36,20 +36,16 @@ def get(yaml_config, key, default_value=None):
                           not found.
     :return: the value at the given key path, or default_value if not found.
     """
-    if hasattr(key, '__iter__') and len(key) > 0:
-        key_list = key
-        node = yaml_config
-        for nkey in key_list:
-            try:
-                node = node[nkey]
-            except Exception:
-                return default_value
-        return node
-
-    try:
-        return yaml_config[key]
-    except Exception:
+    if len(key_path) == 0:
         return default_value
+
+    node = yaml_config
+    for key in key_path:
+        try:
+            node = node[key]
+        except Exception:
+            return default_value
+    return node
 
 
 def find_intent(intent_name, intent_defs):
@@ -92,25 +88,25 @@ class Snipsfile:
         if not yaml_config:
             return
 
-        self.assistant_url = get(yaml_config, 'assistant')
+        self.assistant_url = get(yaml_config, ['assistant'])
         if not self.assistant_url:
             raise SnipsfileParseException("No assistant definitions found.")
 
-        self.snips_sdk_version = get(yaml_config, 'snips_sdk', 'version')
-        self.locale = get(yaml_config, 'locale', 'en_US')
-        self.logging = get(yaml_config, 'logging', True)
+        self.snips_sdk_version = get(yaml_config, ['snips_sdk', 'version'])
+        self.locale = get(yaml_config, ['locale'], 'en_US')
+        self.logging = get(yaml_config, ['logging'], True)
         self.default_location = get(
-            yaml_config, 'default_location', 'Paris,fr')
+            yaml_config, ['default_location'], 'Paris,fr')
         self.mqtt_hostname = get(
             yaml_config, ['mqtt_broker', 'hostname'], 'localhost')
         self.mqtt_port = get(yaml_config, ['mqtt_broker', 'port'], 9898)
 
         self.skilldefs = []
-        for skill in get(yaml_config, 'skills', []):
-            package_name = get(skill, 'package_name')
-            pip = get(skill, 'pip')
+        for skill in get(yaml_config, ['skills'], []):
+            package_name = get(skill, ['package_name'])
+            pip = get(skill, ['pip'])
             params = {}
-            for key, value in get(skill, 'params', {}).iteritems():
+            for key, value in get(skill, ['params'], {}).items():
                 params[key] = value
 
             try:
@@ -133,7 +129,7 @@ class Snipsfile:
                                for the class name.
         :return: the class name of the skill.
         """
-        class_name = get(skill, 'class_name')
+        class_name = get(skill, ['class_name'])
         if class_name is not None:
             return class_name
         if snipsspec_file is not None:
@@ -155,9 +151,9 @@ class Snipsfile:
         :return: the list of intents for the skill.
         """
         intents_snipsfile = []
-        for intent in get(skill, 'intents', []):
-            name = get(intent, 'intent', None)
-            action = get(intent, 'action', None)
+        for intent in get(skill, ['intents'], []):
+            name = get(intent, ['intent'])
+            action = get(intent, ['action'])
             intents_snipsfile.append(IntentDef(name, action))
 
         if snipsspec_file is None:
@@ -207,10 +203,10 @@ class SnipsSpec:
         if not yaml_config:
             return
 
-        self.class_name = get(yaml_config, 'class_name')
+        self.class_name = get(yaml_config, ['class_name'])
 
         self.intent_defs = []
-        for intent in get(yaml_config, 'intents', []):
-            name = get(intent, 'intent', None)
-            action = get(intent, 'action', None)
+        for intent in get(yaml_config, ['intents'], []):
+            name = get(intent, ['intent'])
+            action = get(intent, ['action'])
             self.intent_defs.append(IntentDef(name, action))

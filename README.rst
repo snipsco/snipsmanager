@@ -76,6 +76,22 @@ We are now ready to start the service, using the ``run`` command:
 
     $ snipsskills run
 
+Troubleshooting
+---------------
+
+On OSX, you might need to install SDL:
+
+.. code-block:: console
+
+    $ brew install sdl
+
+The Snips Skills Manager is based on Python 3. To install it on a Raspberry, run:
+
+.. code-block:: console
+
+    $ sudo apt-get install python3
+
+
 Copyright
 ---------
 
