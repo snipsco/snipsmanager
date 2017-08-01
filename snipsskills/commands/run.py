@@ -21,11 +21,6 @@ from intents import *
 BINDINGS_FILE = "bindings.py"
 INTENT_REGISTRY_FILE = ".snips/intents/intent_registry.py"
 
-try:
-    from subprocess import DEVNULL # py3k
-except ImportError:
-    import os
-    DEVNULL = open(os.devnull, 'wb')
 
 class Run(Base):
     """The run command."""
@@ -34,9 +29,9 @@ class Run(Base):
     def run(self):
         """ Command runner. """
         self.snipsfile = Base.load_snipsfile()
-
+        
         self.skills = {}
-        for skilldef in self.snipsfile.skills:
+        for skilldef in self.snipsfile.skilldefs:
             module_name = skilldef.package_name + "." + skilldef.package_name
             exec("from {} import {}".format(module_name, skilldef.class_name))
             cls = eval(skilldef.class_name)
@@ -51,7 +46,7 @@ class Run(Base):
 
         :param intent: the incoming intent to handle.
         """
-        for skilldef in self.snipsfile.skills:
+        for skilldef in self.snipsfile.skilldefs:
             intent_def = skilldef.find(intent)
             if intent_def != None:
                 skill = self.skills[skilldef.package_name]

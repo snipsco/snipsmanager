@@ -76,11 +76,6 @@ class Snipsfile:
         :param snipsfile: name of the Snipsfile.
         """
         self.assistant_url = None
-        self.skills = []
-        self.parse(snipsfile)
-
-    def parse(self, snipsfile):
-        """ Parse the content of a Snipsfile. """
 
         if not os.path.isfile(snipsfile):
             raise SnipsfileNotFoundError(

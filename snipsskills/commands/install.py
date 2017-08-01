@@ -11,7 +11,8 @@ from ..utils.assistant_downloader import AssistantDownloader, \
     AssistantDownloaderException
 from ..utils.intent_class_generator import IntentClassGenerator
 from ..utils.pip_installer import PipInstaller
-from ..utils.snips_installer import SnipsInstaller, SnipsUnsupportedPlatform
+from ..utils.snips_installer import SnipsInstaller, SnipsUnsupportedPlatform, \
+    cmd_exists
 
 
 # pylint: disable=too-few-public-methods
@@ -22,21 +23,15 @@ class Install(Base):
         """ Command runner. """
         snipsfile = Base.load_snipsfile()
 
-        snips_sdk_version = SnipsInstaller.get_version()
-        if snips_sdk_version is not None and \
-                snipsfile.snips_sdk_version == snips_sdk_version:
-            print("Found Snips SDK version {} on the system.".format(
-                snips_sdk_version))
-        else:
+        if not cmd_exists("snips"):
             try:
                 print("Installing the Snips toolchain.")
-                SnipsInstaller.install(snips_sdk_version)
+                SnipsInstaller.install()
             except SnipsUnsupportedPlatform:
                 print("\033[91mCurrently, the Snips SDK only runs on a Raspberry Pi. " +
                       "Skipping installation of the Snips SDK. " +
                       "If you wish to install the Snips SDK, " +
                       "run this command from a Raspberry Pi.\033[0m")
-                return
 
         if snipsfile.assistant_url is None:
             print("No assistants found in Snipsfile.")
@@ -52,8 +47,9 @@ class Install(Base):
                   "and that there is a working network connection.")
             return
 
-        print("Loading Snips assistant.")
-        SnipsInstaller.load_assistant(ASSISTANT_ZIP_PATH)
+        if cmd_exists("snips"):
+            print("Loading Snips assistant.")
+            SnipsInstaller.load_assistant(ASSISTANT_ZIP_PATH)
 
         print("Generating definitions.")
         try:
@@ -64,9 +60,9 @@ class Install(Base):
         generator = IntentClassGenerator()
         generator.generate(ASSISTANT_ZIP_PATH, INTENTS_DIR)
 
-        if snipsfile.skills is not None and len(snipsfile.skills) > 0:
+        if snipsfile.skilldefs is not None and len(snipsfile.skilldefs) > 0:
             print("Installing skills.")
-            for skill in snipsfile.skills:
+            for skill in snipsfile.skilldefs:
                 print("Installing {}.".format(skill.package_name))
                 PipInstaller.install(skill.package_name)
 

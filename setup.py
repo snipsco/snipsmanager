@@ -1,14 +1,10 @@
 """Packaging settings."""
 
-
+from setuptools import Command, find_packages, setup
+from snipsskills import __version__
 from codecs import open
 from os.path import abspath, dirname, join
 from subprocess import call
-
-from setuptools import Command, find_packages, setup
-
-from snipsskills import __version__
-
 
 this_dir = abspath(dirname(__file__))
 with open(join(this_dir, 'README.rst'), encoding='utf-8') as file:
@@ -60,7 +56,7 @@ setup(
             'snipsskills=snipsskills.cli:main',
         ],
     },
-    package_data={'': ['templates', 'config']},
+    package_data={'': ['templates']},
     include_package_data=True,
     cmdclass = {'test': RunTests},
 )

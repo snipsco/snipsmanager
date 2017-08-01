@@ -13,4 +13,4 @@ class PipInstaller:
 
         :param module: the pip module name or URL.
         """
-        pip.main(['install', '--quiet', module])
+        pip.main(['install', '--quiet', '--user', module])
