@@ -4,14 +4,15 @@ exclude .travis.yml
 exclude Makefile
 exclude Snipsfile
 exclude test.py
-exclude .snips
 include README.rst
 include setup.cfg
 prune .cache
 prune .git
+prune .snips
 prune build
 prune dist
 recursive-exclude *.egg-info *
 recursive-include tests *
 recursive-include templates *
 recursive-include config *
+recursive-include .snips *

@@ -2,6 +2,8 @@
 """The run command."""
 # pylint: disable=too-few-public-methods,import-error
 
+import os
+import subprocess
 from sys import path
 
 from snipsskillscore.server import Server
@@ -18,6 +20,12 @@ from intents import *
 
 BINDINGS_FILE = "bindings.py"
 INTENT_REGISTRY_FILE = ".snips/intents/intent_registry.py"
+
+try:
+    from subprocess import DEVNULL # py3k
+except ImportError:
+    import os
+    DEVNULL = open(os.devnull, 'wb')
 
 class Run(Base):
     """The run command."""

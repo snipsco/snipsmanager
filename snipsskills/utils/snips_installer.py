@@ -8,11 +8,18 @@ import subprocess
 
 
 SNIPS_INSTALL_COMMAND = "curl https://install.snips.ai -sSf"
+SNIPS_INSTALL_ASSISTANT_COMMAND = "snips-install-assistant {}"
+
+
+def cmd_exists(cmd):
+    return subprocess.call("type " + cmd, shell=True,
+                           stdout=subprocess.PIPE, stderr=subprocess.PIPE) == 0
 
 
 class SnipsUnsupportedPlatform(Exception):
     """ Unsupported platform exception class. """
     pass
+
 
 class SnipsInstaller:
     """ Utilities for managing the Snips SDK. """
@@ -23,15 +30,29 @@ class SnipsInstaller:
 
         :param version: The version of the SDK to install, or None for latest.
         """
-        if not 'raspberry' in os.uname():
+        if cmd_exists("snips"):
+            return
+
+        if not 'arm' in " ".join(os.uname()):
             raise SnipsUnsupportedPlatform()
 
         if version != None and SnipsInstaller.get_version() == version:
             return
 
-        p1 = subprocess.Popen(SNIPS_INSTALL_COMMAND.split(), stdout=subprocess.PIPE)
-        p2 = subprocess.Popen("sh", stdin=p1.stdout)
-        output, error = p2.communicate()
+        curl_command = subprocess.Popen(
+            SNIPS_INSTALL_COMMAND.split(), stdout=subprocess.PIPE)
+        sh_command = subprocess.Popen("sh", stdin=curl_command.stdout)
+        output, error = sh_command.communicate()
+
+        # Hack to prevent the logout / login issue
+        usermod_command = subprocess.Popen(
+            "sudo usermod -aG docker pi".split(), stdout=subprocess.PIPE)
+        output, error = usermod_command.communicate()
+
+        curl_command = subprocess.Popen(
+            SNIPS_INSTALL_COMMAND.split(), stdout=subprocess.PIPE)
+        sh_command = subprocess.Popen("sh", stdin=curl_command.stdout)
+        output, error = sh_command.communicate()
 
     @staticmethod
     def get_version():
@@ -49,4 +70,7 @@ class SnipsInstaller:
 
         :param assistant_zip_path: The path to the assistant.zip file.
         """
-        pass
+        process = subprocess.Popen(
+            SNIPS_INSTALL_ASSISTANT_COMMAND.format(assistant_zip_path).split(),
+            stdout=subprocess.PIPE)
+        output, error = process.communicate()

@@ -22,9 +22,6 @@ Help:
 
 from docopt import docopt
 
-from snipsskills.commands.install import Install
-from snipsskills.commands.run import Run
-
 from . import __version__ as VERSION
 
 
@@ -36,6 +33,8 @@ def main():
         if not value:
             continue
         if key == 'install':
+            from snipsskills.commands.install import Install
             Install(options).run()
         elif key == 'run':
+            from snipsskills.commands.run import Run
             Run(options).run()

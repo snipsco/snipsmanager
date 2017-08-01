@@ -32,14 +32,16 @@ class Install(Base):
                 print("Installing the Snips toolchain.")
                 SnipsInstaller.install(snips_sdk_version)
             except SnipsUnsupportedPlatform:
-                print("\033[91mCurrently, Snips only runs on a Raspberry Pi. " +
-                      "Please run this command from a Raspberry Pi.\033[0m")
+                print("\033[91mCurrently, the Snips SDK only runs on a Raspberry Pi. " +
+                      "Skipping installation of the Snips SDK. " +
+                      "If you wish to install the Snips SDK, " +
+                      "run this command from a Raspberry Pi.\033[0m")
                 return
 
         if snipsfile.assistant_url is None:
             print("No assistants found in Snipsfile.")
 
-        print("Fetching assistant")
+        print("Fetching assistant.")
         try:
             AssistantDownloader.download(snipsfile.assistant_url,
                                          ASSISTANT_DIR,

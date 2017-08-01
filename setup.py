@@ -41,29 +41,16 @@ setup(
     author = 'Snips',
     author_email = 'michael.fester@snips.ai',
     license='MIT',
-    classifiers = [
-        'Intended Audience :: Developers',
-        'Topic :: Utilities',
-        'License :: Public Domain',
-        'Natural Language :: English',
-        'Operating System :: OS Independent',
-        'Programming Language :: Python :: 2',
-        'Programming Language :: Python :: 2.6',
-        'Programming Language :: Python :: 2.7',
-        'Programming Language :: Python :: 3',
-        'Programming Language :: Python :: 3.2',
-        'Programming Language :: Python :: 3.3',
-        'Programming Language :: Python :: 3.4',
-    ],
     keywords = ['cli', 'snips'],
     packages = find_packages(exclude=['docs', 'tests*']),
     install_requires = [
         'docopt',
+        'python-dateutil',
         'Jinja2',
         'pyyaml',
         'urllib2',
         'pip',
-        'snipsskillscore==0.1.4.1'
+        'snipsskillscore'
     ],
     extras_require = {
         'test': ['coverage', 'pytest', 'pytest-cov'],

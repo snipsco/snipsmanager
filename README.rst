@@ -28,7 +28,7 @@ Note: you may need to install ``pip``, ``python-dev`` and ``pyaudio`` and ``pyga
 
 .. code-block:: console
     $ sudo apt-get update
-    $ sudo apt-get install python-pip python-dev python-pyaudio python-pygame python-dateutil
+    $ sudo apt-get install python-pip python-dev python-pyaudio python-pygame
 
 Usage
 -----
@@ -62,6 +62,13 @@ Next, setup the system by running the ``install`` command:
 .. code-block:: console
 
     $ snipsskills install
+
+Note: make sure that the ``snipsskills`` is found in your ``$PATH``. If the above does not work, add the following to your ``~/.bashrc`` or equivalent:
+
+.. code-block:: console
+
+    $ export PATH=$PATH:~/.local/bin
+
 
 We are now ready to start the service, using the ``run`` command:
 
