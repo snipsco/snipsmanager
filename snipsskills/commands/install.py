@@ -11,8 +11,9 @@ from ..utils.assistant_downloader import AssistantDownloader, \
     AssistantDownloaderException
 from ..utils.intent_class_generator import IntentClassGenerator
 from ..utils.pip_installer import PipInstaller
-from ..utils.snips_installer import SnipsInstaller, SnipsUnsupportedPlatform, \
-    cmd_exists
+from ..utils.snips_installer import SnipsInstaller, SnipsUnsupportedPlatform
+from ..utils.os_helpers import cmd_exists, is_raspi_os
+from ..utils.microphone_setup import MicrophoneSetup
 
 
 # pylint: disable=too-few-public-methods
@@ -23,15 +24,15 @@ class Install(Base):
         """ Command runner. """
         snipsfile = Base.load_snipsfile()
 
-        if not cmd_exists("snips"):
-            try:
-                print("Installing the Snips toolchain.")
-                SnipsInstaller.install()
-            except SnipsUnsupportedPlatform:
-                print("\033[91mCurrently, the Snips SDK only runs on a Raspberry Pi. " +
-                      "Skipping installation of the Snips SDK. " +
-                      "If you wish to install the Snips SDK, " +
-                      "run this command from a Raspberry Pi.\033[0m")
+        # if not cmd_exists("snips"):
+        #     try:
+        #         print("Installing the Snips toolchain.")
+        #         SnipsInstaller.install()
+        #     except SnipsUnsupportedPlatform:
+        #         print("\033[91mCurrently, the Snips SDK only runs on a Raspberry Pi. " +
+        #               "Skipping installation of the Snips SDK. " +
+        #               "If you wish to install the Snips SDK, " +
+        #               "run this command from a Raspberry Pi.\033[0m")
 
         if snipsfile.assistant_url is None:
             print("No assistants found in Snipsfile.")
@@ -56,6 +57,13 @@ class Install(Base):
             shutil.rmtree(INTENTS_DIR)
         except Exception:
             pass
+
+        if is_raspi_os():
+            print("Setting up microphone.")
+            MicrophoneSetup.setup(snipsfile.microphone_config)
+        else:
+            print("System is not Raspberry Pi. Skipping microphone setup.")
+
 
         generator = IntentClassGenerator()
         generator.generate(ASSISTANT_ZIP_PATH, INTENTS_DIR)

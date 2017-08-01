@@ -100,6 +100,8 @@ class Snipsfile:
         self.mqtt_hostname = get(
             yaml_config, ['mqtt_broker', 'hostname'], 'localhost')
         self.mqtt_port = get(yaml_config, ['mqtt_broker', 'port'], 9898)
+        
+        self.microphone_config = MicrophoneConfig(yaml_config)
 
         self.skilldefs = []
         for skill in get(yaml_config, ['skills'], []):
@@ -210,3 +212,18 @@ class SnipsSpec:
             name = get(intent, ['intent'])
             action = get(intent, ['action'])
             self.intent_defs.append(IntentDef(name, action))
+
+
+# pylint: disable=too-many-instance-attributes,too-many-locals
+class MicrophoneConfig:
+    """ Config holder for microphone. """
+
+    def __init__(self, yaml_config):
+        """ Initialisation.
+
+        :param yaml_config: the YAML configuration
+        """
+        self.identifier = get(yaml_config, ['microphone','identifier'])
+        self.params = {}
+        for key, value in get(yaml_config, ['microphone','params'], {}).items():
+            self.params[key] = value

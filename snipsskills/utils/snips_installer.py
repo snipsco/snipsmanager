@@ -4,16 +4,13 @@
 import os
 import subprocess
 
+from .os_helpers import cmd_exists, is_raspi_os
+
 # pylint: disable=too-few-public-methods
 
 
 SNIPS_INSTALL_COMMAND = "curl https://install.snips.ai -sSf"
 SNIPS_INSTALL_ASSISTANT_COMMAND = "snips-install-assistant {}"
-
-
-def cmd_exists(cmd):
-    return subprocess.call("type " + cmd, shell=True,
-                           stdout=subprocess.PIPE, stderr=subprocess.PIPE) == 0
 
 
 class SnipsUnsupportedPlatform(Exception):

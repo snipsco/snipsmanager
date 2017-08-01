@@ -1,0 +1,15 @@
+pcm.!default {
+    type asym
+    playback.pcm {
+        type plug
+        slave.pcm "hw:0,0"
+    }
+    capture.pcm {
+        type dsnoop
+        ipc_key 5432
+        slave {
+            pcm "hw:1,0"
+            buffer_size 96000
+        }
+    }
+}
