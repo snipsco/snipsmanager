@@ -22,7 +22,7 @@ The Snips Skills Manager is on `PyPI <https://pypi.python.org/pypi/snipsskills>`
 
 .. code-block:: console
 
-    $ pip install snipsskills
+    $ pip3 install snipsskills
 
 Note: you may need to install ``pip``, ``python-dev`` and ``pyaudio`` and ``pygame`` on your system beforehand. On Raspberry, this can be done via ``apt-get``:
 
