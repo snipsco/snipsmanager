@@ -6,6 +6,7 @@ exclude Snipsfile
 exclude test.py
 include README.rst
 include setup.cfg
+include snipsskills/config/*
 prune .cache
 prune .git
 prune .snips

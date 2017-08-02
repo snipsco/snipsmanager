@@ -1,1 +1,0 @@
-'ACTION=="add", SUBSYSTEMS=="usb", ATTRS{idVendor}=="2886", ATTRS{idProduct}=="7", MODE="660", GROUP="plugdev"'

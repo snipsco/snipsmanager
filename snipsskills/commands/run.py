@@ -7,6 +7,9 @@ import os
 import subprocess
 from sys import path
 
+from ..utils.snipsfile_parser import Snipsfile, SnipsfileParseException, \
+    SnipsfileNotFoundError
+    
 from snipsskillscore.server import Server
 from snipsskillscore.thread_handler import ThreadHandler
 
@@ -32,7 +35,14 @@ class Run(Base):
     # pylint: disable=undefined-variable,exec-used,eval-used
     def run(self):
         """ Command runner. """
-        self.snipsfile = Base.load_snipsfile()
+        try:
+            self.snipsfile = Snipsfile(SNIPSFILE)
+        except SnipsfileNotFoundError:
+            print("Snipsfile not found. Please create one.")
+            return
+        except SnipsfileParseException as err:
+            print(err)
+            return
 
         self.ioloop = asyncio.get_event_loop()
 

@@ -99,7 +99,7 @@ class IntentClassGenerator:
         intents = []
         content = zipfile.ZipFile(assistant_filename).read(
             'assistant/assistant.json')
-        data = json.loads(content)
+        data = json.loads(content.decode('utf-8'))
         for intent in data["intents"]:
             self.generate_intent_file(intent, output_dir)
             intents.append(intent)

@@ -1,9 +1,6 @@
 # -*-: coding utf-8 -*-
 """ The base command. """
 
-from ..utils.snipsfile_parser import Snipsfile, SnipsfileParseException, \
-    SnipsfileNotFoundError
-
 SNIPSFILE = "Snipsfile"
 ASSISTANT_DIR = ".snips"
 ASSISTANT_ZIP_FILENAME = "assistant.zip"
@@ -29,18 +26,3 @@ class Base(object):
         """ Command runner. """
         raise NotImplementedError(
             'You must implement the run() method yourself!')
-
-    @staticmethod
-    def load_snipsfile():
-        """ Load the Snipsfile.
-
-        :return: a loaded Snipsfile object.
-        """
-        try:
-            return Snipsfile(SNIPSFILE)
-        except SnipsfileNotFoundError:
-            print("Snipsfile not found. Please create one.")
-            return
-        except SnipsfileParseException as err:
-            print(err)
-            return

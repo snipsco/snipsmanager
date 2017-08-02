@@ -28,7 +28,8 @@ Note: you may need to install ``pip``, ``python-dev`` and ``pyaudio`` and ``pyga
 
 .. code-block:: console
     $ sudo apt-get update
-    $ sudo apt-get install python-pip python-dev python-pyaudio python-pygame
+    $ sudo apt-get install python-pip
+    $ sudo apt-get install python3-dev python3-pyaudio python3-pygame
 
 Usage
 -----
@@ -90,6 +91,12 @@ The Snips Skills Manager is based on Python 3. To install it on a Raspberry, run
 .. code-block:: console
 
     $ sudo apt-get install python3
+
+Also, `pip3` is used for dependency management. On Raspberry, the following might be needed:
+
+.. code-block:: console
+
+    $ sudo apt-get remove python3-pip; sudo apt-get install python3-pip
 
 
 Copyright

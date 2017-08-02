@@ -56,7 +56,7 @@ setup(
             'snipsskills=snipsskills.cli:main',
         ],
     },
-    package_data={'': ['templates']},
+    package_data={'': ['templates','config']},
     include_package_data=True,
     cmdclass = {'test': RunTests},
 )
