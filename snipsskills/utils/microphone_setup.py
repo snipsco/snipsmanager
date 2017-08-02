@@ -55,8 +55,8 @@ class RespeakerMicrophoneSetup:
         
         execute_command("sudo rm -f /lib/udev/rules.d/50-rspk.rules")
         
-        echo_command = ("echo 'ACTION==\"add\", SUBSYSTEMS==\"usb\", ATTRS{{idVendor}}==\"{}\", " +
-                        "ATTRS{{idProduct}}==\"{}\", MODE=\"660\", GROUP=\"plugdev\"'") \
+        echo_command = ("echo ACTION==\"add\", SUBSYSTEMS==\"usb\", ATTRS{{idVendor}}==\"{}\", " +
+                        "ATTRS{{idProduct}}==\"{}\", MODE=\"660\", GROUP=\"plugdev\"") \
             .format(params["vendor_id"], params["product_id"])
         tee_command = "sudo tee --append /lib/udev/rules.d/50-rspk.rules"
         pipe_commands(echo_command, tee_command, silent=True)

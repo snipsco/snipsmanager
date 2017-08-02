@@ -16,4 +16,5 @@ recursive-exclude *.egg-info *
 recursive-include tests *
 recursive-include templates *
 recursive-include config *
+recursive-include data/sounds *
 recursive-include .snips *

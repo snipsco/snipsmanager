@@ -3,7 +3,10 @@
 
 import os
 
-from urllib.request import urlopen
+try:
+    from urllib.request import urlopen
+except ImportError:
+    from urllib2 import urlopen
 
 class AssistantDownloaderException(Exception):
     """ Exceptions related to downloads of Snips assistants. """

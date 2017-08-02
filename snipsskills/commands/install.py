@@ -38,7 +38,7 @@ class Install(Base):
 
         if not cmd_exists("snips"):
             try:
-                log_message("Installing the Snips toolchain.")
+                log("Installing the Snips toolchain.")
                 SnipsInstaller.install()
             except SnipsUnsupportedPlatform:
                 log_error("Currently, the Snips SDK only runs on a Raspberry Pi. " +
@@ -50,7 +50,7 @@ class Install(Base):
             log_error("No assistants found in Snipsfile.")
             return
 
-        log_message("Fetching assistant.")
+        log("Fetching assistant.")
         try:
             AssistantDownloader.download(snipsfile.assistant_url,
                                          ASSISTANT_DIR,
@@ -62,30 +62,30 @@ class Install(Base):
             return
 
         if cmd_exists("snips"):
-            log_message("Loading Snips assistant.")
+            log("Loading Snips assistant.")
             SnipsInstaller.load_assistant(ASSISTANT_ZIP_PATH)
 
-        log_message("Generating definitions.")
+        log("Generating definitions.")
         try:
             shutil.rmtree(INTENTS_DIR)
         except Exception:
             pass
 
         if is_raspi_os():
-            log_message("Setting up microphone.")
+            log("Setting up microphone.")
             MicrophoneSetup.setup(snipsfile.microphone_config)
         else:
-            log_message("System is not Raspberry Pi. Skipping microphone setup.")
+            log("System is not Raspberry Pi. Skipping microphone setup.")
 
         generator = IntentClassGenerator()
         generator.generate(ASSISTANT_ZIP_PATH, INTENTS_DIR)
 
         if snipsfile.skilldefs is not None and len(snipsfile.skilldefs) > 0:
-            log_message("Installing skills.")
+            log("Installing skills.")
             for skill in snipsfile.skilldefs:
-                log_message("Installing {}.".format(skill.package_name))
+                log("Installing {}.".format(skill.package_name))
                 PipInstaller.install(skill.package_name)
 
-        log_message("Cleaning up.")
+        log("Cleaning up.")
         os.remove(ASSISTANT_ZIP_PATH)
         log_success("All done! Run 'snipsskills run' to launch the skills server.")
