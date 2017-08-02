@@ -9,7 +9,7 @@ from .base import Base, ASSISTANT_DIR, ASSISTANT_ZIP_FILENAME, \
 
 from ..utils.snipsfile_parser import Snipsfile, SnipsfileParseException, \
     SnipsfileNotFoundError
-    
+
 from ..utils.assistant_downloader import AssistantDownloader, \
     AssistantDownloaderException
 from ..utils.intent_class_generator import IntentClassGenerator
@@ -17,6 +17,7 @@ from ..utils.pip_installer import PipInstaller
 from ..utils.snips_installer import SnipsInstaller, SnipsUnsupportedPlatform
 from ..utils.os_helpers import cmd_exists, is_raspi_os
 from ..utils.microphone_setup import MicrophoneSetup
+from ..utils.logging import log_message, log_success, log_error
 
 
 # pylint: disable=too-few-public-methods
@@ -28,7 +29,7 @@ class Install(Base):
         try:
             snipsfile = Snipsfile(SNIPSFILE)
         except SnipsfileNotFoundError:
-            print("Snipsfile not found. Please create one.")
+            log_error("Snipsfile not found. Please create one.")
             return
         except SnipsfileParseException as err:
             print(err)
@@ -36,53 +37,54 @@ class Install(Base):
 
         if not cmd_exists("snips"):
             try:
-                print("Installing the Snips toolchain.")
+                log_message("Installing the Snips toolchain.")
                 SnipsInstaller.install()
             except SnipsUnsupportedPlatform:
-                print("\033[91mCurrently, the Snips SDK only runs on a Raspberry Pi. " +
-                      "Skipping installation of the Snips SDK. " +
-                      "If you wish to install the Snips SDK, " +
-                      "run this command from a Raspberry Pi.\033[0m")
+                log_error("Currently, the Snips SDK only runs on a Raspberry Pi. " +
+                          "Skipping installation of the Snips SDK. " +
+                          "If you wish to install the Snips SDK, " +
+                          "run this command from a Raspberry Pi.")
 
         if snipsfile.assistant_url is None:
-            print("No assistants found in Snipsfile.")
+            log_error("No assistants found in Snipsfile.")
+            return
 
-        print("Fetching assistant.")
+        log_message("Fetching assistant.")
         try:
             AssistantDownloader.download(snipsfile.assistant_url,
                                          ASSISTANT_DIR,
                                          ASSISTANT_ZIP_FILENAME)
         except AssistantDownloaderException:
-            print("Error downloading assistant. " +
-                  "Make sure the provided URL in the Snipsfile is correct, " +
-                  "and that there is a working network connection.")
+            log_error("Error downloading assistant. " +
+                      "Make sure the provided URL in the Snipsfile is correct, " +
+                      "and that there is a working network connection.")
             return
 
         if cmd_exists("snips"):
-            print("Loading Snips assistant.")
+            log_message("Loading Snips assistant.")
             SnipsInstaller.load_assistant(ASSISTANT_ZIP_PATH)
 
-        print("Generating definitions.")
+        log_message("Generating definitions.")
         try:
             shutil.rmtree(INTENTS_DIR)
         except Exception:
             pass
 
         if is_raspi_os():
-            print("Setting up microphone.")
+            log_message("Setting up microphone.")
             MicrophoneSetup.setup(snipsfile.microphone_config)
         else:
-            print("System is not Raspberry Pi. Skipping microphone setup.")
-
+            log_message("System is not Raspberry Pi. Skipping microphone setup.")
 
         generator = IntentClassGenerator()
         generator.generate(ASSISTANT_ZIP_PATH, INTENTS_DIR)
 
         if snipsfile.skilldefs is not None and len(snipsfile.skilldefs) > 0:
-            print("Installing skills.")
+            log_message("Installing skills.")
             for skill in snipsfile.skilldefs:
-                print("Installing {}.".format(skill.package_name))
+                log_message("Installing {}.".format(skill.package_name))
                 PipInstaller.install(skill.package_name)
 
-        print("Cleaning up.")
+        log_message("Cleaning up.")
         os.remove(ASSISTANT_ZIP_PATH)
+        log_success("All done! Run 'snipsskills run' to launch the skills server.")

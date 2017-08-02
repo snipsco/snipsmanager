@@ -70,8 +70,7 @@ Note: make sure that the ``snipsskills`` is found in your ``$PATH``. If the abov
 
     $ export PATH=$PATH:~/.local/bin
 
-
-We are now ready to start the service, using the ``run`` command:
+You may need to restart your device. We are now ready to start the service, using the ``run`` command:
 
 .. code-block:: console
 

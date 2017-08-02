@@ -9,11 +9,12 @@ from sys import path
 
 from ..utils.snipsfile_parser import Snipsfile, SnipsfileParseException, \
     SnipsfileNotFoundError
-    
+from ..utils.logging import log_message, log_success, log_warning, log_error
+
 from snipsskillscore.server import Server
 from snipsskillscore.thread_handler import ThreadHandler
 
-from .base import Base
+from .base import Base, SNIPSFILE
 
 path.append(".snips/intents")
 path.append(".snips/intents/intents")
@@ -38,20 +39,23 @@ class Run(Base):
         try:
             self.snipsfile = Snipsfile(SNIPSFILE)
         except SnipsfileNotFoundError:
-            print("Snipsfile not found. Please create one.")
+            log_error("Snipsfile not found. Please create one.")
             return
         except SnipsfileParseException as err:
-            print(err)
+            log_error(err)
             return
-
-        self.ioloop = asyncio.get_event_loop()
 
         self.skills = {}
         for skilldef in self.snipsfile.skilldefs:
             module_name = skilldef.package_name + "." + skilldef.package_name
             exec("from {} import {}".format(module_name, skilldef.class_name))
             cls = eval(skilldef.class_name)
-            self.skills[skilldef.package_name] = cls(**skilldef.params)
+            try:
+                skill_instance = cls(**skilldef.params)
+                self.skills[skilldef.package_name] = skill_instance
+            except Exception as e:
+                log_warning("Error loading skill {}: {}".format(
+                    skilldef.package_name, str(e)))
 
         self.thread_handler = ThreadHandler()
 
@@ -60,13 +64,14 @@ class Run(Base):
         server.start()
 
     def handle_intent(self, intent):
-        if self.ioloop is None:
-            self.ioloop = asyncio.get_event_loop()
+        loop = asyncio.new_event_loop()
+        asyncio.set_event_loop(loop)
         wait_tasks = asyncio.wait(
-            [self.ioloop.create_task(self.handle_intent_async(intent))])
-        self.ioloop.run_until_complete(wait_tasks)
+            [loop.create_task(self.handle_intent_async(intent))])
+        loop.run_until_complete(wait_tasks)
 
-    async def handle_intent_async(self, intent):
+    @asyncio.coroutine
+    def handle_intent_async(self, intent):
         """ Handle an intent.
 
         :param intent: the incoming intent to handle.
