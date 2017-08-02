@@ -29,7 +29,7 @@ Note: you may need to install ``pip``, ``python-dev`` and ``pyaudio`` and ``pyga
 .. code-block:: console
     $ sudo apt-get update
     $ sudo apt-get install python-pip
-    $ sudo apt-get install python3-dev python3-pyaudio python3-pygame
+    $ sudo apt-get install python3-dev python3-pyaudio python3-pygame libsdl-mixer1.2
 
 Usage
 -----

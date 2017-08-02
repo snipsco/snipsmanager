@@ -1,3 +1,3 @@
 # -*-: coding utf-8 -*-
 """ snipsskills module """
-__version__ = '0.1.4.823'
+__version__ = '0.1.4.825'

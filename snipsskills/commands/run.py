@@ -9,8 +9,8 @@ from sys import path
 
 from ..utils.snipsfile_parser import Snipsfile, SnipsfileParseException, \
     SnipsfileNotFoundError
-from ..utils.logging import log_message, log_success, log_warning, log_error
 
+from snipsskillscore.logging import log, log_success, log_warning, log_error
 from snipsskillscore.server import Server
 from snipsskillscore.thread_handler import ThreadHandler
 
@@ -60,7 +60,10 @@ class Run(Base):
         self.thread_handler = ThreadHandler()
 
         registry = IntentRegistry()
-        server = Server(self.snipsfile, registry, self.handle_intent)
+        server = Server(self.snipsfile.mqtt_hostname,
+                        self.snipsfile.mqtt_port,
+                        self.snipsfile.logging,
+                        registry, self.handle_intent)
         server.start()
 
     def handle_intent(self, intent):
