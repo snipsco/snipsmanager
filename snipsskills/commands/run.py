@@ -2,9 +2,10 @@
 """The run command."""
 # pylint: disable=too-few-public-methods,import-error
 
-import asyncio
 import os
 import subprocess
+import threading
+
 from sys import path
 
 from ..utils.snipsfile_parser import Snipsfile, SnipsfileParseException, \
@@ -67,13 +68,10 @@ class Run(Base):
         server.start()
 
     def handle_intent(self, intent):
-        loop = asyncio.new_event_loop()
-        asyncio.set_event_loop(loop)
-        wait_tasks = asyncio.wait(
-            [loop.create_task(self.handle_intent_async(intent))])
-        loop.run_until_complete(wait_tasks)
+        thread = threading.Thread(target=self.handle_intent_async,
+                                  args=(intent,))
+        thread.start()
 
-    @asyncio.coroutine
     def handle_intent_async(self, intent):
         """ Handle an intent.
 
@@ -81,13 +79,14 @@ class Run(Base):
         """
         for skilldef in self.snipsfile.skilldefs:
             intent_def = skilldef.find(intent)
-            if intent_def != None:
-                skill = self.skills[skilldef.package_name]
-                if intent_def.action.startswith("{%"):
-                    action = intent_def.action \
-                        .replace("{%", "") \
-                        .replace("%}", "") \
-                        .strip()
-                    exec(action)
-                else:
-                    getattr(skill, intent_def.action)()
+            if intent_def is None:
+                continue
+            skill = self.skills[skilldef.package_name]
+            if intent_def.action.startswith("{%"):
+                action = intent_def.action \
+                    .replace("{%", "") \
+                    .replace("%}", "") \
+                    .strip()
+                exec(action)
+            else:
+                getattr(skill, intent_def.action)()
