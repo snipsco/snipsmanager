@@ -9,3 +9,4 @@ Snipsfile
 test.py
 .snips
 data
+*.pyc
