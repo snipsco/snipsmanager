@@ -13,7 +13,6 @@ from ..utils.snipsfile_parser import Snipsfile, SnipsfileParseException, \
 
 from snipsskillscore.logging import log, log_success, log_warning, log_error
 from snipsskillscore.server import Server
-from snipsskillscore.thread_handler import ThreadHandler
 from snipsskillscore.tts import TTS
 from snipsskillscore.instant_time import InstantTime
 from snipsskillscore.time_interval import TimeInterval
@@ -67,8 +66,6 @@ class Run(Base):
                 log_warning("Error loading skill {}: {}".format(
                     skilldef.package_name, str(e)))
 
-        self.thread_handler = ThreadHandler()
-
         registry = IntentRegistry()
         server = Server(self.snipsfile.mqtt_hostname,
                         self.snipsfile.mqtt_port,
@@ -92,13 +89,16 @@ class Run(Base):
                 continue
             skill = self.skills[skilldef.package_name]
             if intent_def.action.startswith("{%"):
+                # Replace variables in scope with random variables
+                # to prevent the skill from accessing/editing them.
                 action = intent_def.action \
                     .replace("{%", "") \
                     .replace("%}", "") \
+                    .replace("skilldef", "_snips_eejycfyrdfzilgfb") \
+                    .replace("intent_def", "_snips_jkqdruouzuahmgns") \
+                    .replace("snipsfile", "_snips_pdzdcpaygyjklngz") \
+                    .replace("tts_service", "_snips_bxzbomfguxlyxswo") \
                     .strip()
-                # Limit scope of skill action
-                def action_exec(intent, skill, action):
-                    exec(action)
-                action_exec(intent, skill, action)
+                exec(action)
             else:
                 getattr(skill, intent_def.action)()
