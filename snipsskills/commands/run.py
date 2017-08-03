@@ -15,6 +15,8 @@ from snipsskillscore.logging import log, log_success, log_warning, log_error
 from snipsskillscore.server import Server
 from snipsskillscore.thread_handler import ThreadHandler
 from snipsskillscore.tts import TTS
+from snipsskillscore.instant_time import InstantTime
+from snipsskillscore.time_interval import TimeInterval
 
 from .base import Base, SNIPSFILE
 
@@ -94,6 +96,9 @@ class Run(Base):
                     .replace("{%", "") \
                     .replace("%}", "") \
                     .strip()
-                exec(action)
+                # Limit scope of skill action
+                def action_exec(intent, skill, action):
+                    exec(action)
+                action_exec(intent, skill, action)
             else:
                 getattr(skill, intent_def.action)()
