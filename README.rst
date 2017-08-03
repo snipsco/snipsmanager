@@ -22,14 +22,14 @@ The Snips Skills Manager is on `PyPI <https://pypi.python.org/pypi/snipsskills>`
 
 .. code-block:: console
 
-    $ pip3 install snipsskills
+    $ pip install snipsskills
 
 Note: you may need to install ``pip``, ``python-dev`` and ``pyaudio`` and ``pygame`` on your system beforehand. On Raspberry, this can be done via ``apt-get``:
 
 .. code-block:: console
     $ sudo apt-get update
     $ sudo apt-get install python-pip
-    $ sudo apt-get install python3-dev python3-pyaudio python3-pygame libsdl-mixer1.2 libusb-1.0
+    $ sudo apt-get install libsdl-mixer1.2 libusb-1.0  python-pyaudio libsdl1.2-dev cython libudev-dev
 
 Usage
 -----
@@ -96,6 +96,13 @@ Also, `pip3` is used for dependency management. On Raspberry, the following migh
 .. code-block:: console
 
     $ sudo apt-get remove python3-pip; sudo apt-get install python3-pip
+
+.. code-block:: console
+    $ sudo apt-get remove python-setuptools
+    $ wget https://bootstrap.pypa.io/get-pip.py
+    $ sudo python ./get-pip.py
+    $ sudo pip install -U pip setuptools
+
 
 
 Copyright
