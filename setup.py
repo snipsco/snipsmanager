@@ -40,7 +40,6 @@ setup(
     keywords = ['cli', 'snips'],
     packages = find_packages(exclude=['docs', 'tests*']),
     install_requires = [
-        'hidapi'
         'docopt',
         'python-dateutil',
         'Jinja2',

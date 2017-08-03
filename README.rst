@@ -30,8 +30,8 @@ Note: you may need to install ``pip``, ``python-dev`` and ``pyaudio`` and ``pyga
 
     $ sudo apt-get update
     $ sudo apt-get install python-pip
-    $ sudo apt-get install libsdl-mixer1.2 libusb-1.0  python-pyaudio libsdl1.2-dev cython libudev-dev
-
+    $ sudo apt-get install libsdl-mixer1.2 libusb-1.0 python-pyaudio libsdl1.2-dev cython libudev-dev 
+	
 Usage
 -----
 
