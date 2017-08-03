@@ -14,6 +14,7 @@ from ..utils.snipsfile_parser import Snipsfile, SnipsfileParseException, \
 from snipsskillscore.logging import log, log_success, log_warning, log_error
 from snipsskillscore.server import Server
 from snipsskillscore.thread_handler import ThreadHandler
+from snipsskillscore.tts import TTS
 
 from .base import Base, SNIPSFILE
 
@@ -46,13 +47,19 @@ class Run(Base):
             log_error(err)
             return
 
+        self.tts_service = TTS(TTS.Provider.google, self.snipsfile.locale)
+
         self.skills = {}
         for skilldef in self.snipsfile.skilldefs:
             module_name = skilldef.package_name + "." + skilldef.package_name
             exec("from {} import {}".format(module_name, skilldef.class_name))
             cls = eval(skilldef.class_name)
             try:
-                skill_instance = cls(**skilldef.params)
+                if skilldef.requires_tts:
+                    skill_instance = cls(
+                        tts_service=self.tts_service, **skilldef.params)
+                else:
+                    skill_instance = cls(**skilldef.params)
                 self.skills[skilldef.package_name] = skill_instance
             except Exception as e:
                 log_warning("Error loading skill {}: {}".format(

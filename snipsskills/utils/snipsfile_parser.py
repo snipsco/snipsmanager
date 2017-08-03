@@ -107,6 +107,7 @@ class Snipsfile:
         for skill in get(yaml_config, ['skills'], []):
             package_name = get(skill, ['package_name'])
             pip = get(skill, ['pip'])
+            requires_tts = get(skill, ['requires_tts'], False)
             params = {}
             for key, value in get(skill, ['params'], {}).items():
                 params[key] = value
@@ -120,7 +121,7 @@ class Snipsfile:
             intent_defs = self.get_intent_defs(skill, snipsspec_file)
 
             self.skilldefs.append(SkillDef(package_name, class_name, pip,
-                                           params, intent_defs))
+                                           params, intent_defs, requires_tts))
 
     def get_class_name(self, skill, snipsspec_file):
         """ Get the class name of a skill. The value, if provided, by the Snipsfile
