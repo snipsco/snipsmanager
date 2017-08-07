@@ -35,6 +35,12 @@ Depending on your setup, you may need to update pip, and install some packages v
 macOS
 =====
 
+On macOS, pip can be installed via easy_install:
+
+.. code-block:: console
+
+  $ sudo easy_install pip
+
 On macOS, the SDL library is required. It can be installed via Homebrew:
 
 .. code-block:: console
