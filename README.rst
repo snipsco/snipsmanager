@@ -15,6 +15,52 @@ A single configuration file, the `Snipsfile <https://github.com/michaelfester/aw
 
 Check out `Awesome Snips <https://github.com/michaelfester/awesome-snips/>`_, a curated list of Snips skills, assistants and other resources to get you started. In particular, make sure to read the `Getting Started guide <https://github.com/michaelfester/awesome-snips/>`_.
 
+Usage
+-----
+
+Start your project by creating a ``Snipsfile``, which is where all the configuration is set. This is a simple text file, adhering to the YAML format. Here is a basic configuration:
+
+.. code-block:: yaml
+
+    assistant: SNIPS_ASSISTANT_URL
+    locale: en_US
+    logging: True
+    default_location: Paris,fr
+    skills:
+      - package_name: snipshue
+        class_name: SnipsHue
+        pip: snipshue=0.1.2
+        params:
+          hostname: PHILIPS_HUE_IP
+          username: PHILIPS_HUE_USERNAME
+          light_ids: [1, 2, 3, 4, 5, 6]
+        intents:
+          - intent: DeactivateObject
+            action: "turn_off"
+          - intent: ActivateLightColor
+            action: "turn_on"
+
+For further explanations and examples, check out our `Snipsfile Wiki <https://github.com/snipsco/snipsskills/wiki/The-Snipsfile>`_.
+
+Next, setup the system by running the ``install`` command:
+
+.. code-block:: console
+
+    $ snipsskills install
+
+Note: make sure that the ``snipsskills`` is found in your ``$PATH``. If the above does not work, add the following to your ``~/.bashrc`` or equivalent:
+
+.. code-block:: console
+
+    $ export PATH=$PATH:~/.local/bin
+
+You may need to restart your device. We are now ready to start the service, using the ``run`` command:
+
+.. code-block:: console
+
+    $ snipsskills run
+
+
 Copyright
 ---------
 
