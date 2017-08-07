@@ -19,10 +19,21 @@ Getting Started
 ---------------
 
 Prerequisites
-^^^^^^^^^^^^^
+=============
+
+Raspbian
+^^^^^^^^
+
+Depending on your setup, you may need to update pip, and install some packages via ``apt-get``.
+
+.. code-block:: console
+
+    $ sudo apt-get update
+    $ sudo apt-get install python-pip libsdl-mixer1.2 libusb-1.0 python-pyaudio libsdl1.2-dev cython cython3 libudev-dev python-dev libsdl-image1.2-dev libsdl-mixer1.2-dev libsdl-ttf2.0-dev libsmpeg-dev python-numpy libportmidi-dev libswscale-dev libavformat-dev libavcodec-dev portaudio19-dev
+    $ pip install pip --upgrade
 
 macOS
-=====
+^^^^^^^^
 
 On macOS, pip can be installed via easy_install:
 
@@ -38,7 +49,7 @@ On macOS, the SDL library is required. It can be installed via Homebrew:
 
 
 Installation
-^^^^^^^^^^^^
+============
 
 The Snips Skills Manager is on `PyPI <https://pypi.python.org/pypi/snipsskills>`_, so you can just install it with `pip <http://www.pip-installer.org>`_:
 
@@ -47,7 +58,7 @@ The Snips Skills Manager is on `PyPI <https://pypi.python.org/pypi/snipsskills>`
     $ pip install snipsskills
 
 A note on virtualenv
-====================
+^^^^^^^^^^^^^^^^^^^^
 
 We suggest installing and running Snips Skills using a `virtualenv <https://virtualenv.pypa.io/en/latest/>`_ to avoid granting root privileges, and ensure your setup does not break when other packages are installed. Virtualenv can be installed and activated as follows:
 
