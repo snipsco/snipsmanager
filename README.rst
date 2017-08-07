@@ -24,7 +24,7 @@ Prerequisites
 Raspbian
 ========
 
-Depending on your setup, you may need to update pip, and install some packages via `apt-get`.
+Depending on your setup, you may need to update pip, and install some packages via ``apt-get``.
 
 .. code-block:: console
 
