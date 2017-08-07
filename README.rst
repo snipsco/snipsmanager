@@ -26,11 +26,21 @@ Raspbian
 
 Depending on your setup, you may need to update pip, and install some packages via ``apt-get``.
 
+macOS
+=====
+
+On macOS, pip can be installed via easy_install:
+
 .. code-block:: console
 
-    $ sudo apt-get update
-    $ sudo apt-get install python-pip libsdl-mixer1.2 libusb-1.0 python-pyaudio libsdl1.2-dev cython cython3 libudev-dev python-dev libsdl-image1.2-dev libsdl-mixer1.2-dev libsdl-ttf2.0-dev libsmpeg-dev python-numpy libportmidi-dev libswscale-dev libavformat-dev libavcodec-dev portaudio19-dev
-    $ pip install pip --upgrade
+  $ sudo easy_install pip
+
+On macOS, the SDL library is required. It can be installed via Homebrew:
+
+.. code-block:: console
+
+  $ brew install sdl
+
 
 Installation
 ^^^^^^^^^^^^
