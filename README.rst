@@ -15,8 +15,35 @@ A single configuration file, the `Snipsfile <https://github.com/michaelfester/aw
 
 Check out `Awesome Snips <https://github.com/michaelfester/awesome-snips/>`_, a curated list of Snips skills, assistants and other resources to get you started. In particular, make sure to read the `Getting Started guide <https://github.com/michaelfester/awesome-snips/>`_.
 
+Getting Started
+---------------
+
+Prerequisites
+^^^^^^^^^^^^^
+
+Raspbian
+========
+
+Depending on your setup, you may need to update pip, and install some packages via `apt-get`.
+
+.. code-block:: console
+
+    $ sudo apt-get update
+    $ sudo apt-get install python-pip libsdl-mixer1.2 libusb-1.0 python-pyaudio libsdl1.2-dev cython cython3 libudev-dev python-dev libsdl-image1.2-dev libsdl-mixer1.2-dev libsdl-ttf2.0-dev libsmpeg-dev python-numpy libportmidi-dev libswscale-dev libavformat-dev libavcodec-dev portaudio19-dev
+    $ pip install pip --upgrade
+
+macOS
+=====
+
+On macOS, the SDL library is required. It can be installed via Homebrew:
+
+.. code-block:: console
+
+  $ brew install sdl
+
+
 Installation
-------------
+^^^^^^^^^^^^
 
 The Snips Skills Manager is on `PyPI <https://pypi.python.org/pypi/snipsskills>`_, so you can just install it with `pip <http://www.pip-installer.org>`_:
 
@@ -24,14 +51,23 @@ The Snips Skills Manager is on `PyPI <https://pypi.python.org/pypi/snipsskills>`
 
     $ pip install snipsskills
 
-Note: you may need to install ``pip``, ``python-dev`` and ``pyaudio`` and ``pygame`` on your system beforehand. On Raspberry, this can be done via ``apt-get``:
+A note on virtualenv
+====================
+
+We suggest installing and running Snips Skills using a `virtualenv <https://virtualenv.pypa.io/en/latest/>`_ to avoid granting root privileges, and ensure your setup does not break when other packages are installed. Virtualenv can be installed and activated as follows:
 
 .. code-block:: console
 
-    $ sudo apt-get update
-    $ sudo apt-get install python-pip
-    $ sudo apt-get install libsdl-mixer1.2 libusb-1.0 python-pyaudio libsdl1.2-dev cython cython3 libudev-dev python-dev libsdl-image1.2-dev libsdl-mixer1.2-dev libsdl-ttf2.0-dev libsmpeg-dev python-numpy libportmidi-dev libswscale-dev libavformat-dev libavcodec-dev portaudio19-dev
-	
+  $ sudo pip install --upgrade virtualenv
+  $ virtualenv snips
+  $ source snips/bin/activate
+
+To exit the virtualenv, simply run:
+
+.. code-block:: console
+
+  $ deactivate
+
 Usage
 -----
 
@@ -76,39 +112,6 @@ You may need to restart your device. We are now ready to start the service, usin
 .. code-block:: console
 
     $ snipsskills run
-
-Troubleshooting
----------------
-
-
-On OSX, you might need to install SDL:
-
-.. code-block:: console
-
-    $ brew install sdl
-
-The Snips Skills Manager is based on Python 3. To install it on a Raspberry, run:
-
-.. code-block:: console
-
-    $ sudo apt-get install python3
-
-Also, `pip3` is used for dependency management. On Raspberry, the following might be needed:
-
-.. code-block:: console
-
-    $ sudo apt-get remove python3-pip; sudo apt-get install python3-pip
-
-To install the dependences pip should be updated to its lastest version (9.0.1).
-
-.. code-block:: console
-
-    $ sudo apt-get remove python-setuptools
-    $ wget https://bootstrap.pypa.io/get-pip.py
-    $ sudo python ./get-pip.py
-    $ sudo pip install -U pip setuptools
-    $ pip install pip --upgrade
-
 
 
 Copyright
