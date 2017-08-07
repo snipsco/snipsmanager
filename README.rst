@@ -30,7 +30,7 @@ Note: you may need to install ``pip``, ``python-dev`` and ``pyaudio`` and ``pyga
 
     $ sudo apt-get update
     $ sudo apt-get install python-pip
-    $ sudo apt-get install libsdl-mixer1.2 libusb-1.0 python-pyaudio libsdl1.2-dev cython libudev-dev
+    $ sudo apt-get install libsdl-mixer1.2 libusb-1.0 python-pyaudio libsdl1.2-dev cython cython3 libudev-dev python-dev libsdl-image1.2-dev libsdl-mixer1.2-dev libsdl-ttf2.0-dev libsmpeg-dev python-numpy libportmidi-dev libswscale-dev libavformat-dev libavcodec-dev portaudio19-dev
 	
 Usage
 -----
@@ -80,6 +80,7 @@ You may need to restart your device. We are now ready to start the service, usin
 Troubleshooting
 ---------------
 
+
 On OSX, you might need to install SDL:
 
 .. code-block:: console
@@ -98,12 +99,15 @@ Also, `pip3` is used for dependency management. On Raspberry, the following migh
 
     $ sudo apt-get remove python3-pip; sudo apt-get install python3-pip
 
+To install the dependences pip should be updated to its lastest version (9.0.1).
+
 .. code-block:: console
 
     $ sudo apt-get remove python-setuptools
     $ wget https://bootstrap.pypa.io/get-pip.py
     $ sudo python ./get-pip.py
     $ sudo pip install -U pip setuptools
+    $ pip install pip --upgrade
 
 
 
