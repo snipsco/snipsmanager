@@ -15,6 +15,35 @@ A single configuration file, the `Snipsfile <https://github.com/michaelfester/aw
 
 Check out `Awesome Snips <https://github.com/michaelfester/awesome-snips/>`_, a curated list of Snips skills, assistants and other resources to get you started. In particular, make sure to read the `Getting Started guide <https://github.com/michaelfester/awesome-snips/>`_.
 
+Getting Started
+---------------
+
+Installation
+^^^^^^^^^^^^
+
+The Snips Skills Manager is on `PyPI <https://pypi.python.org/pypi/snipsskills>`_, so you can just install it with `pip <http://www.pip-installer.org>`_:
+
+.. code-block:: console
+
+    $ pip install snipsskills
+
+A note on virtualenv
+====================
+
+We suggest installing and running Snips Skills using a `virtualenv <https://virtualenv.pypa.io/en/latest/>`_ to avoid granting root privileges, and ensure your setup does not break when other packages are installed. Virtualenv can be installed and activated as follows:
+
+.. code-block:: console
+
+  $ sudo pip install --upgrade virtualenv
+  $ virtualenv snips
+  $ source snips/bin/activate
+
+To exit the virtualenv, simply run:
+
+.. code-block:: console
+
+  $ deactivate
+
 Usage
 -----
 
