@@ -60,13 +60,14 @@ The Snips Skills Manager is on `PyPI <https://pypi.python.org/pypi/snipsskills>`
 A note on virtualenv
 ~~~~~~~~~~~~~~~~~~~~
 
-We suggest installing and running Snips Skills using a `virtualenv <https://virtualenv.pypa.io/en/latest/>`_ to avoid granting root privileges, and ensure your setup does not break when other packages are installed. Virtualenv can be installed and activated as follows:
+We suggest installing and running Snips Skills using a `virtualenv <https://virtualenv.pypa.io/en/latest/>`_ to avoid granting root privileges, and ensure your setup does not break when other packages are installed. Virtualenv should be enabled before installing the ``snipsskills`` pip package, can be installed and activated as follows:
 
 .. code-block:: console
 
   $ sudo pip install --upgrade virtualenv
   $ virtualenv snips
   $ source snips/bin/activate
+  $ pip install snipsskills
 
 To exit the virtualenv, simply run:
 
@@ -106,12 +107,6 @@ Next, setup the system by running the ``install`` command:
 .. code-block:: console
 
     $ snipsskills install
-
-Note: make sure that the ``snipsskills`` is found in your ``$PATH``. If the above does not work, add the following to your ``~/.bashrc`` or equivalent:
-
-.. code-block:: console
-
-    $ export PATH=$PATH:~/.local/bin
 
 You may need to restart your device. We are now ready to start the service, using the ``run`` command:
 
