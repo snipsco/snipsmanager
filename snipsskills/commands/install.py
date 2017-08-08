@@ -17,6 +17,7 @@ from ..utils.pip_installer import PipInstaller
 from ..utils.snips_installer import SnipsInstaller, SnipsUnsupportedPlatform
 from ..utils.os_helpers import cmd_exists, is_raspi_os
 from ..utils.microphone_setup import MicrophoneSetup
+from ..utils.systemd import Systemd
 
 from snipsskillscore.logging import log, log_success, log_error
 
@@ -86,6 +87,12 @@ class Install(Base):
                 log("Installing {}.".format(skill.package_name))
                 PipInstaller.install(skill.package_name)
 
+        if is_raspi_os():
+            Systemd.setup()
+
         log("Cleaning up.")
-        os.remove(ASSISTANT_ZIP_PATH)
+        try:
+            os.remove(ASSISTANT_ZIP_PATH)
+        except OSError:
+            pass
         log_success("All done! Run 'snipsskills run' to launch the skills server.")

@@ -14,7 +14,7 @@ def copy_asoundrc(filename):
                      present in the config folder.
     """
     this_dir, this_filename = os.path.split(__file__)
-    asoundrc_path = os.path.join(this_dir, "../config", filename)
+    asoundrc_path = os.path.join(this_dir, "../config/asoundrc", filename)
     destination = os.path.expanduser('~/.asoundrc')
     shutil.copy2(asoundrc_path, destination)
 

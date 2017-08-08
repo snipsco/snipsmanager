@@ -13,7 +13,6 @@ from ..utils.snipsfile_parser import Snipsfile, SnipsfileParseException, \
 
 from snipsskillscore.logging import log, log_success, log_warning, log_error
 from snipsskillscore.server import Server
-from snipsskillscore.tts import TTS
 from snipsskillscore.instant_time import InstantTime
 from snipsskillscore.time_interval import TimeInterval
 
@@ -39,8 +38,13 @@ class Run(Base):
     # pylint: disable=undefined-variable,exec-used,eval-used
     def run(self):
         """ Command runner. """
+
+        snipsfile_path = self.options['--snipsfile']
+        if snipsfile_path is None or len(snipsfile_path) == 0:
+            snipsfile_path = SNIPSFILE
+
         try:
-            self.snipsfile = Snipsfile(SNIPSFILE)
+            self.snipsfile = Snipsfile(snipsfile_path)
         except SnipsfileNotFoundError:
             log_error("Snipsfile not found. Please create one.")
             return
@@ -48,7 +52,14 @@ class Run(Base):
             log_error(err)
             return
 
-        self.tts_service = TTS(TTS.Provider.google, self.snipsfile.locale)
+        registry = IntentRegistry()
+        server = Server(self.snipsfile.mqtt_hostname,
+                        self.snipsfile.mqtt_port,
+                        self.snipsfile.logging,
+                        self.snipsfile.tts_service,
+                        self.snipsfile.locale,
+                        registry,
+                        self.handle_intent)
 
         self.skills = {}
         for skilldef in self.snipsfile.skilldefs:
@@ -58,7 +69,7 @@ class Run(Base):
             try:
                 if skilldef.requires_tts:
                     skill_instance = cls(
-                        tts_service=self.tts_service, **skilldef.params)
+                        tts_service=server.tts_service, **skilldef.params)
                 else:
                     skill_instance = cls(**skilldef.params)
                 self.skills[skilldef.package_name] = skill_instance
@@ -66,11 +77,6 @@ class Run(Base):
                 log_warning("Error loading skill {}: {}".format(
                     skilldef.package_name, str(e)))
 
-        registry = IntentRegistry()
-        server = Server(self.snipsfile.mqtt_hostname,
-                        self.snipsfile.mqtt_port,
-                        self.snipsfile.logging,
-                        registry, self.handle_intent)
         server.start()
 
     def handle_intent(self, intent):

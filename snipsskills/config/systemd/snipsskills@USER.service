@@ -1,0 +1,13 @@
+[Unit]
+Description=Snips Skills
+After=snips.service
+
+[Service]
+Type=simple
+User=%i
+ExecStartPre=/bin/sleep 30
+WorkingDirectory={{SNIPS_HOME_PATH}}
+ExecStart={{SNIPSSKILLS_PATH}} run
+
+[Install]
+WantedBy=multi-user.target

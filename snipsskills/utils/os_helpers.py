@@ -2,8 +2,8 @@
 """ Helper methods for OS related tasks. """
 
 import os
+import shlex
 import subprocess
-
 
 def cmd_exists(cmd):
     """ Check if a command exists.

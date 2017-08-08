@@ -1,12 +1,15 @@
 exclude .gitignore
 exclude .coverage
 exclude .travis.yml
+exclude .snips
 exclude Makefile
 exclude Snipsfile
 exclude test.py
 include README.rst
 include setup.cfg
 include snipsskills/config/*
+include snipsskills/config/asoundrc/*
+include snipsskills/config/systemd/*
 include snipsskills/data/sounds/*
 prune .cache
 prune .git
@@ -14,8 +17,10 @@ prune .snips
 prune build
 prune dist
 recursive-exclude *.egg-info *
+recursive-exclude .snips *
 recursive-include tests *
 recursive-include templates *
 recursive-include config *
+recursive-include config/asoundrc *
+recursive-include config/systemd *
 recursive-include data/sounds *
-recursive-include .snips *

@@ -75,7 +75,7 @@ class Snipsfile:
 
         if not os.path.isfile(snipsfile):
             raise SnipsfileNotFoundError(
-                'No Snipsfile found. Please create one.')
+                'No Snipsfile found at path {}. Please create one.'.format(snipsfile))
 
         yaml_config = None
         with open(snipsfile, 'r') as yaml_file:
@@ -94,6 +94,7 @@ class Snipsfile:
 
         self.snips_sdk_version = get(yaml_config, ['snips_sdk', 'version'])
         self.locale = get(yaml_config, ['locale'], 'en_US')
+        self.tts_service = get(yaml_config, ['tts', 'service'])
         self.logging = get(yaml_config, ['logging'], True)
         self.default_location = get(
             yaml_config, ['default_location'], 'Paris,fr')
