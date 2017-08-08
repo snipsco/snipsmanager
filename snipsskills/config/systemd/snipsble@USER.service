@@ -1,0 +1,12 @@
+[Unit]
+Description=Snips BLE
+After=snipsble.service
+
+[Service]
+Type=simple
+User=%i
+ExecStartPre=/bin/sleep 30
+ExecStart={{SNIPSBLE_PATH}} run
+
+[Install]
+WantedBy=multi-user.target

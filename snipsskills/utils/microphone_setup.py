@@ -51,7 +51,6 @@ class RespeakerMicrophoneSetup:
     def setup(params):
         if not is_raspi_os():
             return
-        print("\033[94mPassword is required for setting up Respeaker.\033[0m")
         
         execute_command("sudo rm -f /lib/udev/rules.d/50-rspk.rules")
         

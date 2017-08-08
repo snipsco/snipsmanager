@@ -17,6 +17,11 @@ class Systemd:
 
     @staticmethod
     def setup():
+        run_on_boot = raw_input(
+            "Would you like Snips to start on boot (using systemd)? [Y/n] ")
+        if run_on_boot is not None and run_on_boot.strip() != "" and run_on_boot.lower() != "y":
+            return
+
         (username, snips_home_path, snipsskills_path, snips_path) = Systemd.get_snipsskills_params()
         Systemd.write_snips_file(username, snips_path)
         Systemd.write_snipsskills_file(username, snips_home_path, snipsskills_path)
@@ -24,11 +29,6 @@ class Systemd:
 
     @staticmethod
     def get_snipsskills_params():
-        run_on_boot = raw_input(
-            "Would you like Snips to start on boot (using systemd)? [Y/n] ")
-        if run_on_boot is not None and run_on_boot.strip() != "" and run_on_boot.lower() != "y":
-            return
-
         current_username = getpass.getuser()
         username = raw_input(
             "Run as user [default: {}]: ".format(current_username))

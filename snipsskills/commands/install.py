@@ -15,9 +15,10 @@ from ..utils.assistant_downloader import AssistantDownloader, \
 from ..utils.intent_class_generator import IntentClassGenerator
 from ..utils.pip_installer import PipInstaller
 from ..utils.snips_installer import SnipsInstaller, SnipsUnsupportedPlatform
-from ..utils.os_helpers import cmd_exists, is_raspi_os
+from ..utils.os_helpers import cmd_exists, is_raspi_os, remove_file
 from ..utils.microphone_setup import MicrophoneSetup
 from ..utils.systemd import Systemd
+from ..utils.bluetooth import Bluetooth
 
 from snipsskillscore.logging import log, log_success, log_error
 
@@ -28,13 +29,18 @@ class Install(Base):
 
     def run(self):
         """ Command runner. """
+
+        if self.options['bluetooth'] == True:
+            self.setup_bluetooth()
+            return
+
         try:
             snipsfile = Snipsfile(SNIPSFILE)
         except SnipsfileNotFoundError:
             log_error("Snipsfile not found. Please create one.")
             return
         except SnipsfileParseException as err:
-            print(err)
+            log_error(err)
             return
 
         if not cmd_exists("snips"):
@@ -89,10 +95,16 @@ class Install(Base):
 
         if is_raspi_os():
             Systemd.setup()
+        
+        self.setup_bluetooth()
 
         log("Cleaning up.")
-        try:
-            os.remove(ASSISTANT_ZIP_PATH)
-        except OSError:
-            pass
+        remove_file(ASSISTANT_ZIP_PATH)
+
         log_success("All done! Run 'snipsskills run' to launch the skills server.")
+
+    def setup_bluetooth(self):
+        if not is_raspi_os():
+            log("System is not Raspberry Pi. Skipping Bluetooth setup.")
+            return
+        Bluetooth.setup()
