@@ -9,7 +9,9 @@ import time
 from snipsskillscore.logging import log, log_warning
 
 from .os_helpers import cmd_exists, download_file, execute_command, remove_file
+from .systemd import Systemd
 
+SNIPSBLE_SERVICE_NAME = "snipsble"
 
 class Bluetooth:
     """ Bluetooth setup utilities. """
@@ -49,5 +51,29 @@ class Bluetooth:
         execute_command("sudo dpkg -i node_latest_armhf.deb")
         remove_file(filename)
 
+    @staticmethod
     def setup_systemd():
-        pass
+        (username, snipsble_path) = Bluetooth.get_params()
+        contents = Systemd.get_template(SNIPSBLE_SERVICE_NAME)
+        if contents is None:
+            return
+        contents = contents.replace("{{SNIPSBLE_PATH}}", snipsble_path)
+        Systemd.write_systemd_file(SNIPSBLE_SERVICE_NAME, username, contents)
+
+    @staticmethod
+    def get_params():
+        current_username = getpass.getuser()
+        username = raw_input("Run as user [default: {}]: ".format(current_username))
+        if username is None or username.strip() == "":
+            username = current_username
+
+        try:
+            snipsble_path = subprocess.check_output(
+                ['which', 'snipsble']).strip()
+        except subprocess.CalledProcessError:
+            snipsble_path = None
+
+        if snipsble_path is None or len(snipsble_path.strip()) == 0:
+            snipsble_path = raw_input("Path to the snips BLE library: ")
+
+        return (username, snipsble_path)

@@ -6,7 +6,7 @@ After=snipsble.service
 Type=simple
 User=%i
 ExecStartPre=/bin/sleep 30
-ExecStart={{SNIPSBLE_PATH}} run
+ExecStart={{SNIPSBLE_PATH}}
 
 [Install]
 WantedBy=multi-user.target

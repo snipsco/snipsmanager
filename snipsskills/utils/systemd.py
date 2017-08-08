@@ -25,7 +25,8 @@ class Systemd:
         (username, snips_home_path, snipsskills_path, snips_path) = Systemd.get_snipsskills_params()
         Systemd.write_snips_file(username, snips_path)
         Systemd.write_snipsskills_file(username, snips_home_path, snipsskills_path)
-        Systemd.enable_services(username)
+        Systemd.enable_service(username, SNIPS_SERVICE_NAME)
+        Systemd.enable_service(username, SNIPSSKILLS_SERVICE_NAME)
 
     @staticmethod
     def get_snipsskills_params():
@@ -97,7 +98,6 @@ class Systemd:
         os.system("sudo chmod a+rwx {}".format(output_filename))
 
     @staticmethod
-    def enable_services(username):
+    def enable_service(username, service_name):
         os.system("sudo systemctl --system daemon-reload")
-        os.system("sudo systemctl enable {}@{}".format(SNIPS_SERVICE_NAME, username))
-        os.system("sudo systemctl enable {}@{}".format(SNIPSSKILLS_SERVICE_NAME, username))
+        os.system("sudo systemctl enable {}@{}".format(service_name, username))
