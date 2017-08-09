@@ -67,6 +67,7 @@ We suggest installing and running Snips Skills using a `virtualenv <https://virt
   $ sudo pip install --upgrade virtualenv
   $ virtualenv snips
   $ source snips/bin/activate
+  $ pip install pip --upgrade
   $ pip install snipsskills
 
 To exit the virtualenv, simply run:
