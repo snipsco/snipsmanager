@@ -22,19 +22,15 @@ class SnipsInstaller:
     """ Utilities for managing the Snips SDK. """
 
     @staticmethod
-    def install(version=None):
-        """ Install the Snips SDK.
-
-        :param version: The version of the SDK to install, or None for latest.
-        """
-        if cmd_exists("snips"):
+    def install():
+        """ Install the Snips SDK. """
+        if SnipsInstaller.is_installed():
             return
 
-        if not 'arm' in " ".join(os.uname()):
+        log("Installing the Snips toolchain.")
+
+        if not is_raspi_os():
             raise SnipsUnsupportedPlatform()
-
-        if version != None and SnipsInstaller.get_version() == version:
-            return
 
         curl_command = subprocess.Popen(
             SNIPS_INSTALL_COMMAND.split(), stdout=subprocess.PIPE)
@@ -52,14 +48,9 @@ class SnipsInstaller:
         output, error = sh_command.communicate()
 
     @staticmethod
-    def get_version():
-        """ Get the version of the SDK if installed, or None. """
-        return None
-
-    @staticmethod
     def is_installed():
         """ Check if the Snips SDK is installed. """
-        return SnipsInstaller.get_version() != None
+        return cmd_exists("snips")
 
     @staticmethod
     def load_assistant(assistant_zip_path):

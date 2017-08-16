@@ -43,9 +43,8 @@ class Install(Base):
             log_error(err)
             return
 
-        if not cmd_exists("snips"):
+        if not SnipsInstaller.is_installed():
             try:
-                log("Installing the Snips toolchain.")
                 SnipsInstaller.install()
             except SnipsUnsupportedPlatform:
                 log_error("Currently, the Snips SDK only runs on a Raspberry Pi. " +
