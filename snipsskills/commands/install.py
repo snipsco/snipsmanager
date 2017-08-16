@@ -29,11 +29,6 @@ class Install(Base):
 
     def run(self):
         """ Command runner. """
-
-        if self.options['bluetooth'] == True:
-            self.setup_bluetooth()
-            return
-
         try:
             snipsfile = Snipsfile(SNIPSFILE)
         except SnipsfileNotFoundError:
@@ -41,6 +36,10 @@ class Install(Base):
             return
         except SnipsfileParseException as err:
             log_error(err)
+            return
+
+        if self.options['bluetooth'] == True:
+            Install.setup_bluetooth(snipsfile.mqtt_hostname, snipsfile.mqtt_port)
             return
 
         if not Snips.is_installed():
@@ -97,7 +96,7 @@ class Install(Base):
         if is_raspi_os():
             Systemd.setup()
 
-        self.setup_bluetooth()
+        Install.setup_bluetooth(snipsfile.mqtt_hostname, snipsfile.mqtt_port)
 
         remove_file(ASSISTANT_ZIP_PATH)
 
@@ -107,8 +106,9 @@ class Install(Base):
                     "you can also reboot your device " +
                     "and it will be run automatically at launch.")
 
-    def setup_bluetooth(self):
+    @staticmethod
+    def setup_bluetooth(mqtt_hostname, mqtt_port):
         if not is_raspi_os():
             log("System is not Raspberry Pi. Skipping Bluetooth setup.")
             return
-        Bluetooth.setup()
+        Bluetooth.setup(mqtt_hostname, mqtt_port)
