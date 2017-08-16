@@ -4,6 +4,7 @@
 import os
 import shutil
 import subprocess
+
 from .os_helpers import cmd_exists, is_raspi_os, execute_command, pipe_commands
 
 
@@ -30,8 +31,11 @@ class MicrophoneSetup:
 
         :param microphone_id: the microphone id, e.g. 'respeaker'.
         """
-        if microphone_config is not None and microphone_config.identifier == 'respeaker':
-            RespeakerMicrophoneSetup.setup(microphone_config.params)
+        if microphone_config is not None:
+            if microphone_config.identifier == 'respeaker':
+                RespeakerMicrophoneSetup.setup(microphone_config.params)
+            elif microphone_config.identifier == 'jabra':
+                JabraMicrophoneSetup.setup()
         else:
             DefaultMicrophoneSetup.setup()
 
@@ -39,10 +43,17 @@ class MicrophoneSetup:
 class DefaultMicrophoneSetup:
 
     @staticmethod
-    def setup():
+    def setup(asoundrc_file="asoundrc.default"):
         if not is_raspi_os():
             return
-        copy_asoundrc("asoundrc.default")
+        copy_asoundrc(asoundrc_file)
+
+
+class JabraMicrophoneSetup:
+
+    @staticmethod
+    def setup():
+        DefaultMicrophoneSetup.setup("asoundrc.jabra")
 
 
 class RespeakerMicrophoneSetup:
@@ -51,9 +62,9 @@ class RespeakerMicrophoneSetup:
     def setup(params):
         if not is_raspi_os():
             return
-        
+
         execute_command("sudo rm -f /lib/udev/rules.d/50-rspk.rules")
-        
+
         echo_command = ("echo ACTION==\"add\", SUBSYSTEMS==\"usb\", ATTRS{{idVendor}}==\"{}\", " +
                         "ATTRS{{idProduct}}==\"{}\", MODE=\"660\", GROUP=\"plugdev\"") \
             .format(params["vendor_id"], params["product_id"])

@@ -69,7 +69,7 @@ class Install(Base):
                       "and that there is a working network connection.")
             return
 
-        if cmd_exists("snips"):
+        if Snips.is_installed():
             log("Loading Snips assistant.")
             Snips.load_assistant(ASSISTANT_ZIP_PATH)
 
@@ -96,13 +96,15 @@ class Install(Base):
 
         if is_raspi_os():
             Systemd.setup()
-        
+
         self.setup_bluetooth()
 
-        log("Cleaning up.")
         remove_file(ASSISTANT_ZIP_PATH)
 
-        log_success("All done! Run 'snipsskills run' to launch the skills server.")
+        log_success("All done! Type 'snipsskills run' to launch the skills server. " +
+                    "If you have set up Snips Skills as a systemd service, " +
+                    "you can also reboot your device " +
+                    "and it will be run automatically at launch.")
 
     def setup_bluetooth(self):
         if not is_raspi_os():

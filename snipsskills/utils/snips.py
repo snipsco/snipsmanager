@@ -75,7 +75,7 @@ class Snips:
             raise SnipsNotFound()
 
         try:
-            snips_command = subprocess.Popen(
+            subprocess.Popen(
                 "snips", stdout=DEVNULL, stderr=subprocess.STDOUT)
         except OSError as e:
             raise SnipsRuntimeFailure(str(e))
