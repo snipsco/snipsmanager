@@ -79,16 +79,7 @@ class Run(Base):
                 log_warning("Error loading skill {}: {}".format(
                     skilldef.package_name, str(e)))
 
-        if Snips.is_installed():
-            try:
-                log("Starting the Snips SDK")
-                Snips.run()
-                time.sleep(10)
-            except (SnipsNotFound, SnipsRuntimeFailure) as e:
-                log_warning("Error running Snips: {}".format(e))
-                pass
-
-        log("Starting the Snips Skills server")
+        log("Starting the Snips Skills server.")
         server.start()
 
     def handle_intent(self, intent):

@@ -102,6 +102,7 @@ class Install(Base):
         remove_file(ASSISTANT_ZIP_PATH)
 
         log_success("All done! Type 'snipsskills run' to launch the skills server. " +
+                    "Make sure you have a running instance of the Snips SDK. " +
                     "If you have set up Snips Skills as a systemd service, " +
                     "you can also reboot your device " +
                     "and it will be run automatically at launch.")
