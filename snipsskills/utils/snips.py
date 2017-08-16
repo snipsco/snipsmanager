@@ -4,7 +4,14 @@
 import os
 import subprocess
 
-from .os_helpers import cmd_exists, is_raspi_os
+from .os_helpers import cmd_exists, is_raspi_os, ask_yes_no
+
+from snipsskillscore.logging import log, log_success, log_warning, log_error
+
+try:
+    from subprocess import DEVNULL
+except ImportError:
+    DEVNULL = open(os.devnull, 'wb')
 
 # pylint: disable=too-few-public-methods
 
@@ -18,13 +25,28 @@ class SnipsUnsupportedPlatform(Exception):
     pass
 
 
+class SnipsNotFound(Exception):
+    """ Snips command not found exception class. """
+    pass
+
+
+class SnipsRuntimeFailure(Exception):
+    """ Snips runtime failure exception class. """
+    pass
+
+
+class SnipsInstallationFailure(Exception):
+    """ Snips installation failure exception class. """
+    pass
+
+
 class Snips:
     """ Utilities for managing the Snips SDK. """
 
     @staticmethod
     def install():
         """ Install the Snips SDK. """
-        if SnipsInstaller.is_installed():
+        if Snips.is_installed():
             return
 
         if ask_yes_no("Would you like to install the Snips SDK?") == False:
@@ -42,16 +64,21 @@ class Snips:
         rc = sh_command.returncode
 
         if (rc > 0):
-            log_error(output)
-            raise SnipsFailure()
+            raise SnipsInstallationFailure(output)
         else:
             log_success("The Snips SDK was successfully installed.")
 
     @staticmethod
     def run():
         """ Run the Snips SDK. """
-        snips_command = subprocess.Popen("snips &", stderr=subprocess.STDOUT)
-        output, error = snips_command.communicate()
+        if not Snips.is_installed():
+            raise SnipsNotFound()
+
+        try:
+            snips_command = subprocess.Popen(
+                "snips", stdout=DEVNULL, stderr=subprocess.STDOUT)
+        except OSError as e:
+            raise SnipsRuntimeFailure(str(e))
 
     @staticmethod
     def is_installed():

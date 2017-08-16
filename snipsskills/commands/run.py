@@ -4,13 +4,14 @@
 
 import os
 import subprocess
+import time
 import threading
 
 from sys import path
 
 from ..utils.snipsfile_parser import Snipsfile, SnipsfileParseException, \
     SnipsfileNotFoundError
-from ..utils.snips import Snips
+from ..utils.snips import Snips, SnipsNotFound, SnipsRuntimeFailure
 
 from snipsskillscore.logging import log, log_success, log_warning, log_error
 from snipsskillscore.server import Server
@@ -78,7 +79,12 @@ class Run(Base):
                 log_warning("Error loading skill {}: {}".format(
                     skilldef.package_name, str(e)))
 
-        Snips.run()
+        try:
+            Snips.run()
+            time.sleep(10)
+        except SnipsNotFound, SnipsRuntimeFailure:
+            pass
+
         server.start()
 
     def handle_intent(self, intent):

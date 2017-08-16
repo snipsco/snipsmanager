@@ -14,7 +14,7 @@ from ..utils.assistant_downloader import AssistantDownloader, \
     AssistantDownloaderException
 from ..utils.intent_class_generator import IntentClassGenerator
 from ..utils.pip_installer import PipInstaller
-from ..utils.snips import Snips, SnipsUnsupportedPlatform
+from ..utils.snips import Snips, SnipsUnsupportedPlatform, SnipsInstallationFailure
 from ..utils.os_helpers import cmd_exists, is_raspi_os, remove_file
 from ..utils.microphone_setup import MicrophoneSetup
 from ..utils.systemd import Systemd
@@ -51,6 +51,8 @@ class Install(Base):
                           "Skipping installation of the Snips SDK. " +
                           "If you wish to install the Snips SDK, " +
                           "run this command from a Raspberry Pi.")
+            except SnipsInstallationFailure as e:
+                log_error("Error installing Snips {}".format(e))
 
         if snipsfile.assistant_url is None:
             log_error("No assistants found in Snipsfile.")

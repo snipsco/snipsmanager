@@ -74,6 +74,6 @@ class Bluetooth:
             snipsble_path = None
 
         if snipsble_path is None or len(snipsble_path.strip()) == 0:
-            snipsble_path = raw_input("Path to the snips BLE library: ")
+            snipsble_path = raw_input("Path to the Snips BLE library: ")
 
         return (username, snipsble_path)

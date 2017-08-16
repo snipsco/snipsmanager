@@ -21,9 +21,9 @@ class Systemd:
             return
 
         (username, snips_home_path, snipsskills_path, snips_path) = Systemd.get_snipsskills_params()
-        Systemd.write_snips_file(username, snips_path)
+        # Systemd.write_snips_file(username, snips_path)
         Systemd.write_snipsskills_file(username, snips_home_path, snipsskills_path)
-        Systemd.enable_service(username, SNIPS_SERVICE_NAME)
+        # Systemd.enable_service(username, SNIPS_SERVICE_NAME)
         Systemd.enable_service(username, SNIPSSKILLS_SERVICE_NAME)
 
     @staticmethod
