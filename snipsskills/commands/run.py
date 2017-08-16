@@ -10,6 +10,7 @@ from sys import path
 
 from ..utils.snipsfile_parser import Snipsfile, SnipsfileParseException, \
     SnipsfileNotFoundError
+from ..utils.snips import Snips
 
 from snipsskillscore.logging import log, log_success, log_warning, log_error
 from snipsskillscore.server import Server
@@ -77,6 +78,7 @@ class Run(Base):
                 log_warning("Error loading skill {}: {}".format(
                     skilldef.package_name, str(e)))
 
+        Snips.run()
         server.start()
 
     def handle_intent(self, intent):

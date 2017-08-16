@@ -8,10 +8,11 @@ import time
 
 from snipsskillscore.logging import log, log_warning
 
-from .os_helpers import cmd_exists, download_file, execute_command, remove_file
+from .os_helpers import cmd_exists, download_file, execute_command, remove_file, ask_yes_no
 from .systemd import Systemd
 
 SNIPSBLE_SERVICE_NAME = "snipsble"
+
 
 class Bluetooth:
     """ Bluetooth setup utilities. """
@@ -19,9 +20,7 @@ class Bluetooth:
     @staticmethod
     def setup():
         """ Setting up Bluetooth Relay MQTT service. """
-        run_on_boot = raw_input(
-            "Would you like to enable Bluetooth for this device? [Y/n] ")
-        if run_on_boot is not None and run_on_boot.strip() != "" and run_on_boot.lower() != "y":
+        if ask_yes_no("Would you like to enable Bluetooth for this device?") == False:
             return
 
         try:
@@ -63,7 +62,8 @@ class Bluetooth:
     @staticmethod
     def get_params():
         current_username = getpass.getuser()
-        username = raw_input("Run as user [default: {}]: ".format(current_username))
+        username = raw_input(
+            "Run as user [default: {}]: ".format(current_username))
         if username is None or username.strip() == "":
             username = current_username
 

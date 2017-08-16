@@ -64,3 +64,15 @@ def download_file(url, output_file):
     downloaded_file = urllib2.urlopen(url)
     with open(output_file, 'wb') as output:
         output.write(downloaded_file.read())
+
+
+def ask_yes_no(question):
+    """ Ask a yes/no question in the prompt.
+
+    :param question: the question to ask.
+    :return: true if the user answered yes (or empty), false otherwise
+    """
+    answer = raw_input("{} [Y/n] ".format(question))
+    if answer is not None and answer.strip() != "" and answer.lower() != "y":
+        return False
+    return True

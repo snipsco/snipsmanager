@@ -14,7 +14,7 @@ from ..utils.assistant_downloader import AssistantDownloader, \
     AssistantDownloaderException
 from ..utils.intent_class_generator import IntentClassGenerator
 from ..utils.pip_installer import PipInstaller
-from ..utils.snips_installer import SnipsInstaller, SnipsUnsupportedPlatform
+from ..utils.snips import Snips, SnipsUnsupportedPlatform
 from ..utils.os_helpers import cmd_exists, is_raspi_os, remove_file
 from ..utils.microphone_setup import MicrophoneSetup
 from ..utils.systemd import Systemd
@@ -43,9 +43,9 @@ class Install(Base):
             log_error(err)
             return
 
-        if not SnipsInstaller.is_installed():
+        if not Snips.is_installed():
             try:
-                SnipsInstaller.install()
+                Snips.install()
             except SnipsUnsupportedPlatform:
                 log_error("Currently, the Snips SDK only runs on a Raspberry Pi. " +
                           "Skipping installation of the Snips SDK. " +
@@ -69,7 +69,7 @@ class Install(Base):
 
         if cmd_exists("snips"):
             log("Loading Snips assistant.")
-            SnipsInstaller.load_assistant(ASSISTANT_ZIP_PATH)
+            Snips.load_assistant(ASSISTANT_ZIP_PATH)
 
         log("Generating definitions.")
         try:

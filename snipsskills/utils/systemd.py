@@ -6,7 +6,7 @@ import os
 import subprocess
 import time
 
-from .os_helpers import execute_command
+from .os_helpers import execute_command, ask_yes_no
 
 SNIPS_SERVICE_NAME = "snips"
 SNIPSSKILLS_SERVICE_NAME = "snipsskills"
@@ -17,9 +17,7 @@ class Systemd:
 
     @staticmethod
     def setup():
-        run_on_boot = raw_input(
-            "Would you like Snips to start on boot (using systemd)? [Y/n] ")
-        if run_on_boot is not None and run_on_boot.strip() != "" and run_on_boot.lower() != "y":
+        if ask_yes_no("Would you like Snips to start on boot (using systemd)?") == False:
             return
 
         (username, snips_home_path, snipsskills_path, snips_path) = Systemd.get_snipsskills_params()
