@@ -34,7 +34,7 @@ class Bluetooth:
                         "Please install Node manually, and restart the snipsskills installation script.")
             return
 
-        # Bluetooth.install_mqtt_relay()
+        Bluetooth.install_mqtt_relay()
         Bluetooth.setup_systemd(mqtt_hostname, mqtt_port)
 
     @staticmethod
