@@ -31,11 +31,10 @@ class MicrophoneSetup:
 
         :param microphone_id: the microphone id, e.g. 'respeaker'.
         """
-        if microphone_config is not None:
-            if microphone_config.identifier == 'respeaker':
-                RespeakerMicrophoneSetup.setup(microphone_config.params)
-            elif microphone_config.identifier == 'jabra':
-                JabraMicrophoneSetup.setup()
+        if microphone_config is not None and microphone_config.identifier == 'respeaker':
+            RespeakerMicrophoneSetup.setup(microphone_config.params)
+        elif microphone_config is not None and microphone_config.identifier == 'jabra':
+            JabraMicrophoneSetup.setup()
         else:
             DefaultMicrophoneSetup.setup()
 

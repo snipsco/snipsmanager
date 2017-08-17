@@ -1,0 +1,11 @@
+[Unit]
+Description=Snips BLE
+After=snips.service
+
+[Service]
+Type=simple
+ExecStartPre=/bin/sleep 30
+ExecStart={{NODE_PATH}} {{SNIPSBLE_PATH}}/index.js --serviceUUID={{SNIPS_BLE_SERVICE_UUID}} --characteristicUUID={{SNIPS_BLE_CHARACTERISTIC_UUID}} {{SNIPS_MQTT_HOSTNAME}} {{SNIPS_MQTT_PORT}}
+
+[Install]
+WantedBy=multi-user.target
