@@ -55,7 +55,6 @@ setup(
             'snipsskills=snipsskills.cli:main',
         ],
     },
-    package_data={'': ['templates', 'config/asoundrc', 'config/systemd', 'data/sounds']},
     include_package_data=True,
-    cmdclass = {'test': RunTests},
+    cmdclass = {'test': RunTests}
 )

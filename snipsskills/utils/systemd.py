@@ -36,11 +36,7 @@ class Systemd:
         if username is None or username.strip() == "":
             username = current_username
 
-        current_dir = os.getcwd()
-        snips_home_path = raw_input(
-            "Location of the project's Snipsfile [default: {}]: ".format(current_dir))
-        if snips_home_path is None or snips_home_path.strip() == "":
-            snips_home_path = current_dir
+        snips_home_path = os.getcwd()
 
         snipsskills_path = which('snipsskills')
         if snipsskills_path is None or len(snipsskills_path.strip()) == 0:

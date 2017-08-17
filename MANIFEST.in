@@ -11,16 +11,9 @@ include snipsskills/config/*
 include snipsskills/config/asoundrc/*
 include snipsskills/config/systemd/*
 include snipsskills/data/sounds/*
+include snipsskills/templates/*
 prune .cache
 prune .git
 prune .snips
 prune build
 prune dist
-recursive-exclude *.egg-info *
-recursive-exclude .snips *
-recursive-include tests *
-recursive-include templates *
-recursive-include config *
-recursive-include config/asoundrc *
-recursive-include config/systemd *
-recursive-include data/sounds *

@@ -46,6 +46,7 @@ On macOS, the SDL library is required. It can be installed via Homebrew:
 .. code-block:: console
 
   $ brew install sdl
+  $ pip install --global-option='build_ext' --global-option='-I/usr/local/include' --global-option='-L/usr/local/lib' pyaudio
 
 
 Installation
@@ -65,7 +66,7 @@ We suggest installing and running Snips Skills using a `virtualenv <https://virt
 .. code-block:: console
 
   $ sudo pip install --upgrade virtualenv
-  $ virtualenv snips
+  $ virtualenv --python=/usr/bin/python2.7 snips
   $ source snips/bin/activate
   $ pip install pip --upgrade
   $ pip install snipsskills
