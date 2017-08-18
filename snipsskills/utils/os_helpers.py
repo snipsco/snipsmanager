@@ -25,12 +25,27 @@ def is_raspi_os():
     return 'arm' in " ".join(os.uname())
 
 
-def execute_command(command):
+def create_dir(dir_name):
+    """ Create directory in the current working directory, if it does
+        not exist already.
+
+    :param dir_name: the name of the directory.
+    """
+    if not os.path.exists(dir_name):
+        os.makedirs(dir_name)
+
+
+def execute_command(command, silent=False):
     """ Execute a shell command.
 
     :param command: the command to execute.
+    :param silent: if True, do not output anything to terminal.
     """
-    subprocess.Popen(command.split(), stdout=subprocess.PIPE).communicate()
+    if silent:
+        stdout = open(os.devnull, 'w')
+    else:
+        stdout = subprocess.PIPE
+    subprocess.Popen(command.split(), stdout=stdout).communicate()
 
 
 def pipe_commands(first_command, second_command, silent):

@@ -6,9 +6,9 @@ import os
 import subprocess
 import time
 
-from snipsskillscore.logging import log, log_warning
+from snipsskillscore.logging import log, log_warning, log_error
 
-from .os_helpers import cmd_exists, download_file, execute_command, remove_file, ask_yes_no, which
+from .os_helpers import cmd_exists, download_file, execute_command, remove_file, ask_yes_no, which, create_dir
 from .systemd import Systemd
 
 SNIPSBLE_SERVICE_NAME = "snipsble"
@@ -40,30 +40,44 @@ class Bluetooth:
     @staticmethod
     def install_node():
         """ Install node using dpkg, if it is not installed. """
-        if cmd_exists('node'):
+        if Bluetooth.is_node_available():
             return
 
-        log("Node is required for Bluetooth setup. Installing Node.")
+        if ask_yes_no("Node is required for Bluetooth setup. Would you like to install Node?") == False:
+            return
+
+        log("Installing Node. This may take a minute.")
 
         filename = "node_latest_armhf.deb"
+
+        try:
+            execute_command("sudo apt-get -y remove nodejs nodejs-legacy npm")
+        except:
+            pass
 
         log("Downloading Node.")
         download_file(
             "http://node-arm.herokuapp.com/node_latest_armhf.deb", filename)
 
         log("Installing Node.")
-        execute_command("sudo dpkg -i node_latest_armhf.deb")
+        try:
+            execute_command("sudo dpkg -i node_latest_armhf.deb")
+        except:
+            log_error("Error installing node. Please install it manually.")
+
+        log_success("Node successfully installed")
+
         remove_file(filename)
 
     @staticmethod
     def install_mqtt_relay():
         """ Install snips-mqtt-relay. """
-        if not cmd_exists('node'):
+        if not Bluetooth.is_node_available():
             return
 
         log("Installing Node module: snips-mqtt-relay.")
-        execute_command(
-            "npm install --no-cache --prefix=./.snips snips-mqtt-relay &> /dev/null")
+        create_dir(".snips")
+        execute_command("npm install --no-cache --prefix={}/.snips snips-mqtt-relay".format(os.getcwd()), True)
 
     @staticmethod
     def setup_systemd(mqtt_hostname, mqtt_port):
@@ -86,3 +100,7 @@ class Bluetooth:
             os.getcwd())
         node_path = which('node')
         return (snipsble_path, node_path)
+
+    @staticmethod
+    def is_node_available():
+        return cmd_exists('node') and cmd_exists('npm')

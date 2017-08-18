@@ -10,6 +10,7 @@ import zipfile
 
 from jinja2 import Environment, PackageLoader
 
+from .os_helpers import create_dir
 
 def camel_case_to_underscore(text):
     """ Convert camel-case to underscore.
@@ -40,10 +41,8 @@ def save_intent_file(output_dir, filename, text):
     :param filename: a file name.
     :param text: a text to save.
     """
-    if not os.path.exists(output_dir):
-        os.makedirs(output_dir)
-    if not os.path.exists("{}/intents".format(output_dir)):
-        os.makedirs("{}/intents".format(output_dir))
+    create_dir(output_dir)
+    create_dir("{}/intents".format(output_dir))
     output_filename = "{}/intents/{}".format(output_dir, filename)
     with open(output_filename, "w") as output_file:
         output_file.write(text)
