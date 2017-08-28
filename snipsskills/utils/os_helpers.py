@@ -35,6 +35,25 @@ def create_dir(dir_name):
     if not os.path.exists(dir_name):
         os.makedirs(dir_name)
 
+def create_dir_verbose(dir_name, indentation_level):
+    print "creating: {} {}".format(
+        indentation_level * "+++",
+        dir_name
+    )
+    create_dir(dir_name)
+
+def write_text_file(output_file_path, text):
+    with open(output_file_path, "w") as output_file:
+        output_file.write(text)
+
+
+def write_text_file_verbose(output_file_path, text, indentation_level):
+    write_text_file(output_file_path, text)
+
+    print "creating: {} {}".format(
+        indentation_level * "+++",
+        output_file_path
+    )
 
 def execute_command(command, silent=False):
     """ Execute a shell command.
