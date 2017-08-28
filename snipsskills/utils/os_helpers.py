@@ -7,6 +7,8 @@ import shlex
 import subprocess
 import urllib2
 
+from snipsskillscore.logging import log, log_success, log_error
+
 
 def cmd_exists(cmd):
     """ Check if a command exists.
@@ -36,10 +38,10 @@ def create_dir(dir_name):
         os.makedirs(dir_name)
 
 def create_dir_verbose(dir_name, indentation_level):
-    print "creating: {} {}".format(
+    log("creating: {} {}".format(
         indentation_level * "+++",
         dir_name
-    )
+    ))
     create_dir(dir_name)
 
 def write_text_file(output_file_path, text):
@@ -50,10 +52,10 @@ def write_text_file(output_file_path, text):
 def write_text_file_verbose(output_file_path, text, indentation_level):
     write_text_file(output_file_path, text)
 
-    print "creating: {} {}".format(
+    log("creating: {} {}".format(
         indentation_level * "+++",
         output_file_path
-    )
+    ))
 
 def execute_command(command, silent=False):
     """ Execute a shell command.
