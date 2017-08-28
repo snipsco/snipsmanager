@@ -112,7 +112,7 @@ class Scaffold(Base):
         write_text_file_verbose(manifest_path, manifest_content, 1)
 
     def write_configs(self, project_name, root_directory):
-        lint_path = os.path.join(root_directory, 'lint.rst')
+        lint_path = os.path.join(root_directory, 'lint.cfg')
         setup_path = os.path.join(root_directory, 'setup.cfg')
 
         lint_content = LINT_TEMPLATE.format()
