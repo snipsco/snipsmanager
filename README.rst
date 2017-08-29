@@ -30,7 +30,6 @@ Depending on your setup, you may need to update pip, and install some packages v
 
     $ sudo apt-get update
     $ sudo apt-get install python-pip libsdl-mixer1.2 libusb-1.0 python-pyaudio libsdl1.2-dev cython cython3 libudev-dev python-dev libsdl-image1.2-dev libsdl-mixer1.2-dev libsdl-ttf2.0-dev libsmpeg-dev python-numpy libportmidi-dev libswscale-dev libavformat-dev libavcodec-dev portaudio19-dev nodejs build-essential -y
-    $ pip install pip --upgrade
 
 macOS
 ~~~~~
@@ -52,7 +51,35 @@ On macOS, the SDL library is required. It can be installed via Homebrew:
 Installation
 ------------
 
-The Snips Skills Manager is on `PyPI <https://pypi.python.org/pypi/snipsskills>`_, so you can just install it with `pip <http://www.pip-installer.org>`_:
+We suggest installing and running Snips Skills using a `virtualenv <https://virtualenv.pypa.io/en/latest/>`_ to avoid granting root privileges, and ensure your setup does not break when other packages are installed:
+
+.. code-block:: console
+
+  $ sudo pip install --upgrade virtualenv
+  $ virtualenv --python=/usr/bin/python2.7 snips
+  $ source snips/bin/activate
+
+You may exit the virtualenv by running ``deactivate``.
+
+We are now ready to install the `snipsskills <https://pypi.python.org/pypi/snipsskills>`_ package. Make sure ``pip`` is up to date:
+
+.. code-block:: console
+
+  $ pip install pip --upgrade
+  $ pip install snipsskills
+
+Installing without virtualenv
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+If you do not wish to use a virtualenv, you need to run the pip commands with root privileges:
+
+.. code-block:: console
+
+  $ sudo pip install pip --upgrade
+  $ sudo pip install snipsskills
+
+The Snips Skills Manager is on `PyPI <https://pypi.python.org/pypi/snipsskills>`_, so you can just install it with `pip <http://www.pip-installer.org>`_. 
+
 
 .. code-block:: console
 
@@ -61,21 +88,7 @@ The Snips Skills Manager is on `PyPI <https://pypi.python.org/pypi/snipsskills>`
 A note on virtualenv
 ~~~~~~~~~~~~~~~~~~~~
 
-We suggest installing and running Snips Skills using a `virtualenv <https://virtualenv.pypa.io/en/latest/>`_ to avoid granting root privileges, and ensure your setup does not break when other packages are installed. Virtualenv should be enabled before installing the ``snipsskills`` pip package, can be installed and activated as follows:
 
-.. code-block:: console
-
-  $ sudo pip install --upgrade virtualenv
-  $ virtualenv --python=/usr/bin/python2.7 snips
-  $ source snips/bin/activate
-  $ pip install pip --upgrade
-  $ pip install snipsskills
-
-To exit the virtualenv, simply run:
-
-.. code-block:: console
-
-  $ deactivate
 
 Usage
 =====
