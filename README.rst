@@ -34,7 +34,7 @@ Depending on your setup, you may need to update pip, and install some packages v
 macOS
 ~~~~~
 
-On macOS, pip and SDL are required.:
+On macOS, `PyAudio <https://people.csail.mit.edu/hubert/pyaudio/>`_ and `SDL <https://www.libsdl.org/>`_ are required.:
 
 .. code-block:: console
 
