@@ -34,18 +34,13 @@ Depending on your setup, you may need to update pip, and install some packages v
 macOS
 ~~~~~
 
-On macOS, we need to install pip (via `easy_install <https://setuptools.readthedocs.io/en/latest/easy_install.html>`_) and SDL (via `Homebrew <https://brew.sh/>`_):
+On macOS, pip and SDL are required.:
 
 .. code-block:: console
 
   $ sudo easy_install pip
-
-On macOS, the SDL library is required. It can be installed via Homebrew:
-
-.. code-block:: console
-
-  $ brew install sdl
   $ pip install --global-option='build_ext' --global-option='-I/usr/local/include' --global-option='-L/usr/local/lib' pyaudio
+  $ brew install sdl
 
 
 Installation
