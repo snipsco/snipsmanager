@@ -34,7 +34,7 @@ Depending on your setup, you may need to update pip, and install some packages v
 macOS
 ~~~~~
 
-On macOS, pip can be installed via easy_install:
+On macOS, we need to install pip (via `easy_install <https://setuptools.readthedocs.io/en/latest/easy_install.html>`) and SDL (via `Homebrew <https://brew.sh/>`):
 
 .. code-block:: console
 
