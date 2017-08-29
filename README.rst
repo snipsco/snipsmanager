@@ -69,7 +69,7 @@ We are now ready to install the `snipsskills <https://pypi.python.org/pypi/snips
   $ pip install snipsskills
 
 Installing without virtualenv
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 If you do not wish to use a virtualenv, you need to run the pip commands with root privileges:
 
@@ -77,17 +77,6 @@ If you do not wish to use a virtualenv, you need to run the pip commands with ro
 
   $ sudo pip install pip --upgrade
   $ sudo pip install snipsskills
-
-The Snips Skills Manager is on `PyPI <https://pypi.python.org/pypi/snipsskills>`_, so you can just install it with `pip <http://www.pip-installer.org>`_. 
-
-
-.. code-block:: console
-
-    $ pip install snipsskills
-
-A note on virtualenv
-~~~~~~~~~~~~~~~~~~~~
-
 
 
 Usage
