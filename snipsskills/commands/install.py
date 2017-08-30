@@ -3,6 +3,8 @@
 
 import os
 import shutil
+import sys
+from zipfile import is_zipfile
 
 from .base import Base, ASSISTANT_DIR, ASSISTANT_ZIP_FILENAME, \
     ASSISTANT_ZIP_PATH, INTENTS_DIR, SNIPSFILE
@@ -15,7 +17,7 @@ from ..utils.assistant_downloader import AssistantDownloader, \
 from ..utils.intent_class_generator import IntentClassGenerator
 from ..utils.pip_installer import PipInstaller
 from ..utils.snips import Snips, SnipsUnsupportedPlatform, SnipsInstallationFailure
-from ..utils.os_helpers import cmd_exists, is_raspi_os, remove_file
+from ..utils.os_helpers import cmd_exists, is_raspi_os, remove_file, create_dir
 from ..utils.microphone_setup import MicrophoneSetup
 from ..utils.systemd import Systemd
 from ..utils.bluetooth import Bluetooth
@@ -116,13 +118,17 @@ class Install(Base):
     @staticmethod
     def local_assistant_fallback(options):
         if options['--local-assistant'] is None:
-            return
+            sys.exit()
         else:
             assistant_archive = options['--local-assistant']
             assistant_archive_path = os.path.join(os.getcwd(), assistant_archive)
-            if os.path.isfile(assistant_archive_path):
+            # We check that the file exists, has the correct '.zip' suffix, and isn't corrupted.
+            if os.path.isfile(assistant_archive_path) \
+                    and assistant_archive_path[-3:] == "zip" and is_zipfile(assistant_archive_path):
+
+                create_dir(os.path.join(os.getcwd(), '.snips'))
                 shutil.copy(src=assistant_archive_path,
                             dst=ASSISTANT_ZIP_PATH)
             else:
                 log_error("The local assistant file you provided is invalid")
-                return
+                sys.exit()

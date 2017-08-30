@@ -89,9 +89,6 @@ class Snipsfile:
             return
 
         self.assistant_url = get(yaml_config, ['assistant'])
-        if not self.assistant_url:
-            raise SnipsfileParseException("No assistant definitions found.")
-
         self.snips_sdk_version = get(yaml_config, ['snips_sdk', 'version'])
         self.locale = get(yaml_config, ['locale'], 'en_US')
         self.tts_service = get(yaml_config, ['tts', 'service'])
