@@ -117,7 +117,7 @@ class Scaffold(Base):
         manifest_path = os.path.join(root_directory, 'MANIFEST.in')
 
         MANIFEST_template = self.jinja_env.get_template('MANIFEST.in')
-        manifest_content = MANIFEST_template.render(project_name)
+        manifest_content = MANIFEST_template.render(project_name=project_name)
         write_text_file_verbose(manifest_path, manifest_content, 1)
 
     def write_configs(self, project_name, root_directory):

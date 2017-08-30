@@ -1,2 +1,2 @@
 include LICENSE.txt
-include {{}}/Snipsspec
+include {{project_name}}/Snipsspec
