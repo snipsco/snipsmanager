@@ -52,12 +52,41 @@ class Install(Base):
                           "Skipping installation of the Snips SDK. " +
                           "If you wish to install the Snips SDK, " +
                           "run this command from a Raspberry Pi.")
+                sys.exit()
             except SnipsInstallationFailure as e:
                 log_error("Error installing Snips {}".format(e))
+                sys.exit()
 
         if snipsfile.assistant_url is None:
-            log_error("No assistants found in Snipsfile.")
-            
+            """
+            The snipsfile doesn't have a assistant_url field.
+            We look if there is a assistant.zip archive available locally in two locations :
+                1) current folder
+                2) .snips folder (from a previous download)
+            """
+
+            log_error("No assistant_url field found in Snipsfile.")
+            log("Looking for a local assistant archive.")
+
+            # Installing assistant from ./assistant.zip
+            install_local_assistant_status = Snips.load_assistant(ASSISTANT_ZIP_FILENAME)
+
+            if install_local_assistant_status != 0:  # If the installation fails.
+                log_error("Could not find a valid local assistant archive in the current folder.")
+                log("Looking for a local assistant archive assistant.zip in the current folder")
+
+                install_local_assistant_status = Snips.load_assistant(ASSISTANT_ZIP_PATH)
+                if install_local_assistant_status != 0:  # If the installation fails. We don't continue the process.
+                    log_error("Could not find a valid local assistant archive in the .snips folder.")
+                    sys.exit()
+                else:
+                    log("Successfully installed assistant from local archive.")
+            else:
+                log("Successfully installed assistant from local archive.")
+                create_dir(".snips")  # We move the assistant to .snips/assistant.zip
+                shutil.copy(src=ASSISTANT_ZIP_FILENAME,
+                            dst=ASSISTANT_ZIP_PATH)
+
         else:
             log("Fetching assistant.")
             try:
@@ -68,18 +97,6 @@ class Install(Base):
                 log_error("Error downloading assistant. " +
                           "Make sure the provided URL in the Snipsfile is correct, " +
                           "and that there is a working network connection.")
-
-        if Snips.is_installed():
-            # Try to load the assistant from the `.snips` folder, and in the root directory.
-            log("Loading Snips assistant.")
-            print Snips.load_assistant(ASSISTANT_ZIP_PATH)
-            if (Snips.load_assistant(ASSISTANT_ZIP_PATH)):
-                pass
-            elif(Snips.load_assistant(ASSISTANT_ZIP_PATH)):
-                pass
-            else:
-                log_error("The local assistant provided doesn't exist or is corrupted.")
-
 
         log("Generating definitions.")
         try:

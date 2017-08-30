@@ -93,6 +93,6 @@ class Snips:
         """
         process = subprocess.Popen(
             SNIPS_INSTALL_ASSISTANT_COMMAND.format(assistant_zip_path).split(),
-            stdout=subprocess.PIPE)
+            stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         output, error = process.communicate()
-        return error
+        return process.returncode
