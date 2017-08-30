@@ -16,12 +16,34 @@ The skill is on `PyPI`_, so you can just install it with `pip`_:
 
 Usage
 -----
+Snips Skills Manager
+^^^^^^^^^^^^^^^^^^^^
 
-Pull Request checklist
-----------------------
+It is recommended that you use this skill with the `Snips Skills Manager <https://github.com/snipsco/snipsskills>`_. Simply add the following section to your `Snipsfile <https://github.com/snipsco/snipsskills/wiki/The-Snipsfile>`_:
 
-To ensure high quality code, before opening a pull request : make sure that you wrote tests for your code, and that you linted your code.
-Before opening the pull request, run your unit tests with ``python setup.py test`` and lint your code with ``python setup.py lint --lint-rcfile lint.cfg``
+.. code-block:: yaml
+
+    skills:
+    - package_name: {{}}
+      pip: <pypi identifier>
+      requires_tts: True
+
+Standalone usage
+^^^^^^^^^^^^^^^^
+
+If you do not wish to use the Snips Skills Manager, it can be used as a standalone Python module. It is on `PyPI`_, so you can just install it with `pip`_:
+
+.. code-block:: console
+
+    $ pip install <pypi identifier>
+
+You may now import it into your Python project:
+
+
+Contributing
+------------
+
+Please see the `Contribution Guidelines`_.
 
 Copyright
 ---------
@@ -43,4 +65,5 @@ information.
 .. _`pip`: http://www.pip-installer.org
 .. _`Snips`: https://www.snips.ai
 .. _`LICENSE.txt`: https://github.com/snipsco/snips-skill-hue/blob/master/LICENSE.txt
+.. _`Contribution Guidelines`: https://github.com/snipsco/snips-skill-hue/blob/master/CONTRIBUTING.rst
 .. _snipsskills: https://github.com/snipsco/snipsskills
