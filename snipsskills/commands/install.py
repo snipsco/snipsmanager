@@ -55,7 +55,7 @@ class Install(Base):
 
         if snipsfile.assistant_url is None:
             log_error("No assistants found in Snipsfile.")
-            return
+            Install.local_assistant_fallback(self.options)
 
         log("Fetching assistant.")
         try:
@@ -66,7 +66,8 @@ class Install(Base):
             log_error("Error downloading assistant. " +
                       "Make sure the provided URL in the Snipsfile is correct, " +
                       "and that there is a working network connection.")
-            return
+            Install.local_assistant_fallback(self.options)
+
 
         if Snips.is_installed():
             log("Loading Snips assistant.")
@@ -112,3 +113,19 @@ class Install(Base):
             log("System is not Raspberry Pi. Skipping Bluetooth setup.")
             return
         Bluetooth.setup(mqtt_hostname, mqtt_port)
+
+    @staticmethod
+    def local_assistant_fallback(options):
+        if options['--local-assistant'] is None:
+            return
+        else:
+            assistant_archive = options['--local-assistant']
+            assistant_archive_path = os.path.join(os.getcwd(), assistant_archive)
+            if os.path.isfile(assistant_archive_path):
+                shutil.copy(src=assistant_archive_path,
+                            dst=ASSISTANT_ZIP_PATH)
+            else:
+                log_error("The local assistant file you provided is invalid")
+                return
+
+
