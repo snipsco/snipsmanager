@@ -111,3 +111,34 @@ def which(command):
             ['which', command]).strip()
     except subprocess.CalledProcessError:
         return None
+
+def reboot():
+    """ Reboot the device."""
+    execute_command("sudo reboot")
+
+def get_os_name():
+    os_release = subprocess.check_output(['cat', '/etc/os-release'])
+    for line in os_release.splitlines():
+        if line.startswith("PRETTY_NAME="):
+            split = line.split("=")
+            if len(split) > 1:
+                os_version = split[1]
+                return os_version.replace("\"", "")
+    return None
+
+def get_revision():
+    process1 = subprocess.Popen('cat /proc/cpuinfo'.split(), stdout=subprocess.PIPE)
+    process2 = subprocess.Popen('grep Revision'.split(), stdin=process1.stdout, stdout=subprocess.PIPE)
+    process3 = subprocess.Popen(['awk', '{print $3}'], stdin=process2.stdout)
+    process1.stdout.close()
+    process2.stdout.close()
+    return process3.communicate()
+
+get_revision()
+
+    #subprocess.check_output(['cat', '/proc/cpuinfo', '|', 'grep', 'Revision', '|', 'awk', '{print $3}'])
+
+def get_sysinfo():
+    return {
+        "os_name": get_os_name()
+    }

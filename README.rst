@@ -114,6 +114,12 @@ You may need to restart your device. We are now ready to start the service, usin
     $ snipsskills run
 
 
+Contributing
+============
+
+Please see the `Contribution Guidelines <https://github.com/snipsco/snips-skill-hue/blob/master/CONTRIBUTING.rst>`_.
+
+
 Copyright
 =========
 
