@@ -95,3 +95,4 @@ class Snips:
             SNIPS_INSTALL_ASSISTANT_COMMAND.format(assistant_zip_path).split(),
             stdout=subprocess.PIPE)
         output, error = process.communicate()
+        return error

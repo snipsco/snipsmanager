@@ -68,11 +68,18 @@ class Install(Base):
                 log_error("Error downloading assistant. " +
                           "Make sure the provided URL in the Snipsfile is correct, " +
                           "and that there is a working network connection.")
-                Install.local_assistant_fallback(self.options)
 
         if Snips.is_installed():
+            # Try to load the assistant from the `.snips` folder, and in the root directory.
             log("Loading Snips assistant.")
-            Snips.load_assistant(ASSISTANT_ZIP_PATH)
+            print Snips.load_assistant(ASSISTANT_ZIP_PATH)
+            if (Snips.load_assistant(ASSISTANT_ZIP_PATH)):
+                pass
+            elif(Snips.load_assistant(ASSISTANT_ZIP_PATH)):
+                pass
+            else:
+                log_error("The local assistant provided doesn't exist or is corrupted.")
+
 
         log("Generating definitions.")
         try:
@@ -114,21 +121,3 @@ class Install(Base):
             log("System is not Raspberry Pi. Skipping Bluetooth setup.")
             return
         Bluetooth.setup(mqtt_hostname, mqtt_port)
-
-    @staticmethod
-    def local_assistant_fallback(options):
-        if options['--local-assistant'] is None:
-            sys.exit()
-        else:
-            assistant_archive = options['--local-assistant']
-            assistant_archive_path = os.path.join(os.getcwd(), assistant_archive)
-            # We check that the file exists, has the correct '.zip' suffix, and isn't corrupted.
-            if os.path.isfile(assistant_archive_path) \
-                    and assistant_archive_path[-3:] == "zip" and is_zipfile(assistant_archive_path):
-
-                create_dir(os.path.join(os.getcwd(), '.snips'))
-                shutil.copy(src=assistant_archive_path,
-                            dst=ASSISTANT_ZIP_PATH)
-            else:
-                log_error("The local assistant file you provided is invalid")
-                sys.exit()
