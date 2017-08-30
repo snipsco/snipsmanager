@@ -1,9 +1,11 @@
 # -*-: coding utf-8 -*-
 import os
 from jinja2 import Environment, PackageLoader
+from snipsskillscore.logging import log, log_error
 
 from .base import Base
 from ..utils.os_helpers import create_dir_verbose, write_text_file_verbose
+
 
 from snipsskillscore.logging import log, log_success, log_error
 
@@ -29,6 +31,7 @@ class Scaffold(Base):
     /[projectname]/tests/__init__.py
     /[projectname]/tests/[projectname]_tests.py
     """
+
     def __init__(self, skill_name):
         self.project_name = skill_name
         self.jinja_env = Environment(
@@ -39,12 +42,12 @@ class Scaffold(Base):
         current_directory = os.getcwd()
 
         try:
-            print "Scaffolding {} structure".format(project_name)
+            log("Scaffolding {} structure".format(project_name))
             self.create_folders(project_name, current_directory)
             self.create_files(project_name, current_directory)
 
         except IOError as e:
-            print(e.strerror)
+            log_error(e.strerror)
 
 
     def create_folders(self, project_name, current_directory):
