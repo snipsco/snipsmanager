@@ -57,7 +57,7 @@ class Install(Base):
 
         if snipsfile.assistant_url is None:
             log_error("No assistants found in Snipsfile.")
-            Install.local_assistant_fallback(self.options)
+            
         else:
             log("Fetching assistant.")
             try:
