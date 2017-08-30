@@ -56,18 +56,17 @@ class Install(Base):
         if snipsfile.assistant_url is None:
             log_error("No assistants found in Snipsfile.")
             Install.local_assistant_fallback(self.options)
-
-        log("Fetching assistant.")
-        try:
-            AssistantDownloader.download(snipsfile.assistant_url,
-                                         ASSISTANT_DIR,
-                                         ASSISTANT_ZIP_FILENAME)
-        except AssistantDownloaderException:
-            log_error("Error downloading assistant. " +
-                      "Make sure the provided URL in the Snipsfile is correct, " +
-                      "and that there is a working network connection.")
-            Install.local_assistant_fallback(self.options)
-
+        else:
+            log("Fetching assistant.")
+            try:
+                AssistantDownloader.download(snipsfile.assistant_url,
+                                             ASSISTANT_DIR,
+                                             ASSISTANT_ZIP_FILENAME)
+            except AssistantDownloaderException:
+                log_error("Error downloading assistant. " +
+                          "Make sure the provided URL in the Snipsfile is correct, " +
+                          "and that there is a working network connection.")
+                Install.local_assistant_fallback(self.options)
 
         if Snips.is_installed():
             log("Loading Snips assistant.")
@@ -127,5 +126,3 @@ class Install(Base):
             else:
                 log_error("The local assistant file you provided is invalid")
                 return
-
-
