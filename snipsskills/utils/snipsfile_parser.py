@@ -88,7 +88,8 @@ class Snipsfile:
         if not yaml_config:
             return
 
-        self.assistant_url = get(yaml_config, ['assistant'])
+        self.assistant_url = get(yaml_config, ['assistant_url'])
+        self.assistant_file = get(yaml_config, ['assistant_file'], "assistant.zip")
         self.snips_sdk_version = get(yaml_config, ['snips_sdk', 'version'])
         self.locale = get(yaml_config, ['locale'], 'en_US')
         self.tts_service = get(yaml_config, ['tts', 'service'])

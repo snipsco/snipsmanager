@@ -57,46 +57,28 @@ class Install(Base):
                 log_error("Error installing Snips {}".format(e))
                 sys.exit()
 
-        if snipsfile.assistant_url is None:
-            """
-            The snipsfile doesn't have a assistant_url field.
-            We look if there is a assistant.zip archive available locally in two locations :
-                1) current folder
-                2) .snips folder (from a previous download)
-            """
 
-            log_error("No assistant_url field found in Snipsfile.")
-            log("Looking for a local assistant archive.")
-
-            # Installing assistant from ./assistant.zip
-            install_local_assistant_status = Snips.load_assistant(ASSISTANT_ZIP_FILENAME)
-
-            if install_local_assistant_status != 0:  # If the installation fails.
-                log_error("Could not find a valid local assistant archive in the current folder.")
-                log("Looking for a local assistant archive assistant.zip in the current folder")
-
-                install_local_assistant_status = Snips.load_assistant(ASSISTANT_ZIP_PATH)
-                if install_local_assistant_status != 0:  # If the installation fails. We don't continue the process.
-                    log_error("Could not find a valid local assistant archive in the .snips folder.")
-                    sys.exit()
-                else:
-                    log("Successfully installed assistant from local archive.")
-            else:
-                log("Successfully installed assistant from local archive.")
-                create_dir(".snips")  # We move the assistant to .snips/assistant.zip
-                shutil.copy(src=ASSISTANT_ZIP_FILENAME,
-                            dst=ASSISTANT_ZIP_PATH)
-
-        else:
-            log("Fetching assistant.")
+        if snipsfile.assistant_url is not None:
             try:
                 AssistantDownloader.download(snipsfile.assistant_url,
                                              ASSISTANT_DIR,
                                              ASSISTANT_ZIP_FILENAME)
-            except AssistantDownloaderException:
+            except:
                 log_error("Error downloading assistant. " +
                           "Make sure the provided URL in the Snipsfile is correct, " +
                           "and that there is a working network connection.")
+                sys.exit()
+        elif snipsfile.assistant_file is not None:
+            if os.path.isfile(snipsfile.assistant_file):
+                create_dir(".snips")
+                shutil.copy(src=snipsfile.assistant_file, dst=ASSISTANT_ZIP_PATH)
+            else:
+                log_error("Error loading assistant.")
+                sys.exit()
+
+        if Snips.is_installed():
+            log("Loading Snips assistant.")
+            Snips.load_assistant(ASSISTANT_ZIP_PATH)
 
         log("Generating definitions.")
         try:

@@ -134,10 +134,6 @@ def get_revision():
     process2.stdout.close()
     return process3.communicate()
 
-get_revision()
-
-    #subprocess.check_output(['cat', '/proc/cpuinfo', '|', 'grep', 'Revision', '|', 'awk', '{print $3}'])
-
 def get_sysinfo():
     return {
         "os_name": get_os_name()
