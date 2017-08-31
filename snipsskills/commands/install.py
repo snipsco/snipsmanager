@@ -3,6 +3,8 @@
 
 import os
 import shutil
+import sys
+from zipfile import is_zipfile
 
 from .base import Base, ASSISTANT_DIR, ASSISTANT_ZIP_FILENAME, \
     ASSISTANT_ZIP_PATH, INTENTS_DIR, SNIPSFILE
@@ -15,7 +17,7 @@ from ..utils.assistant_downloader import AssistantDownloader, \
 from ..utils.intent_class_generator import IntentClassGenerator
 from ..utils.pip_installer import PipInstaller
 from ..utils.snips import Snips, SnipsUnsupportedPlatform, SnipsInstallationFailure
-from ..utils.os_helpers import cmd_exists, is_raspi_os, remove_file
+from ..utils.os_helpers import cmd_exists, is_raspi_os, remove_file, create_dir
 from ..utils.microphone_setup import MicrophoneSetup
 from ..utils.systemd import Systemd
 from ..utils.bluetooth import Bluetooth
@@ -50,23 +52,29 @@ class Install(Base):
                           "Skipping installation of the Snips SDK. " +
                           "If you wish to install the Snips SDK, " +
                           "run this command from a Raspberry Pi.")
+                sys.exit()
             except SnipsInstallationFailure as e:
                 log_error("Error installing Snips {}".format(e))
+                sys.exit()
 
-        if snipsfile.assistant_url is None:
-            log_error("No assistants found in Snipsfile.")
-            return
 
-        log("Fetching assistant.")
-        try:
-            AssistantDownloader.download(snipsfile.assistant_url,
-                                         ASSISTANT_DIR,
-                                         ASSISTANT_ZIP_FILENAME)
-        except AssistantDownloaderException:
-            log_error("Error downloading assistant. " +
-                      "Make sure the provided URL in the Snipsfile is correct, " +
-                      "and that there is a working network connection.")
-            return
+        if snipsfile.assistant_url is not None:
+            try:
+                AssistantDownloader.download(snipsfile.assistant_url,
+                                             ASSISTANT_DIR,
+                                             ASSISTANT_ZIP_FILENAME)
+            except:
+                log_error("Error downloading assistant. " +
+                          "Make sure the provided URL in the Snipsfile is correct, " +
+                          "and that there is a working network connection.")
+                sys.exit()
+        elif snipsfile.assistant_file is not None:
+            if os.path.isfile(snipsfile.assistant_file):
+                create_dir(".snips")
+                shutil.copy(src=snipsfile.assistant_file, dst=ASSISTANT_ZIP_PATH)
+            else:
+                log_error("Error loading assistant.")
+                sys.exit()
 
         if Snips.is_installed():
             log("Loading Snips assistant.")
