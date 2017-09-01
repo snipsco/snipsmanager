@@ -73,12 +73,18 @@ class Downloader(object):
 
 class AuthDownloader(Downloader):
     def __init__(self, email, password, assistantId):
-        self.auth_url = USER_AUTH_ROUTE
         self.email = email
         self.password = password
         self.assistantId = assistantId
         self.validate_input()
-        self._DOWNLOAD_URL = "https://private-gateway.snips.ai/v1/assistant/{}/download".format(assistantId)
+
+    @property
+    def auth_url(self):
+        raise NotImplementedError
+
+    @property
+    def download_url(self):
+        raise NotImplementedError
 
     def validate_input(self):
         if not email_is_valid(self.email):
@@ -103,7 +109,7 @@ class AuthDownloader(Downloader):
     def download(self, output_dir, filename):
         try:
             token = self.retrieve_auth_token()
-            request = Request(self._DOWNLOAD_URL, headers={'Authorization': token, 'Accept': 'application/json'})
+            request = Request(self.download_url, headers={'Authorization': token, 'Accept': 'application/json'})
             response = urlopen(request)
         except Exception:
             raise DownloaderException()
@@ -111,3 +117,12 @@ class AuthDownloader(Downloader):
         Downloader.save(response.read(),
                         output_dir,
                         filename)
+
+
+class AssistantDownloader(AuthDownloader):
+    auth_url = "https://private-gateway.snips.ai/v1/user/auth"
+    download_url = "https://private-gateway.snips.ai/v1/assistant/{}/download"
+
+    def __init__(self, email, password, assistantId):
+        AuthDownloader.__init__(self, email, password, assistantId)
+        self.download_url = self.download_url.format(self.assistantId)
