@@ -3,7 +3,7 @@
 
 Usage:
   snipsskills install
-  snipsskills install [--snipsfile=<path>]
+  snipsskills install [--snipsfile=<path> --email=<email> --password=<password>]
   snipsskills install bluetooth
   snipsskills run
   snipsskills run [--snipsfile=<path>]

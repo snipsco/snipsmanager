@@ -59,7 +59,12 @@ class Install(Base):
 
         if snipsfile.assistant_id is not None:
             try:
-                email, password = self.log_user_in()
+                if (self.options['--password'] is not None and self.options['--email'] is not None):
+                    email = self.options['--email']
+                    password = self.options['--password']
+                else:
+                    email, password = self.log_user_in()
+
                 AssistantDownloader(email, password, snipsfile.assistant_id).download(ASSISTANT_DIR,
                                                                                      ASSISTANT_ZIP_FILENAME)
             except:
