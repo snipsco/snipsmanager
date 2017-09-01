@@ -60,8 +60,8 @@ class Install(Base):
         if snipsfile.assistant_id is not None:
             try:
                 if (self.options['--password'] is not None and self.options['--email'] is not None):
-                    email = self.options['--email']
-                    password = self.options['--password']
+                    email = self.options['--email'].strip()
+                    password = self.options['--password'].strip()
                 else:
                     email, password = self.log_user_in()
 
