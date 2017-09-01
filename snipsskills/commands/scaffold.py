@@ -41,6 +41,8 @@ class Scaffold(Base):
         project_name = self.project_name
         current_directory = os.getcwd()
 
+        self.retrieve_user_information()
+
         try:
             log("Scaffolding {} structure".format(project_name))
             self.create_folders(project_name, current_directory)
@@ -48,6 +50,17 @@ class Scaffold(Base):
 
         except IOError as e:
             log_error(e.strerror)
+
+    def retrieve_user_information(self):
+        """
+        The templates need the following variables from the user :
+            - project_name
+            - pypi identifier
+            - description
+            - author
+            - email
+            - github_url
+        """
 
 
     def create_folders(self, project_name, current_directory):
