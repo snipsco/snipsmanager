@@ -75,7 +75,7 @@ class AuthDownloader(Downloader):
     def __init__(self, email, password, assistantId):
         self.email = email
         self.password = password
-        self.assistantId = assistantId
+        self.assistant_id = assistantId
         self.validate_input()
 
     @property
@@ -93,7 +93,7 @@ class AuthDownloader(Downloader):
         if len(self.password) < 1:
             raise AuthExceptionInvalidCredentials("Error, password is too short")
 
-        if len(self.assistantId) < 14:
+        if len(self.assistant_id) < 14:
             raise AuthExceptionInvalidAssistantId("Error, assistantId is too short")
 
     def retrieve_auth_token(self):
