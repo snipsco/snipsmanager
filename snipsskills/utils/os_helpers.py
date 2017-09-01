@@ -1,6 +1,7 @@
 # -*-: coding utf-8 -*-
 """ Helper methods for OS related tasks. """
 
+from getpass import getpass
 import os
 import shlex
 import subprocess
@@ -99,6 +100,19 @@ def ask_yes_no(question):
         return False
     return True
 
+def ask_for_input(question):
+    answer = raw_input("{} ".format(question))
+    if answer is not None and answer.strip() != "":
+        return answer
+    else:
+        return None
+
+def ask_for_password(question):
+    answer = getpass("{} ".format(question))
+    if answer is not None and answer.strip() != "":
+        return answer
+    else:
+        return None
 
 def which(command):
     """ Get full path for an executable.
