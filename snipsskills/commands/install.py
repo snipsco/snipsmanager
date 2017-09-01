@@ -60,8 +60,8 @@ class Install(Base):
         if snipsfile.assistant_id is not None:
             try:
                 email, password = self.log_user_in()
-                AssistantDownloader(email, password, snipsfile.assistantId).download(ASSISTANT_DIR,
-                                                                           ASSISTANT_ZIP_FILENAME)
+                AssistantDownloader(email, password, snipsfile.assistant_id).download(ASSISTANT_DIR,
+                                                                                     ASSISTANT_ZIP_FILENAME)
             except:
                 log_error("Error downloading assistant. " +
                           "Make sure the provided URL in the Snipsfile is correct, " +

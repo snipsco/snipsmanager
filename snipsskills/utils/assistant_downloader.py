@@ -124,5 +124,5 @@ class AssistantDownloader(AuthDownloader):
     download_url = "https://private-gateway.snips.ai/v1/assistant/{}/download"
 
     def __init__(self, email, password, assistantId):
-        AuthDownloader.__init__(self, email, password, assistantId)
         self.download_url = self.download_url.format(self.assistantId)
+        AuthDownloader.__init__(self, email, password, assistantId)
