@@ -2,9 +2,9 @@ class Wizard(object):
     def __init__(self):
         self.questions = list()
 
-    def add_question(self, text, description, input_function, input_validation):
+    def add_question(self, text, description, input_function, input_validation, default_value=None):
         question = Question(text=text, description=description, input_function=input_function,
-                            input_validation=input_validation)
+                            input_validation=input_validation, default_value=default_value)
         self.questions.append(question)
 
     def run(self):
