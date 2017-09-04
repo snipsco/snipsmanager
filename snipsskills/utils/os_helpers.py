@@ -100,8 +100,12 @@ def ask_yes_no(question):
         return False
     return True
 
-def ask_for_input(question):
-    answer = raw_input("{} ".format(question))
+def ask_for_input(question, default_value=None):
+    if default_value:
+        answer = raw_input("{} [{}]".format(question, default_value))
+    else:
+        answer = raw_input(question)
+
     if answer is not None and answer.strip() != "":
         return answer
     else:
@@ -152,3 +156,11 @@ def get_sysinfo():
     return {
         "os_name": get_os_name()
     }
+
+def get_command_output(command_array):
+    return subprocess.check_output(command_array)
+
+def get_user_email_git():
+    command = "git config user.email"
+    return get_command_output(command.split())
+
