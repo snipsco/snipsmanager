@@ -5,7 +5,7 @@ from snipsskillscore.logging import log, log_error
 
 from .base import Base
 from ..utils.os_helpers import create_dir_verbose, write_text_file_verbose, ask_yes_no, ask_for_input, \
-    get_user_email_git
+    get_user_email_git, email_is_valid
 from ..utils.wizard import Wizard
 
 from snipsskillscore.logging import log, log_success, log_error
@@ -39,11 +39,11 @@ class Scaffold(Base):
             loader=PackageLoader('snipsskills', 'templates'))
 
         self.wizard = Wizard()
-        self.wizard.add_question(description="",
+        self.wizard.add_question(description="Give your skill a name. For instance : snipsweather, snipsmopidy, etc ...",
                                  text="Project name ? ",
                                  input_function=ask_for_input,
                                  input_validation=lambda x: len(x) > 0)
-        self.wizard.add_question(description="",
+        self.wizard.add_question(description="A short sentence to describe what your skill does.",
                                  text="Description ? ",
                                  input_function=ask_for_input,
                                  input_validation=lambda x: len(x) > 0)
@@ -54,7 +54,7 @@ class Scaffold(Base):
         self.wizard.add_question(description="",
                                  text="Email address ? ",
                                  input_function=ask_for_input,
-                                 input_validation=lambda x: True,
+                                 input_validation=email_is_valid,
                                  default_value=get_user_email_git())
 
     def run(self):

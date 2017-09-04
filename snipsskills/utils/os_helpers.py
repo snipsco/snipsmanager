@@ -3,6 +3,7 @@
 
 from getpass import getpass
 import os
+import re
 import shlex
 import subprocess
 import urllib2
@@ -124,10 +125,11 @@ def ask_yes_no(question):
         return False
     return True
 
+
 def ask_for_input(question, default_value=None):
     if default_value and len(default_value) > 0:
-        answer = raw_input("{} [{}]".format(question, default_value))
-        if len(answer) == 0: # The user hit enter.
+        answer = raw_input("{} [{}] ".format(question, default_value))
+        if len(answer) == 0:  # The user hit enter.
             answer = default_value
     else:
         answer = raw_input(question)
@@ -144,6 +146,7 @@ def ask_for_password(question):
         return answer
     else:
         return None
+
 
 def which(command):
     """ Get full path for an executable.
@@ -202,3 +205,6 @@ def get_user_email_git():
         return None
     else:
         return None
+
+def email_is_valid(email):
+    return True if re.match(r"[^@]+@[^@]+\.[^@]+", email) else False
