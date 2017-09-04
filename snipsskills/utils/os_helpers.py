@@ -37,12 +37,14 @@ def create_dir(dir_name):
     if not os.path.exists(dir_name):
         os.makedirs(dir_name)
 
+
 def create_dir_verbose(dir_name, indentation_level):
     log("creating: {} {}".format(
         indentation_level * "+++",
         dir_name
     ))
     create_dir(dir_name)
+
 
 def write_text_file(output_file_path, text):
     with open(output_file_path, "w") as output_file:
@@ -56,6 +58,7 @@ def write_text_file_verbose(output_file_path, text, indentation_level):
         indentation_level * "+++",
         output_file_path
     ))
+
 
 def execute_command(command, silent=False):
     """ Execute a shell command.
@@ -134,6 +137,7 @@ def ask_for_input(question, default_value=None):
     else:
         return None
 
+
 def ask_for_password(question):
     answer = getpass("{} ".format(question))
     if answer is not None and answer.strip() != "":
@@ -153,9 +157,11 @@ def which(command):
     except subprocess.CalledProcessError:
         return None
 
+
 def reboot():
     """ Reboot the device."""
     execute_command("sudo reboot")
+
 
 def get_os_name():
     os_release = subprocess.check_output(['cat', '/etc/os-release'])
@@ -167,6 +173,7 @@ def get_os_name():
                 return os_version.replace("\"", "")
     return None
 
+
 def get_revision():
     process1 = subprocess.Popen('cat /proc/cpuinfo'.split(), stdout=subprocess.PIPE)
     process2 = subprocess.Popen('grep Revision'.split(), stdin=process1.stdout, stdout=subprocess.PIPE)
@@ -175,13 +182,16 @@ def get_revision():
     process2.stdout.close()
     return process3.communicate()
 
+
 def get_sysinfo():
     return {
         "os_name": get_os_name()
     }
 
+
 def get_command_output(command_array):
     return subprocess.check_output(command_array)
+
 
 def get_user_email_git():
     if cmd_exists("git"):
@@ -192,4 +202,3 @@ def get_user_email_git():
         return None
     else:
         return None
-

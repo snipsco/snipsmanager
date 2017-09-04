@@ -4,8 +4,8 @@ from jinja2 import Environment, PackageLoader
 from snipsskillscore.logging import log, log_error
 
 from .base import Base
-from ..utils.os_helpers import create_dir_verbose, write_text_file_verbose
-
+from ..utils.os_helpers import create_dir_verbose, write_text_file_verbose, ask_yes_no, ask_for_input
+from ..utils.wizard import Wizard
 
 from snipsskillscore.logging import log, log_success, log_error
 
@@ -37,16 +37,43 @@ class Scaffold(Base):
         self.jinja_env = Environment(
             loader=PackageLoader('snipsskills', 'templates'))
 
+        self.wizard = Wizard()
+        self.wizard.add_question(description="",
+                                 text="Project name ?",
+                                 input_function=ask_for_input,
+                                 input_validation=lambda x: len(x) > 0)
+        self.wizard.add_question(description="",
+                                 text="Description ?",
+                                 input_function=ask_for_input,
+                                 input_validation=lambda x: len(x) > 0)
+        self.wizard.add_question(description="",
+                                 text="Author ?",
+                                 input_function=ask_for_input,
+                                 input_validation=lambda x: True)
+        self.wizard.add_question(description="",
+                                 text="Email address ?",
+                                 input_function=ask_for_input,
+                                 input_validation=lambda x: True)
+        self.wizard.add_question(description="",
+                                 text="Github url ?",
+                                 input_function=ask_for_input,
+                                 input_validation=lambda x: True,
+                                 default_value="TODO")  # TODO
+        self.wizard.add_question(description="",
+                                 text="PyPi identifier ?",
+                                 input_function=ask,
+                                 input_validation=lambda x: True)
+
     def run(self):
         project_name = self.project_name
         current_directory = os.getcwd()
 
-        self.retrieve_user_information()
+        project_name, description, author, email, github_url, pypi_identifier = self.wizard.run()
 
         try:
             log("Scaffolding {} structure".format(project_name))
-            self.create_folders(project_name, current_directory)
-            self.create_files(project_name, current_directory)
+            self.create_folders(current_directory, project_name)
+            self.create_files(current_directory, project_name, description, author, email, github_url, pypi_identifier)
 
         except IOError as e:
             log_error(e.strerror)
@@ -62,8 +89,7 @@ class Scaffold(Base):
             - github_url
         """
 
-
-    def create_folders(self, project_name, current_directory):
+    def create_folders(self, current_directory, project_name):
         root_directory = os.path.join(current_directory, project_name)
 
         if os.path.exists(root_directory) and os.listdir(root_directory):
@@ -77,7 +103,7 @@ class Scaffold(Base):
             directory_name = os.path.join(root_directory, directory)
             create_dir_verbose(directory_name, 1)
 
-    def create_files(self, project_name, current_directory):
+    def create_files(self, current_directory, project_name, description, author, email, github_url, pypi_identifier):
         root_directory = os.path.join(current_directory, project_name)
 
         self.write_setup(project_name, root_directory)
@@ -119,7 +145,6 @@ class Scaffold(Base):
         README_content = README_template.render(project_name=project_name)
         write_text_file_verbose(readme_path, README_content, 1)
 
-
     def write_license(self, project_name, root_directory):
         license_path = os.path.join(root_directory, 'LICENSE.txt')
         LICENSE_template = self.jinja_env.get_template('LICENSE.txt')
@@ -145,7 +170,3 @@ class Scaffold(Base):
 
         write_text_file_verbose(lint_path, lint_content, 1)
         write_text_file_verbose(setup_path, setup_content, 1)
-
-
-
-
