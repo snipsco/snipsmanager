@@ -54,26 +54,18 @@ class Scaffold(Base):
                                  text="Email address ?",
                                  input_function=ask_for_input,
                                  input_validation=lambda x: True)
-        self.wizard.add_question(description="",
-                                 text="Github url ?",
-                                 input_function=ask_for_input,
-                                 input_validation=lambda x: True,
-                                 default_value="TODO")  # TODO
-        self.wizard.add_question(description="",
-                                 text="PyPi identifier ?",
-                                 input_function=ask,
-                                 input_validation=lambda x: True)
 
     def run(self):
         project_name = self.project_name
         current_directory = os.getcwd()
 
-        project_name, description, author, email, github_url, pypi_identifier = self.wizard.run()
+        project_name, description, author, email = self.wizard.run()
 
         try:
             log("Scaffolding {} structure".format(project_name))
             self.create_folders(current_directory, project_name)
-            self.create_files(current_directory, project_name, description, author, email, github_url, pypi_identifier)
+            self.create_files(current_directory=current_directory, project_name=project_name, description=description,
+                              author=author, email=email)
 
         except IOError as e:
             log_error(e.strerror)
@@ -103,10 +95,10 @@ class Scaffold(Base):
             directory_name = os.path.join(root_directory, directory)
             create_dir_verbose(directory_name, 1)
 
-    def create_files(self, current_directory, project_name, description, author, email, github_url, pypi_identifier):
+    def create_files(self, current_directory, project_name, description, author, email):
         root_directory = os.path.join(current_directory, project_name)
 
-        self.write_setup(project_name, root_directory)
+        self.write_setup(root_directory, project_name, email, description, author)
         self.write_snips_spec(project_name, root_directory)
         self.write_inits(project_name, root_directory)
         self.write_unit_tests(project_name, root_directory)
@@ -115,11 +107,12 @@ class Scaffold(Base):
         self.write_manifest(project_name, root_directory)
         self.write_configs(project_name, root_directory)
 
-    def write_setup(self, project_name, root_directory):
+    def write_setup(self, root_directory, project_name, email, description, author):
         setup_path = os.path.join(root_directory, 'setup.py')
 
         SETUP_template = self.jinja_env.get_template('setup.py')
-        setup_content = SETUP_template.render(project_name=project_name)
+        setup_content = SETUP_template.render(project_name=project_name, email=email, description=description,
+                                              author=author)
         write_text_file_verbose(setup_path, setup_content, 1)
 
     def write_snips_spec(self, project_name, root_directory):
