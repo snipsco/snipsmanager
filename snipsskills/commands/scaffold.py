@@ -4,7 +4,8 @@ from jinja2 import Environment, PackageLoader
 from snipsskillscore.logging import log, log_error
 
 from .base import Base
-from ..utils.os_helpers import create_dir_verbose, write_text_file_verbose, ask_yes_no, ask_for_input, get_user_email_git
+from ..utils.os_helpers import create_dir_verbose, write_text_file_verbose, ask_yes_no, ask_for_input, \
+    get_user_email_git
 from ..utils.wizard import Wizard
 
 from snipsskillscore.logging import log, log_success, log_error
@@ -39,19 +40,19 @@ class Scaffold(Base):
 
         self.wizard = Wizard()
         self.wizard.add_question(description="",
-                                 text="Project name ?",
+                                 text="Project name ? ",
                                  input_function=ask_for_input,
                                  input_validation=lambda x: len(x) > 0)
         self.wizard.add_question(description="",
-                                 text="Description ?",
+                                 text="Description ? ",
                                  input_function=ask_for_input,
                                  input_validation=lambda x: len(x) > 0)
         self.wizard.add_question(description="",
-                                 text="Author ?",
+                                 text="Author ? ",
                                  input_function=ask_for_input,
                                  input_validation=lambda x: True)
         self.wizard.add_question(description="",
-                                 text="Email address ?",
+                                 text="Email address ? ",
                                  input_function=ask_for_input,
                                  input_validation=lambda x: True,
                                  default_value=get_user_email_git())

@@ -127,7 +127,7 @@ def ask_yes_no(question):
 def ask_for_input(question, default_value=None):
     if default_value and len(default_value) > 0:
         answer = raw_input("{} [{}]".format(question, default_value))
-        if len(answer) == 0:
+        if len(answer) == 0: # The user hit enter.
             answer = default_value
     else:
         answer = raw_input(question)

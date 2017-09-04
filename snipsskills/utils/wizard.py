@@ -23,10 +23,10 @@ class Question(object):
         if len(self.description) > 0:
             print self.description
 
-        result = self.input_function(self.text) if self.default_value else self.input_function(self.text,
+        result = self.input_function(self.text) if not self.default_value else self.input_function(self.text,
                                                                                                self.default_value)
         while (not self.input_validation(result)):
-            result = self.input_function(self.text) if self.default_value else self.input_function(self.text,
+            result = self.input_function(self.text) if not self.default_value else self.input_function(self.text,
                                                                                                    self.default_val)
 
         return result
