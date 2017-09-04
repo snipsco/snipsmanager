@@ -1,6 +1,7 @@
 # -*-: coding utf-8 -*-
 """ Helper methods for OS related tasks. """
 
+from getpass import getpass
 import os
 import shlex
 import subprocess
@@ -99,6 +100,25 @@ def ask_yes_no(question):
         return False
     return True
 
+def ask_for_input(question, default_value=None):
+    if default_value and len(default_value) > 0:
+        answer = raw_input("{} [{}]".format(question, default_value))
+        if len(answer) == 0:
+            answer = default_value
+    else:
+        answer = raw_input(question)
+
+    if answer is not None and answer.strip() != "":
+        return answer
+    else:
+        return None
+
+def ask_for_password(question):
+    answer = getpass("{} ".format(question))
+    if answer is not None and answer.strip() != "":
+        return answer
+    else:
+        return None
 
 def which(command):
     """ Get full path for an executable.
@@ -138,3 +158,17 @@ def get_sysinfo():
     return {
         "os_name": get_os_name()
     }
+
+def get_command_output(command_array):
+    return subprocess.check_output(command_array)
+
+def get_user_email_git():
+    if cmd_exists("git"):
+        command = "git config user.email"
+        output = get_command_output(command.split())
+        if output is not None and len(output) > 0:
+            return output.strip()
+        return None
+    else:
+        return None
+

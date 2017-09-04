@@ -13,11 +13,11 @@ from ..utils.snipsfile_parser import Snipsfile, SnipsfileParseException, \
     SnipsfileNotFoundError
 
 from ..utils.assistant_downloader import AssistantDownloader, \
-    AssistantDownloaderException
+    DownloaderException
 from ..utils.intent_class_generator import IntentClassGenerator
 from ..utils.pip_installer import PipInstaller
 from ..utils.snips import Snips, SnipsUnsupportedPlatform, SnipsInstallationFailure
-from ..utils.os_helpers import cmd_exists, is_raspi_os, remove_file, create_dir
+from ..utils.os_helpers import cmd_exists, is_raspi_os, remove_file, create_dir, ask_for_input, ask_for_password, get_user_email_git
 from ..utils.microphone_setup import MicrophoneSetup
 from ..utils.systemd import Systemd
 from ..utils.bluetooth import Bluetooth
@@ -57,12 +57,16 @@ class Install(Base):
                 log_error("Error installing Snips {}".format(e))
                 sys.exit()
 
-
-        if snipsfile.assistant_url is not None:
+        if snipsfile.assistant_id is not None:
             try:
-                AssistantDownloader.download(snipsfile.assistant_url,
-                                             ASSISTANT_DIR,
-                                             ASSISTANT_ZIP_FILENAME)
+                if (self.options['--password'] is not None and self.options['--email'] is not None):
+                    email = self.options['--email'].strip()
+                    password = self.options['--password'].strip()
+                else:
+                    email, password = self.log_user_in()
+
+                AssistantDownloader(email, password, snipsfile.assistant_id).download(ASSISTANT_DIR,
+                                                                                     ASSISTANT_ZIP_FILENAME)
             except:
                 log_error("Error downloading assistant. " +
                           "Make sure the provided URL in the Snipsfile is correct, " +
@@ -120,3 +124,9 @@ class Install(Base):
             log("System is not Raspberry Pi. Skipping Bluetooth setup.")
             return
         Bluetooth.setup(mqtt_hostname, mqtt_port)
+
+    def log_user_in(self):
+        log("To download your assistant, you need to log in.")
+        email = ask_for_input("Email address: ", get_user_email_git())
+        password = ask_for_password("password: ")
+        return email, password
