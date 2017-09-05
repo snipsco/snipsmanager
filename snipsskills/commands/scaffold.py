@@ -39,7 +39,7 @@ class Scaffold(Base):
 
         self.wizard = Wizard()
         self.wizard.add_question(
-            description="Give your skill a name. For instance: snipsweather, snipsmopidy, etc ...",
+            description="Give your skill a name. For instance: lightskill, gardeningskill, etc ...",
             text="Project name? ",
             input_function=ask_for_input,
             input_validation=lambda x: len(x) > 0)
