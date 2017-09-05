@@ -61,7 +61,8 @@ class Scaffold(Base):
         project_name = self.project_name
         current_directory = os.getcwd()
 
-        project_name, description, author, email = self.wizard.run()
+        project_name, description, author, email = [question.answer() for question in self.wizard]
+        print "\n"
 
         try:
             log("Scaffolding {} structure".format(project_name))

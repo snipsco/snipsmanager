@@ -1,14 +1,20 @@
 class Wizard(object):
     def __init__(self):
-        self.questions = list()
+        self._questions = list()
+
+    def __len__(self):
+        return len(self._questions)
+
+    def __getitem__(self, position):
+        return self._questions[position]
 
     def add_question(self, text, description, input_function, input_validation, default_value=None):
         question = Question(text=text, description=description, input_function=input_function,
                             input_validation=input_validation, default_value=default_value)
-        self.questions.append(question)
+        self._questions.append(question)
 
     def run(self):
-        return [question.answer() for question in self.questions]
+        return [question.answer() for question in self._questions]
 
 
 class Question(object):
@@ -24,9 +30,8 @@ class Question(object):
             print self.description
 
         result = self.input_function(self.text) if not self.default_value else self.input_function(self.text,
-                                                                                               self.default_value)
+                                                                                                   self.default_value)
         while (not self.input_validation(result)):
             result = self.input_function(self.text) if not self.default_value else self.input_function(self.text,
-                                                                                                   self.default_val)
-
+                                                                                                       self.default_val)
         return result

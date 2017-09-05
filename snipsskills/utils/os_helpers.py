@@ -40,7 +40,7 @@ def create_dir(dir_name):
 
 
 def create_dir_verbose(dir_name, indentation_level):
-    log("creating: {} {}".format(
+    log("\tcreating: {} {}".format(
         indentation_level * "+++",
         dir_name
     ))
@@ -55,7 +55,7 @@ def write_text_file(output_file_path, text):
 def write_text_file_verbose(output_file_path, text, indentation_level):
     write_text_file(output_file_path, text)
 
-    log("creating: {} {}".format(
+    log("\tcreating: {} {}".format(
         indentation_level * "+++",
         output_file_path
     ))
