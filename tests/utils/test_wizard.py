@@ -26,8 +26,8 @@ class WizardTest(BaseTest):
                                  input_validation=lambda x: True)
 
     def test_number_of_questions(self):
-        self.assertEqual(len(self.wizard.questions), 3)
+        self.assertEqual(len(self.wizard), 3)
 
     def test_number_of_results(self):
-        self.assertEqual(len(self.wizard.run()), 3)
+        self.assertEqual(len([question.answer() for question in self.wizard]), 3)
 
