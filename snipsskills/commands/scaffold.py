@@ -39,19 +39,19 @@ class Scaffold(Base):
 
         self.wizard = Wizard()
         self.wizard.add_question(description="Give your skill a name. For instance : snipsweather, snipsmopidy, etc ...",
-                                 text="Project name ? ",
+                                 text="Project name? ",
                                  input_function=ask_for_input,
                                  input_validation=lambda x: len(x) > 0)
         self.wizard.add_question(description="A short sentence to describe what your skill does.",
-                                 text="Description ? ",
+                                 text="Description? ",
                                  input_function=ask_for_input,
                                  input_validation=lambda x: len(x) > 0)
         self.wizard.add_question(description="",
-                                 text="Author ? ",
+                                 text="Author? ",
                                  input_function=ask_for_input,
                                  input_validation=lambda x: True)
         self.wizard.add_question(description="",
-                                 text="Email address ? ",
+                                 text="Email address? ",
                                  input_function=ask_for_input,
                                  input_validation=email_is_valid,
                                  default_value=get_user_email_git())
