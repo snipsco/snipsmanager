@@ -33,8 +33,7 @@ class Scaffold(Base):
     /[projectname]/tests/[projectname]_tests.py
     """
 
-    def __init__(self, skill_name):
-        self.project_name = skill_name
+    def __init__(self):
         self.jinja_env = Environment(
             loader=PackageLoader('snipsskills', 'templates'))
 
@@ -58,7 +57,6 @@ class Scaffold(Base):
                                  default_value=get_user_email_git())
 
     def run(self):
-        project_name = self.project_name
         current_directory = os.getcwd()
 
         project_name, description, author, email = [question.answer() for question in self.wizard]

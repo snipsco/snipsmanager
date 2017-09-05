@@ -7,7 +7,7 @@ Usage:
   snipsskills install bluetooth
   snipsskills run
   snipsskills run [--snipsfile=<path>]
-  snipsskills scaffold [--skill=<skillname>]
+  snipsskills scaffold
   snipsskills -h | --help
   snipsskills --version
 
@@ -44,4 +44,4 @@ def main():
         return
     elif options['scaffold'] == True:
         from snipsskills.commands.scaffold import Scaffold
-        Scaffold(options['--skill']).run()
+        Scaffold().run()
