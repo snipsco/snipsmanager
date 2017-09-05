@@ -2,11 +2,10 @@ from setuptools import setup
 
 setup(
     name='',
-    version='0.1.4.5.5',
+    version='0.0.1',
     description='{{description}}',
     author='{{author}}',
     author_email='{{email}}',
-    url='<Github URL>',
     download_url='',
     license='MIT',
     install_requires=[],

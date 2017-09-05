@@ -38,10 +38,11 @@ class Scaffold(Base):
             loader=PackageLoader('snipsskills', 'templates'))
 
         self.wizard = Wizard()
-        self.wizard.add_question(description="Give your skill a name. For instance : snipsweather, snipsmopidy, etc ...",
-                                 text="Project name? ",
-                                 input_function=ask_for_input,
-                                 input_validation=lambda x: len(x) > 0)
+        self.wizard.add_question(
+            description="Give your skill a name. For instance: snipsweather, snipsmopidy, etc ...",
+            text="Project name? ",
+            input_function=ask_for_input,
+            input_validation=lambda x: len(x) > 0)
         self.wizard.add_question(description="A short sentence to describe what your skill does.",
                                  text="Description? ",
                                  input_function=ask_for_input,

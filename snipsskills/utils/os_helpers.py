@@ -206,5 +206,6 @@ def get_user_email_git():
     else:
         return None
 
+
 def email_is_valid(email):
     return True if re.match(r"[^@]+@[^@]+\.[^@]+", email) else False
