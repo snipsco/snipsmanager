@@ -13,7 +13,7 @@ from ..utils.snipsfile_parser import Snipsfile, SnipsfileParseException, \
     SnipsfileNotFoundError
 
 from ..utils.assistant_downloader import AssistantDownloader, \
-    DownloaderException
+    DownloaderException, Downloader
 from ..utils.intent_class_generator import IntentClassGenerator
 from ..utils.pip_installer import PipInstaller
 from ..utils.snips import Snips, SnipsUnsupportedPlatform, SnipsInstallationFailure
@@ -79,6 +79,17 @@ class Install(Base):
             else:
                 log_error("Error loading assistant.")
                 sys.exit()
+        elif snipsfile.assistant_url is not None:
+            try:
+                Downloader.download(snipsfile.assistant_url,
+                                         ASSISTANT_DIR,
+                                         ASSISTANT_ZIP_FILENAME)
+            except AssistantDownloaderException:
+                print("Error downloading assistant. " +
+                  "Make sure the provided URL in the Snipsfile is correct, " +
+                  "and that there is a working network connection.")
+                return
+        
 
         if Snips.is_installed():
             log("Loading Snips assistant.")
