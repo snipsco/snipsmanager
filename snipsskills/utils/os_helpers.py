@@ -3,9 +3,12 @@
 
 from getpass import getpass
 import os
+import re
 import shlex
 import subprocess
 import urllib2
+
+from snipsskillscore.logging import log, log_success, log_error
 
 
 def cmd_exists(cmd):
@@ -34,6 +37,28 @@ def create_dir(dir_name):
     """
     if not os.path.exists(dir_name):
         os.makedirs(dir_name)
+
+
+def create_dir_verbose(dir_name, indentation_level):
+    log("\tcreating: {} {}".format(
+        indentation_level * "+++",
+        dir_name
+    ))
+    create_dir(dir_name)
+
+
+def write_text_file(output_file_path, text):
+    with open(output_file_path, "w") as output_file:
+        output_file.write(text)
+
+
+def write_text_file_verbose(output_file_path, text, indentation_level):
+    write_text_file(output_file_path, text)
+
+    log("\tcreating: {} {}".format(
+        indentation_level * "+++",
+        output_file_path
+    ))
 
 
 def execute_command(command, silent=False):
@@ -100,10 +125,11 @@ def ask_yes_no(question):
         return False
     return True
 
+
 def ask_for_input(question, default_value=None):
     if default_value and len(default_value) > 0:
-        answer = raw_input("{} [{}]".format(question, default_value))
-        if len(answer) == 0:
+        answer = raw_input("{} [{}] ".format(question, default_value))
+        if len(answer) == 0:  # The user hit enter.
             answer = default_value
     else:
         answer = raw_input(question)
@@ -113,12 +139,14 @@ def ask_for_input(question, default_value=None):
     else:
         return None
 
+
 def ask_for_password(question):
     answer = getpass("{} ".format(question))
     if answer is not None and answer.strip() != "":
         return answer
     else:
         return None
+
 
 def which(command):
     """ Get full path for an executable.
@@ -132,9 +160,11 @@ def which(command):
     except subprocess.CalledProcessError:
         return None
 
+
 def reboot():
     """ Reboot the device."""
     execute_command("sudo reboot")
+
 
 def get_os_name():
     os_release = subprocess.check_output(['cat', '/etc/os-release'])
@@ -146,6 +176,7 @@ def get_os_name():
                 return os_version.replace("\"", "")
     return None
 
+
 def get_revision():
     process1 = subprocess.Popen('cat /proc/cpuinfo'.split(), stdout=subprocess.PIPE)
     process2 = subprocess.Popen('grep Revision'.split(), stdin=process1.stdout, stdout=subprocess.PIPE)
@@ -154,13 +185,16 @@ def get_revision():
     process2.stdout.close()
     return process3.communicate()
 
+
 def get_sysinfo():
     return {
         "os_name": get_os_name()
     }
 
+
 def get_command_output(command_array):
     return subprocess.check_output(command_array)
+
 
 def get_user_email_git():
     if cmd_exists("git"):
@@ -172,3 +206,6 @@ def get_user_email_git():
     else:
         return None
 
+
+def email_is_valid(email):
+    return True if re.match(r"[^@]+@[^@]+\.[^@]+", email) else False

@@ -6,6 +6,8 @@ import os
 import json
 import re
 
+from ..utils.os_helpers import email_is_valid
+
 try:
     from urllib.request import urlopen
 except ImportError:
@@ -29,10 +31,6 @@ class AuthExceptionInvalidAssistantId(AuthException):
 class DownloaderException(Exception):
     """ Exceptions related to downloads of Snips assistants. """
     pass
-
-
-def email_is_valid(email):
-    return True if re.match(r"[^@]+@[^@]+\.[^@]+", email) else False
 
 
 # pylint: disable=too-few-public-methods
