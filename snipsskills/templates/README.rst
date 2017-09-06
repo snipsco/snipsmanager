@@ -23,14 +23,9 @@ Contributing
 
 Please see the `Contribution Guidelines`_.
 
-Copyright
----------
-
-See `LICENSE.txt`_ for more information.
-
 .. |MIT License| image:: https://img.shields.io/badge/license-MIT-blue.svg
-   :target: https://raw.githubusercontent.com/snipsco/snips-skill-hue/master/LICENSE.txt
-   :alt: MIT License
+:target: https://raw.githubusercontent.com/snipsco/snips-skill-hue/master/LICENSE.txt
+:alt: MIT License
 
 .. _`pip`: http://www.pip-installer.org
 .. _`Snips`: https://www.snips.ai

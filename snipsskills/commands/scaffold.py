@@ -105,7 +105,6 @@ class Scaffold(Base):
         self.write_inits(project_name, root_directory)
         self.write_unit_tests(project_name, root_directory)
         self.write_readme(project_name, root_directory)
-        self.write_license(project_name, root_directory)
         self.write_manifest(project_name, root_directory)
         self.write_configs(project_name, root_directory)
 
