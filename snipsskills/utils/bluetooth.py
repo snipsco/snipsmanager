@@ -6,7 +6,7 @@ import os
 import subprocess
 import time
 
-from snipsskillscore.logging import log, log_warning, log_error
+from snipsskillscore.logging import log, log_warning, log_error, log_success
 
 from .os_helpers import cmd_exists, download_file, execute_command, remove_file, ask_yes_no, which, create_dir
 from .systemd import Systemd
