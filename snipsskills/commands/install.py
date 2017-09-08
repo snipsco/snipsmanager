@@ -41,6 +41,7 @@ class Install(Base):
             Install.setup_bluetooth(mqtt_hostname, mqtt_port, answer_yes=True)
             return
 
+
         try:
             snipsfile = Snipsfile(SNIPSFILE)
         except SnipsfileNotFoundError:
