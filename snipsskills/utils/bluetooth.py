@@ -22,13 +22,13 @@ class Bluetooth:
     """ Bluetooth setup utilities. """
 
     @staticmethod
-    def setup(mqtt_hostname, mqtt_port):
+    def setup(mqtt_hostname, mqtt_port, answer_yes=None):
         """ Setting up Bluetooth Relay MQTT service. """
-        if ask_yes_no("Would you like to enable Bluetooth for this device?") == False:
+        if ask_yes_no("Would you like to enable Bluetooth for this device?", answer_yes) == False:
             return
 
         try:
-            Bluetooth.install_node()
+            Bluetooth.install_node(answer_yes)
         except Exception:
             log_warning("Could not download Node, which is required for Bluetooth. " +
                         "Please install Node manually, and restart the snipsskills installation script.")
@@ -38,12 +38,12 @@ class Bluetooth:
         Bluetooth.setup_systemd(mqtt_hostname, mqtt_port)
 
     @staticmethod
-    def install_node():
+    def install_node(answer_yes=None):
         """ Install node using dpkg, if it is not installed. """
         if Bluetooth.is_node_available():
             return
 
-        if ask_yes_no("Node is required for Bluetooth setup. Would you like to install Node?") == False:
+        if ask_yes_no("Node is required for Bluetooth setup. Would you like to install Node?", answer_yes) == False:
             return
 
         log("Installing Node. This may take a minute.")

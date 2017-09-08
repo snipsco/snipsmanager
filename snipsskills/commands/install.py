@@ -38,7 +38,7 @@ class Install(Base):
             mqtt_hostname = self.options['--bt-mqtt-hostname']
             mqtt_port = self.options['--bt-mqtt-port']
 
-            Install.setup_bluetooth(mqtt_hostname, mqtt_port)
+            Install.setup_bluetooth(mqtt_hostname, mqtt_port, answer_yes=True)
 
         try:
             snipsfile = Snipsfile(SNIPSFILE)
@@ -138,11 +138,11 @@ class Install(Base):
                     "and it will be run automatically at launch.")
 
     @staticmethod
-    def setup_bluetooth(mqtt_hostname, mqtt_port):
+    def setup_bluetooth(mqtt_hostname, mqtt_port, answer_yes=None):
         if not is_raspi_os():
             log("System is not Raspberry Pi. Skipping Bluetooth setup.")
             return
-        Bluetooth.setup(mqtt_hostname, mqtt_port)
+        Bluetooth.setup(mqtt_hostname, mqtt_port, answer_yes=answer_yes)
 
     def log_user_in(self):
         log("To download your assistant, you need to log in.")
