@@ -33,9 +33,9 @@ class Install(Base):
     def run(self):
         """ Command runner. """
         if self.options['bluetooth'] == True \
-                and (self.options['--bt-mqtt-hostmane'] is not None and len(self.options['--bt-mqtt-hostmane']) > 0) \
+                and (self.options['--bt-mqtt-hostname'] is not None and len(self.options['--bt-mqtt-hostname']) > 0) \
                 and self.options['--bt-mqtt-port'] is not None:
-            mqtt_hostname = self.options['--bt-mqtt-hostmane']
+            mqtt_hostname = self.options['--bt-mqtt-hostname']
             mqtt_port = self.options['--bt-mqtt-port']
 
             Install.setup_bluetooth(mqtt_hostname, mqtt_port)
