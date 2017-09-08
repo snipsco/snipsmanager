@@ -4,7 +4,7 @@
 Usage:
   snipsskills install
   snipsskills install [--snipsfile=<path> --email=<email> --password=<password>]
-  snipsskills install bluetooth
+  snipsskills install bluetooth [--bt-mqtt-hostmane=localhost --bt-mqtt-port=9898]
   snipsskills run
   snipsskills run [--snipsfile=<path>]
   snipsskills scaffold

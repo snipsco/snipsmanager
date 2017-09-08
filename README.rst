@@ -13,7 +13,7 @@ A single configuration file, the `Snipsfile <https://github.com/michaelfester/aw
 - If required, additional parameters for you skill, such as an API key or the address of a lamp
 - Various configuration parameters, such as language and logging preferences.
 
-Check out `Awesome Snips <https://github.com/michaelfester/awesome-snips/>`_, a curated list of Snips skills, assistants and other resources to get you started. In particular, make sure to read the `Getting Started guide <https://github.com/michaelfester/awesome-snips/>`_.
+Check out `Awesome Snips <https://github.com/michaelfester/awesome-snips/>`_, a curated list of Snips skills, assistants and other resources to get you started. In particular, make sure to read the `Getting Started guide <https://github.com/snipsco/snipsskills/wiki/Getting-Started>`_.
 
 Getting Started
 ===============
