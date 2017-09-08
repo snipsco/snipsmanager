@@ -146,6 +146,6 @@ class Install(Base):
 
     def log_user_in(self):
         log("To download your assistant, you need to log in.")
-        email = ask_for_input("Email address: ", get_user_email_git())
+        email = ask_for_input("Email address: ")
         password = ask_for_password("password: ")
         return email, password
