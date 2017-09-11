@@ -17,6 +17,32 @@ h5 {
   font-size: 1.3em;
 }
 
+blockquote {
+  /*background: #E7E7E7;*/
+  border-left: 10px solid #E7E7E7;
+  /*margin: 1.5em 10px;*/
+  margin: 1.5em 0px;
+  /*padding: 0.5em 10px;*/
+  padding: 0.5em 10px;
+  /*quotes: "\201C""\201D""\2018""\2019";*/
+}
+/*blockquote:before {
+  color: #ccc;
+  content: open-quote;
+  font-size: 4em;
+  line-height: 0.1em;
+  margin-right: 0.25em;
+  vertical-align: -0.4em;
+}*/
+blockquote p {
+  display: block;
+  color:#00A2CD;
+  /*font-style:italic;*/
+  font-size: 1.3em;
+  margin: 0;
+  font-family: "Apercu-Italic", -apple-system, BlinkMacSystemFont, Avenir, "Avenir Next", "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+}
+
 p, li {
   font-weight: 400;
 }
