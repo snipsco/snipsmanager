@@ -3,10 +3,11 @@
 
 Usage:
   snipsskills install
-  snipsskills install [--snipsfile=<path>]
-  snipsskills install bluetooth
+  snipsskills install [--snipsfile=<path> --email=<email> --password=<password>]
+  snipsskills install bluetooth [--bt-mqtt-hostname=localhost --bt-mqtt-port=9898]
   snipsskills run
   snipsskills run [--snipsfile=<path>]
+  snipsskills scaffold
   snipsskills -h | --help
   snipsskills --version
 
@@ -14,6 +15,7 @@ Options:
   -h --help                         Show this screen.
   --version                         Show version.
   --snipsfile=<path>                Path to the Snipsfile.
+  --skill=<skillname>
 
 Examples:
   snipsskills install
@@ -40,3 +42,6 @@ def main():
         from snipsskills.commands.run import Run
         Run(options).run()
         return
+    elif options['scaffold'] == True:
+        from snipsskills.commands.scaffold import Scaffold
+        Scaffold().run()

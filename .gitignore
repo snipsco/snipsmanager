@@ -85,3 +85,6 @@ Snipsfile
 .snips
 test.py
 venv
+docs/build
+docs/node_modules
+docs/package-lock.json

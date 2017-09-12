@@ -88,10 +88,9 @@ class Snipsfile:
         if not yaml_config:
             return
 
-        self.assistant_url = get(yaml_config, ['assistant'])
-        if not self.assistant_url:
-            raise SnipsfileParseException("No assistant definitions found.")
-
+        self.assistant_id = get(yaml_config, ['assistant_id'])
+        self.assistant_file = get(yaml_config, ['assistant_file'])
+        self.assistant_url = get(yaml_config, 'assistant_url')
         self.snips_sdk_version = get(yaml_config, ['snips_sdk', 'version'])
         self.locale = get(yaml_config, ['locale'], 'en_US')
         self.tts_service = get(yaml_config, ['tts', 'service'])
@@ -192,7 +191,7 @@ class SnipsSpec:
                              for a Snipsspec file.
         """
         try:
-            data = pkgutil.get_data(package_name, 'Snipsspec')
+            data = pkgutil.get_data(package_name, '../Snipsspec')
         except IOError:
             raise SnipsspecNotFoundError('No Snipsspec found.')
 

@@ -1,0 +1,17 @@
+@font-face {
+  font-family: "Apercu";
+  font-style: normal;
+  src: local("Apercu"), url("/fonts/apercu_regular.ttf") format("ttf");
+}
+
+@font-face {
+  font-family: "ApercuBold";
+  font-style: normal;
+  src: local("ApercuBold"), url("/fonts/apercu_bold.ttf") format("ttf");
+}
+
+@font-face {
+  font-family: "Apercu-Italic";
+  font-style: italic;
+  src: local("Apercu-Italic"), url("/fonts/apercu_regular_italic.ttf") format("ttf");
+}

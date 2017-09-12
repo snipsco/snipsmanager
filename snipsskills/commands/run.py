@@ -31,8 +31,6 @@ from intents import *
 BINDINGS_FILE = "bindings.py"
 INTENT_REGISTRY_FILE = ".snips/intents/intent_registry.py"
 
-import threading
-
 
 class Run(Base):
     """The run command."""
@@ -61,7 +59,7 @@ class Run(Base):
                         self.snipsfile.tts_service,
                         self.snipsfile.locale,
                         registry,
-                        self.handle_intent)
+                        self.handle_intent_async)
 
         self.skills = {}
         for skilldef in self.snipsfile.skilldefs:
@@ -82,12 +80,16 @@ class Run(Base):
         log("Starting the Snips Skills server.")
         server.start()
 
-    def handle_intent(self, intent):
-        thread = threading.Thread(target=self.handle_intent_async,
+    def handle_intent_async(self, intent):
+        """ Handle an intent asynchronously.
+
+        :param intent: the incoming intent to handle.
+        """
+        thread = threading.Thread(target=self.handle_intent,
                                   args=(intent,))
         thread.start()
 
-    def handle_intent_async(self, intent):
+    def handle_intent(self, intent):
         """ Handle an intent.
 
         :param intent: the incoming intent to handle.
