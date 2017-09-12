@@ -86,7 +86,7 @@ class Install(Base):
                 create_dir(".snips")
                 shutil.copy(src=snipsfile.assistant_file, dst=ASSISTANT_ZIP_PATH)
             else:
-                log_error("Error loading assistant.")
+                log_error("Error loading assistant. Could not find file {}. Please ensure it is available.".format(snipsfile.assistant_file))
                 sys.exit()
         elif snipsfile.assistant_url is not None:
             try:
