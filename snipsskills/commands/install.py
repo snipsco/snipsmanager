@@ -145,7 +145,7 @@ class Install(Base):
         Bluetooth.setup(mqtt_hostname, mqtt_port)
 
     def log_user_in(self):
-        log("To download your assistant, you need to log in.")
+        log("To download your assistant, you need to log in using your Snips Console credentials.")
         email = ask_for_input("Email address: ")
-        password = ask_for_password("password: ")
+        password = ask_for_password("Password: ")
         return email, password
