@@ -114,7 +114,7 @@ class Install(Base):
 
         if is_raspi_os():
             log("Setting up microphone.")
-            MicrophoneSetup.setup(snipsfile.microphone_config, snipsfile.asoundrc)
+            MicrophoneSetup.setup(snipsfile.microphone_config, snipsfile.modify_asoundrc)
         else:
             log("System is not Raspberry Pi. Skipping microphone setup.")
 
