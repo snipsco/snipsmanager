@@ -1,5 +1,5 @@
-snipsskills (0.1.0) UNRELEASED; urgency=low
+snipsskills (0.1.0) unstable; urgency=medium
 
-  * snipsskills: Initial debian packaging
+  * Initial debian packaging
 
- -- Snips <labs@snips.ai> Tue, 12 Sep 2017 17:00:00 +0200
+ -- Snips Labs <labs@snips.ai>  Tue, 12 Sep 2017 10:36:35 +0200
