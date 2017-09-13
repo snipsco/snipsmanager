@@ -22,15 +22,15 @@ VERSION=$(shell $(SNAKE) setup.py --version)
 SDIST_DIR=debian/$(PACKAGE)-$(VERSION)
 
 clean:
-        test ! -d dist || rm -rf dist
-        test ! -d $(SDIST_DIR) || rm -rf $(SDIST_DIR)
-        dh $@ $(DH_VENV_ARGS)
+	test ! -d dist || rm -rf dist
+	test ! -d $(SDIST_DIR) || rm -rf $(SDIST_DIR)
+	dh $@ $(DH_VENV_ARGS)
 
 build-arch:
-        $(SNAKE) setup.py sdist --formats tar
-        mkdir -p $(SDIST_DIR)
-        tar -x -C $(SDIST_DIR) --strip-components=1 --exclude '*.egg-info' -f dist/*.tar
-        dh $@ $(DH_VENV_ARGS) --sourcedir $(SDIST_DIR)
+	$(SNAKE) setup.py sdist --formats tar
+	mkdir -p $(SDIST_DIR)
+	tar -x -C $(SDIST_DIR) --strip-components=1 --exclude '*.egg-info' -f dist/*.tar
+	dh $@ $(DH_VENV_ARGS) --sourcedir $(SDIST_DIR)
 
 %:
-        dh $@ $(DH_VENV_ARGS) --sourcedir $(SDIST_DIR)
+	dh $@ $(DH_VENV_ARGS) --sourcedir $(SDIST_DIR)
