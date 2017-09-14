@@ -114,12 +114,15 @@ def download_file(url, output_file):
         output.write(downloaded_file.read())
 
 
-def ask_yes_no(question):
+def ask_yes_no(question, default_value=None):
     """ Ask a yes/no question in the prompt.
 
     :param question: the question to ask.
     :return: true if the user answered yes (or empty), false otherwise
     """
+    if default_value is not None:
+        return default_value
+
     answer = raw_input("{} [Y/n] ".format(question))
     if answer is not None and answer.strip() != "" and answer.lower() != "y":
         return False
