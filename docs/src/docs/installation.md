@@ -4,6 +4,14 @@ title: Installation
 
 Snips Skills is currently available on [Raspbian](https://www.raspberrypi.org/downloads/raspbian/), and will soon also be available on macOS.
 
+#### Snips Raspbian image
+
+Snips Skills is part of the [Snips Raspbian image](https://www.snips.ai/snips_raspbian_lite.zip). To install it:
+
+- Download the Snips Raspbian image
+- Flash it to an SD card (e.g. using [Etcher](https://etcher.io))
+- Insert the SD card in your Raspberry Pi and turn it on
+
 #### Debian package
 
 Snips Skills is available as an `apt-get` package. To install it, simply run:
