@@ -8,8 +8,8 @@ Homepage: www.snips.ai
 
 Package: snipsskills
 Architecture: any
-Pre-Depends: dpkg (>= 1.16.1), python2.7, libusb-1.0-0, ${misc:Pre-Depends}
-Depends: ${python:Depends}, libsdl1.2-dev, portaudio19-dev, ${misc:Depends}
+Pre-Depends: dpkg (>= 1.16.1), python2.7, libusb-1.0-0, libsdl1.2-dev, portaudio19-dev, libsdl-mixer1.2, ${misc:Pre-Depends}
+Depends: ${python:Depends} ${misc:Depends}
 Description: A Python package and its dependencies packaged up as DEB in an isolated virtualenv.
     .
     This is a distribution of "snipsskills" as a self-contained
