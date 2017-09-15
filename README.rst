@@ -28,6 +28,7 @@ Download the deb file and install it:
 
 .. code-block:: console
 
+  $ sudo apt-get install libusb-1.0-0 libsdl1.2-dev portaudio19-dev libsdl-mixer1.2
   $ sudo dpkg -i snipsskills_0.1.0_armhf.deb
 
 
