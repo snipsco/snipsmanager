@@ -106,7 +106,7 @@ class Snipsfile:
         self.skilldefs = []
         for skill in get(yaml_config, ['skills'], []):
             package_name = get(skill, ['package_name'])
-            pip = get(skill, ['pip'])
+            pip = get(skill, ['pip'], get(skill, ['url']))
             requires_tts = get(skill, ['requires_tts'], False)
             params = {}
             for key, value in get(skill, ['params'], {}).items():
