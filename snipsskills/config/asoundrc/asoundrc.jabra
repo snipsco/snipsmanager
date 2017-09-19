@@ -2,7 +2,13 @@ pcm.!default {
     type asym
     playback.pcm {
         type plug
-        slave.pcm "hw:1,0"
+		slave {
+			pcm "hw:1,0"
+			rate 48000
+			format "S16_LE"
+			channels 2
+		}
+		rate_converter "samplerate_medium"
     }
     capture.pcm {
         type plug

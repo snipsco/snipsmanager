@@ -75,11 +75,11 @@ ENV/
 # mypy
 .mypy_cache/
 
-src/
+./src/
 temp/
 .DS_Store
 .AppleDouble/
-Makefile
+./Makefile
 snipsskills/data/music
 Snipsfile
 .snips

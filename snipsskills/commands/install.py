@@ -38,7 +38,8 @@ class Install(Base):
             mqtt_hostname = self.options['--bt-mqtt-hostname']
             mqtt_port = self.options['--bt-mqtt-port']
 
-            Install.setup_bluetooth(mqtt_hostname, mqtt_port)
+            Install.setup_bluetooth(mqtt_hostname, mqtt_port, answer_yes=True)
+            return
 
         try:
             snipsfile = Snipsfile(SNIPSFILE)
@@ -77,8 +78,8 @@ class Install(Base):
                 AssistantDownloader(email, password, snipsfile.assistant_id).download(ASSISTANT_DIR,
                                                                                       ASSISTANT_ZIP_FILENAME)
             except:
-                log_error("Error downloading assistant. " +
-                          "Make sure the provided URL in the Snipsfile is correct, " +
+                log_error("Error fetching the assistant from the console. " +
+                          "Make sure the provided assistant ID is correct, " +
                           "and that there is a working network connection.")
                 sys.exit()
         elif snipsfile.assistant_file is not None:
@@ -121,8 +122,11 @@ class Install(Base):
         if snipsfile.skilldefs is not None and len(snipsfile.skilldefs) > 0:
             log("Installing skills.")
             for skill in snipsfile.skilldefs:
-                log("Installing {}.".format(skill.package_name))
-                PipInstaller.install(skill.package_name)
+                if skill.pip is not None:
+                    log("Installing {}.".format(skill.pip))
+                    PipInstaller.install(skill.pip)
+                else:
+                    log("Installing failed. Missing pip or url key for {}".format(skill.package_name))
 
         if is_raspi_os():
             Systemd.setup()
@@ -138,11 +142,11 @@ class Install(Base):
                     "and it will be run automatically at launch.")
 
     @staticmethod
-    def setup_bluetooth(mqtt_hostname, mqtt_port):
+    def setup_bluetooth(mqtt_hostname, mqtt_port, answer_yes=None):
         if not is_raspi_os():
             log("System is not Raspberry Pi. Skipping Bluetooth setup.")
             return
-        Bluetooth.setup(mqtt_hostname, mqtt_port)
+        Bluetooth.setup(mqtt_hostname, mqtt_port, answer_yes=answer_yes)
 
     def log_user_in(self):
         log("To download your assistant, you need to log in using your Snips Console credentials.")
