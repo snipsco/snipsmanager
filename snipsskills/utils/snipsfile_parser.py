@@ -193,7 +193,7 @@ class SnipsSpec:
                              for a Snipsspec file.
         """
         try:
-            data = pkgutil.get_data(package_name, '../Snipsspec')
+            data = pkgutil.get_data(package_name, 'Snipsspec')
         except IOError:
             raise SnipsspecNotFoundError('No Snipsspec found.')
 
