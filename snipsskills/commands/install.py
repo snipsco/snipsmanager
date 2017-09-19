@@ -78,8 +78,8 @@ class Install(Base):
                 AssistantDownloader(email, password, snipsfile.assistant_id).download(ASSISTANT_DIR,
                                                                                       ASSISTANT_ZIP_FILENAME)
             except:
-                log_error("Error downloading assistant. " +
-                          "Make sure the provided URL in the Snipsfile is correct, " +
+                log_error("Error fetching the assistant from the console. " +
+                          "Make sure the provided assistant ID is correct, " +
                           "and that there is a working network connection.")
                 sys.exit()
         elif snipsfile.assistant_file is not None:
