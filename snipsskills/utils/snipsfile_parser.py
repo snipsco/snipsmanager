@@ -114,7 +114,8 @@ class Snipsfile:
 
             try:
                 snipsspec_file = SnipsSpec(package_name)
-            except (SnipsspecNotFoundError, SnipsfileParseException):
+            except (SnipsspecNotFoundError, SnipsfileParseException) as e:
+                print(e)
                 snipsspec_file = None
 
             class_name = self.get_class_name(skill, snipsspec_file)
@@ -164,7 +165,8 @@ class Snipsfile:
 
         try:
             intents_snipsspec = snipsspec_file.intent_defs
-        except AttributeError:
+        except AttributeError as e:
+            print(e)
             return intents_snipsfile
 
         intents = []
@@ -194,7 +196,7 @@ class SnipsSpec:
             raise SnipsspecNotFoundError('No Snipsspec found.')
 
         if data is None:
-            raise SnipsspecNotFoundError('No Snipsspec found.')
+            raise SnipsspecNotFoundError('No data in Snipsspec found.')
 
         yaml_config = None
         try:
