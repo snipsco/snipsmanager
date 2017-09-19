@@ -122,8 +122,11 @@ class Install(Base):
         if snipsfile.skilldefs is not None and len(snipsfile.skilldefs) > 0:
             log("Installing skills.")
             for skill in snipsfile.skilldefs:
-                log("Installing {}.".format(skill.package_name))
-                PipInstaller.install(skill.package_name)
+                if skill.pip is not None:
+                    log("Installing {}.".format(skill.pip))
+                    PipInstaller.install(skill.pip)
+                else:
+                    log("Installing failed. Missing pip or url key for {}".format(skill.package_name))
 
         if is_raspi_os():
             Systemd.setup()
