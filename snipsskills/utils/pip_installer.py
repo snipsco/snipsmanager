@@ -8,9 +8,11 @@ class PipInstaller:
     """ pip module installer. """
 
     @staticmethod
-    def install(module):
+    def install(url):
         """ Install a pip module.
 
         :param module: the pip module name or URL.
         """
-        pip.main(['install', '--quiet', module])
+        if url.startswith("https://"):
+            url = "git+" + url
+        pip.main(['install', '--quiet', url])
