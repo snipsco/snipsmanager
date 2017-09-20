@@ -100,16 +100,15 @@ class Snipsfile:
         self.mqtt_hostname = get(
             yaml_config, ['mqtt_broker', 'hostname'], 'localhost')
         self.mqtt_port = get(yaml_config, ['mqtt_broker', 'port'], 9898)
-
         self.asoundrc = get(yaml_config, ['modify_asoundrc'], True)
 
         self.microphone_config = MicrophoneConfig(yaml_config)
 
         self.skilldefs = []
         for skill in get(yaml_config, ['skills'], []):
+            url = get(skill, ['url'], get(skill, ['pip']))
             package_name = get(skill, ['package_name'])
-            pip = get(skill, ['pip'], get(skill, ['url']))
-            requires_tts = get(skill, ['requires_tts'], False)
+
             params = {}
             for key, value in get(skill, ['params'], {}).items():
                 params[key] = value
@@ -120,30 +119,32 @@ class Snipsfile:
                 print(e)
                 snipsspec_file = None
 
-            class_name = self.get_class_name(skill, snipsspec_file)
+            class_name = self.get_skill_attribute(skill, snipsspec_file, 'class_name')
+            requires_tts = self.get_skill_attribute(skill, snipsspec_file, 'requires_tts', False)
             intent_defs = self.get_intent_defs(skill, snipsspec_file)
 
-            self.skilldefs.append(SkillDef(package_name, class_name, pip,
+            self.skilldefs.append(SkillDef(package_name, class_name, url,
                                            params, intent_defs, requires_tts))
 
-    def get_class_name(self, skill, snipsspec_file):
-        """ Get the class name of a skill. The value, if provided, by the Snipsfile
+    def get_skill_attribute(self, skill, snipsspec_file, attribute_name, default_value=None):
+        """ Get an attribute for a skill. The value, if provided, by the Snipsfile
             takes precedence over that of the Snipsspec file.
 
         :param skill: the skill def, as extracted from the Snipsfile.
         :param snipsspec_file: a SnipsSpec object, holding a fallback value
                                for the class name.
-        :return: the class name of the skill.
+        :param default_value: the default value to return if not found.
+        :return: the attribute of the skill.
         """
-        class_name = get(skill, ['class_name'])
-        if class_name is not None:
-            return class_name
+        package_name = get(skill, [attribute_name])
+        if package_name is not None:
+            return package_name
         if snipsspec_file is not None:
             try:
-                return snipsspec_file.class_name
+                return getattr(snipsspec_file, attribute_name)
             except AttributeError:
                 pass
-        return None
+        return default_value
 
     def get_intent_defs(self, skill, snipsspec_file):
         """ Get the intent definitions for a skill. The definitions for the
@@ -195,22 +196,23 @@ class SnipsSpec:
         try:
             data = pkgutil.get_data(package_name, 'Snipsspec')
         except IOError:
-            raise SnipsspecNotFoundError('No Snipsspec found.')
+            raise SnipsspecNotFoundError('No Snipsspec found for package {}.'.format(package_name))
 
         if data is None:
-            raise SnipsspecNotFoundError('No data in Snipsspec found.')
+            raise SnipsspecNotFoundError('No data in Snipsspec found for package {}.'.format(package_name))
 
         yaml_config = None
         try:
             yaml_config = yaml.load(data)
         except yaml.scanner.ScannerError as err:
-            raise SnipsfileParseException("Error parsing Snipsfile: " +
-                                          str(err))
+            raise SnipsfileParseException("Error parsing Snipsfile for package {}: {}".format(package_name, str(err)))
 
         if not yaml_config:
             return
 
+        self.package_name = get(yaml_config, ['package_name'])
         self.class_name = get(yaml_config, ['class_name'])
+        self.requires_tts = get(yaml_config, ['requires_tts'])
 
         self.intent_defs = []
         for intent in get(yaml_config, ['intents'], []):

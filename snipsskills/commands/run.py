@@ -63,10 +63,10 @@ class Run(Base):
 
         self.skills = {}
         for skilldef in self.snipsfile.skilldefs:
-            module_name = skilldef.package_name + "." + skilldef.package_name
-            exec("from {} import {}".format(module_name, skilldef.class_name))
-            cls = eval(skilldef.class_name)
             try:
+                module_name = skilldef.package_name + "." + skilldef.package_name
+                exec("from {} import {}".format(module_name, skilldef.class_name))
+                cls = eval(skilldef.class_name)
                 if skilldef.requires_tts:
                     skill_instance = cls(
                         tts_service=server.tts_service, **skilldef.params)

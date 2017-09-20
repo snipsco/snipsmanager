@@ -82,6 +82,7 @@ temp/
 ./Makefile
 snipsskills/data/music
 Snipsfile
+Snipsfile.old
 .snips
 test.py
 venv
