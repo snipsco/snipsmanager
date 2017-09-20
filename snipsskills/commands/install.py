@@ -133,7 +133,7 @@ class Install(Base):
         if is_raspi_os():
             Systemd.setup(use_default_values=answer_yes)
 
-        Install.setup_bluetooth(snipsfile.mqtt_hostname, snipsfile.mqtt_port)
+        Install.setup_bluetooth(snipsfile.mqtt_hostname, snipsfile.mqtt_port, answer_yes=answer_yes)
 
         remove_file(ASSISTANT_ZIP_PATH)
 
