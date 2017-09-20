@@ -23,7 +23,7 @@ from ..utils.microphone_setup import MicrophoneSetup
 from ..utils.systemd import Systemd
 from ..utils.bluetooth import Bluetooth
 
-from snipsskillscore.logging import log, log_success, log_error
+from snipsskillscore.logging import log, log_success, log_error, log_warning
 
 
 # pylint: disable=too-few-public-methods
@@ -41,6 +41,10 @@ class Install(Base):
             Install.setup_bluetooth(mqtt_hostname, mqtt_port, answer_yes=True)
             return
 
+        answer_yes = None
+        if self.options['--yes'] == True:
+            answer_yes = True
+
         try:
             snipsfile = Snipsfile(SNIPSFILE)
         except SnipsfileNotFoundError:
@@ -51,21 +55,19 @@ class Install(Base):
             return
 
         if self.options['bluetooth'] == True:
-            Install.setup_bluetooth(snipsfile.mqtt_hostname, snipsfile.mqtt_port)
+            Install.setup_bluetooth(snipsfile.mqtt_hostname, snipsfile.mqtt_port, answer_yes=answer_yes)
             return
 
         if not Snips.is_installed():
             try:
-                Snips.install()
+                Snips.install(answer_yes=answer_yes)
             except SnipsUnsupportedPlatform:
-                log_error("Currently, the Snips SDK only runs on a Raspberry Pi. " +
+                log_warning("Currently, the Snips SDK only runs on a Raspberry Pi. " +
                           "Skipping installation of the Snips SDK. " +
                           "If you wish to install the Snips SDK, " +
                           "run this command from a Raspberry Pi.")
-                sys.exit()
             except SnipsInstallationFailure as e:
-                log_error("Error installing Snips {}".format(e))
-                sys.exit()
+                log_warning("Error installing Snips {}".format(e))
 
         if snipsfile.assistant_id is not None:
             try:
@@ -129,7 +131,7 @@ class Install(Base):
                     log("Installing failed. Missing pip or url key for {}".format(skill.package_name))
 
         if is_raspi_os():
-            Systemd.setup()
+            Systemd.setup(answer_yes=answer_yes)
 
         Install.setup_bluetooth(snipsfile.mqtt_hostname, snipsfile.mqtt_port)
 

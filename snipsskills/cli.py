@@ -3,7 +3,7 @@
 
 Usage:
   snipsskills install
-  snipsskills install [--snipsfile=<path> --email=<email> --password=<password>]
+  snipsskills install [--snipsfile=<path> --email=<email> --password=<password> --yes]
   snipsskills install bluetooth [--bt-mqtt-hostname=localhost --bt-mqtt-port=9898]
   snipsskills run
   snipsskills run [--snipsfile=<path>]

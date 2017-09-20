@@ -16,8 +16,8 @@ class Systemd:
     """ Systemd utilities. """
 
     @staticmethod
-    def setup():
-        if ask_yes_no("Would you like Snips to start on boot (using systemd)?") == False:
+    def setup(answer_yes=None):
+        if ask_yes_no("Would you like Snips to start on boot (using systemd)?", answer_yes) == False:
             return
 
         (username, snips_home_path, snipsskills_path,

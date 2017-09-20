@@ -44,12 +44,12 @@ class Snips:
     """ Utilities for managing the Snips SDK. """
 
     @staticmethod
-    def install():
+    def install(answer_yes=None):
         """ Install the Snips SDK. """
         if Snips.is_installed():
             return
 
-        if ask_yes_no("Would you like to install the Snips SDK?") == False:
+        if ask_yes_no("Would you like to install the Snips SDK?", answer_yes) == False:
             return
 
         log("Installing the Snips SDK.")
