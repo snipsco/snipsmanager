@@ -21,16 +21,6 @@ Getting Started
 Prerequisites
 -------------
 
-Raspbian
-~~~~~~~~
-
-Download the deb file and install it:
-
-.. code-block:: console
-
-  $ sudo apt-get install libusb-1.0-0 libsdl1.2-dev portaudio19-dev libsdl-mixer1.2
-  $ sudo dpkg -i snipsskills_0.1.0_armhf.deb
-
 
 macOS
 ~~~~~
@@ -73,6 +63,16 @@ If you do not wish to use a virtualenv, you need to run the pip commands with ro
 
   $ sudo pip install pip --upgrade
   $ sudo pip install snipsskills
+
+Raspbian
+~~~~~~~~
+
+A third method is download the deb package and install it directly in the system.
+
+.. code-block:: console
+
+  $ sudo apt-get install libusb-1.0-0 libsdl1.2-dev portaudio19-dev libsdl-mixer1.2
+  $ sudo dpkg -i snipsskills_0.1.0_armhf.deb
 
 
 Usage
@@ -139,7 +139,6 @@ After installing all the packages necessary for the deb package creation, instal
     $ git clone https://github.com/snipsco/snipsskills
     $ cd snipsskills
     $ dpkg-buildpackage -us -uc -b
-
 
 
 Contributing
