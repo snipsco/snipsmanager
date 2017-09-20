@@ -27,14 +27,14 @@ class Bluetooth:
         if ask_yes_no("Would you like to enable Bluetooth for this device?", answer_yes) == False:
             return
 
-        try:
-            Bluetooth.install_node(answer_yes)
-        except Exception:
-            log_warning("Could not download Node, which is required for Bluetooth. " +
-                        "Please install Node manually, and restart the snipsskills installation script.")
-            return
+        # try:
+        #     Bluetooth.install_node(answer_yes)
+        # except Exception:
+        #     log_warning("Could not download Node, which is required for Bluetooth. " +
+        #                 "Please install Node manually, and restart the snipsskills installation script.")
+        #     return
 
-        Bluetooth.install_mqtt_relay()
+        # Bluetooth.install_mqtt_relay()
         Bluetooth.setup_systemd(mqtt_hostname, mqtt_port)
 
     @staticmethod
