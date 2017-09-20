@@ -26,39 +26,40 @@ class MicrophoneSetup:
     """ Downloader for Snips assistants. """
 
     @staticmethod
-    def setup(microphone_config=None):
+    def setup(microphone_config=None, modify_asoundrc=True):
         """ Setup microphone.
 
         :param microphone_id: the microphone id, e.g. 'respeaker'.
         """
         if microphone_config is not None and microphone_config.identifier == 'respeaker':
-            RespeakerMicrophoneSetup.setup(microphone_config.params)
+            RespeakerMicrophoneSetup.setup(microphone_config.params, modify_asoundrc)
         elif microphone_config is not None and microphone_config.identifier == 'jabra':
-            JabraMicrophoneSetup.setup()
+            JabraMicrophoneSetup.setup(modify_asoundrc)
         else:
-            DefaultMicrophoneSetup.setup()
+            DefaultMicrophoneSetup.setup("asoundrc.default", modify_asoundrc)
 
 
 class DefaultMicrophoneSetup:
 
     @staticmethod
-    def setup(asoundrc_file="asoundrc.default"):
+    def setup(asoundrc_file="asoundrc.default",  modify_asoundrc=True):
         if not is_raspi_os():
             return
-        copy_asoundrc(asoundrc_file)
+        if modify_asoundrc is True:
+            copy_asoundrc(asoundrc_file)
 
 
 class JabraMicrophoneSetup:
 
     @staticmethod
-    def setup():
-        DefaultMicrophoneSetup.setup("asoundrc.jabra")
+    def setup(modify_asoundrc = True):
+        DefaultMicrophoneSetup.setup("asoundrc.jabra", modify_asoundrc)
 
 
 class RespeakerMicrophoneSetup:
 
     @staticmethod
-    def setup(params):
+    def setup(params, modify_asoundrc=True):
         if not is_raspi_os():
             return
 
@@ -74,4 +75,5 @@ class RespeakerMicrophoneSetup:
         execute_command("sudo udevadm control --reload")
         execute_command("sudo udevadm trigger")
 
-        copy_asoundrc("asoundrc.respeaker")
+        if modify_asoundrc is True:
+            copy_asoundrc("asoundrc.respeaker")
