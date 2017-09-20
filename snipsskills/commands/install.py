@@ -131,7 +131,7 @@ class Install(Base):
                     log("Installing failed. Missing pip or url key for {}".format(skill.package_name))
 
         if is_raspi_os():
-            Systemd.setup(answer_yes=answer_yes)
+            Systemd.setup(use_default_values=answer_yes)
 
         Install.setup_bluetooth(snipsfile.mqtt_hostname, snipsfile.mqtt_port)
 
