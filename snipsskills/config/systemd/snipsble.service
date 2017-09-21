@@ -5,7 +5,7 @@ After=snips.service
 [Service]
 Type=simple
 ExecStartPre=/bin/sleep 30
-ExecStart={{SNIPS_BLE_PATH}} --serviceUUID={{SNIPS_BLE_SERVICE_UUID}} --characteristicUUID={{SNIPS_BLE_CHARACTERISTIC_UUID}} {{SNIPS_MQTT_HOSTNAME}} {{SNIPS_MQTT_PORT}}
+ExecStart={{SNIPSBLE_PATH}} --serviceUUID={{SNIPS_BLE_SERVICE_UUID}} --characteristicUUID={{SNIPS_BLE_CHARACTERISTIC_UUID}} {{SNIPS_MQTT_HOSTNAME}} {{SNIPS_MQTT_PORT}}
 
 [Install]
 WantedBy=multi-user.target
