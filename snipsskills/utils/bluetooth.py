@@ -85,17 +85,13 @@ class Bluetooth:
         contents = Systemd.get_template(SNIPSBLE_SERVICE_NAME)
         if contents is None:
             return
-        contents = contents.replace("{{SNIPSBLE_PATH}}", snipsble_path) \
-            .replace("{{SNIPS_BLE_SERVICE_UUID}}", SNIPS_BLE_SERVICE_UUID) \
-            .replace("{{SNIPS_BLE_CHARACTERISTIC_UUID}}", SNIPS_BLE_CHARACTERISTIC_UUID) \
-            .replace("{{SNIPS_MQTT_HOSTNAME}}", mqtt_hostname) \
-            .replace("{{SNIPS_MQTT_PORT}}", str(mqtt_port))
+        contents = contents.replace("{{SNIPSBLE_PATH}}", snipsble_path)
         Systemd.write_systemd_file(SNIPSBLE_SERVICE_NAME, None, contents)
         Systemd.enable_service(None, SNIPSBLE_SERVICE_NAME)
 
     @staticmethod
     def get_params():
-        snipsble_path = "/usr/local/bin/snips-mqtt-relay"
+        snipsble_path = "/usr/bin/snips-mqtt-relay"
         node_path = which('node')
         return (snipsble_path, node_path)
 

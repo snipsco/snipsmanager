@@ -1,15 +1,37 @@
+pcm.speakerbonnet {
+   type hw card 0
+}
+
+pcm.dmixer {
+   type dmix
+   ipc_key 1024
+   ipc_perm 0666
+   slave {
+     pcm "speakerbonnet"
+     period_time 0
+     period_size 1024
+     buffer_size 8192
+     rate 44100
+     channels 2
+   }
+}
+
+ctl.dmixer {
+    type hw card 0
+}
+
+pcm.softvol {
+    type softvol
+    slave.pcm "dmixer"
+    control.name "PCM"
+    control.card 0
+}
+
+ctl.softvol {
+    type hw card 0
+}
+
 pcm.!default {
-    type asym
-    playback.pcm {
-        type plug
-        slave.pcm "hw:0,0"
-    }
-    capture.pcm {
-        type dsnoop
-        ipc_key 5432
-        slave {
-            pcm "hw:1,0"
-            buffer_size 96000
-        }
-    }
+    type             plug
+    slave.pcm       "softvol"
 }
