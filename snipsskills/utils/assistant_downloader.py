@@ -13,7 +13,7 @@ try:
 except ImportError:
     from urllib2 import urlopen, Request, URLError
 
-USER_AUTH_ROUTE = "https://private-gateway.snips.ai/v1/user/auth"
+USER_AUTH_ROUTE = "https://external-gateway.snips.ai/v1/user/auth"
 
 
 class AuthException(Exception):
