@@ -118,8 +118,8 @@ class AuthDownloader(Downloader):
 
 
 class AssistantDownloader(AuthDownloader):
-    auth_url = "https://private-gateway.snips.ai/v1/user/auth"
-    download_url = "https://private-gateway.snips.ai/v1/assistant/{}/download"
+    auth_url = "https://external-gateway.snips.ai/v1/user/auth"
+    download_url = "https://external-gateway.snips.ai/v1/assistant/{}/download"
 
     def __init__(self, email, password, assistantId):
         AuthDownloader.__init__(self, email, password, assistantId)
