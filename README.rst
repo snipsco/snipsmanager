@@ -21,15 +21,6 @@ Getting Started
 Prerequisites
 -------------
 
-Raspbian
-~~~~~~~~
-
-Depending on your setup, you may need to update pip, and install some packages via ``apt-get``.
-
-.. code-block:: console
-
-    $ sudo apt-get update
-    $ sudo apt-get install python-pip libsdl-mixer1.2 libusb-1.0 python-pyaudio libsdl1.2-dev cython cython3 libudev-dev python-dev libsdl-image1.2-dev libsdl-mixer1.2-dev libsdl-ttf2.0-dev libsmpeg-dev python-numpy libportmidi-dev libswscale-dev libavformat-dev libavcodec-dev portaudio19-dev nodejs build-essential -y
 
 macOS
 ~~~~~
@@ -73,6 +64,16 @@ If you do not wish to use a virtualenv, you need to run the pip commands with ro
   $ sudo pip install pip --upgrade
   $ sudo pip install snipsskills
 
+Raspbian
+~~~~~~~~
+
+A third method is download the deb package and install it directly in the system.
+
+.. code-block:: console
+
+  $ sudo apt-get install libusb-1.0-0 libsdl1.2-dev portaudio19-dev libsdl-mixer1.2
+  $ sudo dpkg -i snipsskills_0.1.0_armhf.deb
+
 
 Usage
 =====
@@ -112,6 +113,32 @@ You may need to restart your device. We are now ready to start the service, usin
 .. code-block:: console
 
     $ snipsskills run
+
+
+
+
+deb Packaging
+============
+
+To create the deb package, you need install the toolchain and update 
+Depending on your setup, you may need to update pip, and install some packages via ``apt-get``.
+
+.. code-block:: console
+
+    $ sudo apt-get update
+    $ sudo apt-get install debhelper python-pip libsdl-mixer1.2 libusb-1.0-0 libusb-1.0-0-dev python-pyaudio libsdl1.2-dev cython cython3 libudev-dev python-dev libsdl-image1.2-dev libsdl-mixer1.2-dev libsdl-ttf2.0-dev libsmpeg-dev python-numpy libportmidi-dev libswscale-dev libavformat-dev libavcodec-dev portaudio19-dev nodejs build-essential git libyaml-dev python-yaml debhelper -y
+    $ sudo pip install -U pip virtualenv
+
+After installing all the packages necessary for the deb package creation, install `dh-virtualenv` that will actually create the deb file.
+
+.. code-block:: console
+
+    $ echo "deb http://ftp.debian.org/debian jessie-backports main" | sudo tee /etc/apt/sources.list.d/jessie-backports.list >/dev/null
+    $ sudo apt-get update -qq
+    $ sudo apt-get install -t jessie-backports dh-virtualenv
+    $ git clone https://github.com/snipsco/snipsskills
+    $ cd snipsskills
+    $ dpkg-buildpackage -us -uc -b
 
 
 Contributing

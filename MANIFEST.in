@@ -6,3 +6,4 @@ include snipsskills/config/asoundrc/*
 include snipsskills/config/systemd/*
 include snipsskills/data/sounds/*
 include snipsskills/templates/*
+include snipsskills/snipsskills
