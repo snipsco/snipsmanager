@@ -53,23 +53,23 @@ Start your project by creating a ``Snipsfile``, which is where all the configura
 
 .. code-block:: yaml
 
-    assistant: SNIPS_ASSISTANT_URL
+    assistant_url: https://<YOUR ASSISTANT URL>
     locale: en_US
     logging: True
     default_location: Paris,fr
     skills:
       - package_name: snipshue
         class_name: SnipsHue
-        pip: snipshue=0.1.2
+        url: https://github.com/snipsco/snips-skill-hue
         params:
-          hostname: PHILIPS_HUE_IP
-          username: PHILIPS_HUE_USERNAME
+          hostname: <PHILIPS HUE IP>
+          username: <PHILIPS HUE USERNAME>
           light_ids: [1, 2, 3, 4, 5, 6]
         intents:
-          - intent: DeactivateObject
-            action: "turn_off"
           - intent: ActivateLightColor
             action: "turn_on"
+          - intent: DeactivateObject
+            action: "turn_off"
 
 For further explanations and examples, check out our `Snipsfile Wiki <https://github.com/snipsco/snipsskills/wiki/The-Snipsfile>`_.
 
