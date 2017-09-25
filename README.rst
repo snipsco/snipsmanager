@@ -15,14 +15,11 @@ A single configuration file, the `Snipsfile <https://github.com/michaelfester/aw
 
 Check out `Awesome Snips <https://github.com/michaelfester/awesome-snips/>`_, a curated list of Snips skills, assistants and other resources to get you started. In particular, make sure to read the `Getting Started guide <https://github.com/snipsco/snipsskills/wiki/Getting-Started>`_.
 
-Getting Started
-===============
-
 Installation
-------------
+============
 
-Debian package
-~~~~~~~~~~~~~~
+Raspbian
+--------
 
 Snips Skills is available as an ``apt-get`` package. To install it, first add the Snips repository to your list of ``apt-get`` sources. In the folder ``/etc/apt/sources.list.d``, create a file called ``snips.list``, and add the line:
 
@@ -30,68 +27,21 @@ Snips Skills is available as an ``apt-get`` package. To install it, first add th
 
   deb https://s3.amazonaws.com/snips-deb/ stable main
 
-Then run
+Then run:
 
 .. code-block:: console
 
   $ sudo apt-get update
   $ sudo apt-get install snipsskills
 
-Prerequisites
--------------
-
 macOS
-~~~~~
+-----
 
-On macOS, `PyAudio <https://people.csail.mit.edu/hubert/pyaudio/>`_ and `SDL <https://www.libsdl.org/>`_ are required.:
+Snips Skills is available on macOS via Homebrew. To install it, simply run:
 
-.. code-block:: console
+.. code-block:: plain
 
-  $ sudo easy_install pip
-  $ pip install --global-option='build_ext' --global-option='-I/usr/local/include' --global-option='-L/usr/local/lib' pyaudio
-  $ brew install sdl
-
-
-Installation
-------------
-
-We suggest installing and running Snips Skills using a `virtualenv <https://virtualenv.pypa.io/en/latest/>`_ to avoid granting root privileges, and ensure your setup does not break when other packages are installed:
-
-.. code-block:: console
-
-  $ sudo pip install --upgrade virtualenv
-  $ virtualenv --python=/usr/bin/python2.7 snips
-  $ source snips/bin/activate
-
-You may exit the virtualenv by running ``deactivate``.
-
-We are now ready to install the `snipsskills <https://pypi.python.org/pypi/snipsskills>`_ package. Make sure ``pip`` is up to date:
-
-.. code-block:: console
-
-  $ pip install pip --upgrade
-  $ pip install snipsskills
-
-Installing without virtualenv
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-If you do not wish to use a virtualenv, you need to run the pip commands with root privileges:
-
-.. code-block:: console
-
-  $ sudo pip install pip --upgrade
-  $ sudo pip install snipsskills
-
-Raspbian
-~~~~~~~~
-
-A third method is download the deb package and install it directly in the system.
-
-.. code-block:: console
-
-  $ sudo apt-get install libusb-1.0-0 libsdl1.2-dev portaudio19-dev libsdl-mixer1.2
-  $ sudo dpkg -i snipsskills_0.1.0_armhf.deb
-
+  $ brew install snipsskills
 
 Usage
 =====

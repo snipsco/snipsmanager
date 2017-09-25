@@ -57,3 +57,36 @@ On macOS, Snips Skills is available as a [Homebrew](https://brew.sh/) package:
 ```sh
 $ brew install snipsskills
 ```
+
+
+<!-- 
+Installation
+------------
+
+We suggest installing and running Snips Skills using a `virtualenv <https://virtualenv.pypa.io/en/latest/>`_ to avoid granting root privileges, and ensure your setup does not break when other packages are installed:
+
+.. code-block:: console
+
+  $ sudo pip install --upgrade virtualenv
+  $ virtualenv --python=/usr/bin/python2.7 snips
+  $ source snips/bin/activate
+
+You may exit the virtualenv by running ``deactivate``.
+
+We are now ready to install the `snipsskills <https://pypi.python.org/pypi/snipsskills>`_ package. Make sure ``pip`` is up to date:
+
+.. code-block:: console
+
+  $ pip install pip --upgrade
+  $ pip install snipsskills
+
+Installing without virtualenv
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+If you do not wish to use a virtualenv, you need to run the pip commands with root privileges:
+
+.. code-block:: console
+
+  $ sudo pip install pip --upgrade
+  $ sudo pip install snipsskills
+ -->
