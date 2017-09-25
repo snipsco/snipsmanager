@@ -53,7 +53,7 @@ Start your project by creating a ``Snipsfile``, which is where all the configura
 
 .. code-block:: yaml
 
-    assistant_url: https://<YOUR ASSISTANT URL>
+    assistant_url: <YOUR ASSISTANT URL>
     locale: en_US
     logging: True
     default_location: Paris,fr
