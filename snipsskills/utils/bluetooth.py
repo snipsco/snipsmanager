@@ -27,14 +27,14 @@ class Bluetooth:
         if ask_yes_no("Would you like to enable Bluetooth for this device?", answer_yes) == False:
             return
 
-        try:
-            Bluetooth.install_node(answer_yes)
-        except Exception:
-            log_warning("Could not download Node, which is required for Bluetooth. " +
-                        "Please install Node manually, and restart the snipsskills installation script.")
-            return
+        # try:
+        #     Bluetooth.install_node(answer_yes)
+        # except Exception:
+        #     log_warning("Could not download Node, which is required for Bluetooth. " +
+        #                 "Please install Node manually, and restart the snipsskills installation script.")
+        #     return
 
-        Bluetooth.install_mqtt_relay()
+        # Bluetooth.install_mqtt_relay()
         Bluetooth.setup_systemd(mqtt_hostname, mqtt_port)
 
     @staticmethod
@@ -85,19 +85,13 @@ class Bluetooth:
         contents = Systemd.get_template(SNIPSBLE_SERVICE_NAME)
         if contents is None:
             return
-        contents = contents.replace("{{SNIPSBLE_PATH}}", snipsble_path) \
-            .replace("{{SNIPS_BLE_SERVICE_UUID}}", SNIPS_BLE_SERVICE_UUID) \
-            .replace("{{SNIPS_BLE_CHARACTERISTIC_UUID}}", SNIPS_BLE_CHARACTERISTIC_UUID) \
-            .replace("{{SNIPS_MQTT_HOSTNAME}}", mqtt_hostname) \
-            .replace("{{SNIPS_MQTT_PORT}}", str(mqtt_port)) \
-            .replace("{{NODE_PATH}}", str(node_path))
+        contents = contents.replace("{{SNIPSBLE_PATH}}", snipsble_path)
         Systemd.write_systemd_file(SNIPSBLE_SERVICE_NAME, None, contents)
         Systemd.enable_service(None, SNIPSBLE_SERVICE_NAME)
 
     @staticmethod
     def get_params():
-        snipsble_path = "{}/.snips/node_modules/snips-mqtt-relay".format(
-            os.getcwd())
+        snipsble_path = "/usr/bin/snips-mqtt-relay"
         node_path = which('node')
         return (snipsble_path, node_path)
 

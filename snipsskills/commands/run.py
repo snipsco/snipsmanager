@@ -80,16 +80,16 @@ class Run(Base):
         log("Starting the Snips Skills server.")
         server.start()
 
-    def handle_intent_async(self, intent):
+    def handle_intent_async(self, intent, payload=None):
         """ Handle an intent asynchronously.
 
         :param intent: the incoming intent to handle.
         """
         thread = threading.Thread(target=self.handle_intent,
-                                  args=(intent,))
+                                  args=(intent, payload, ))
         thread.start()
 
-    def handle_intent(self, intent):
+    def handle_intent(self, intent, payload=None):
         """ Handle an intent.
 
         :param intent: the incoming intent to handle.

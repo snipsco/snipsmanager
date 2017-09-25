@@ -16,7 +16,14 @@ def copy_asoundrc(filename):
     """
     this_dir, this_filename = os.path.split(__file__)
     asoundrc_path = os.path.join(this_dir, "../config/asoundrc", filename)
-    destination = os.path.expanduser('~/.asoundrc')
+    destination = os.path.expanduser('/home/pi/.asoundrc')
+    shutil.copy2(asoundrc_path, destination)
+
+
+def copy_asoundconf(filename):
+    this_dir, this_filename = os.path.split(__file__)
+    asoundrc_path = os.path.join(this_dir, "../config/asoundrc", filename)
+    destination = os.path.expanduser('/etc/asound.conf')
     shutil.copy2(asoundrc_path, destination)
 
 # pylint: disable=too-few-public-methods
@@ -37,7 +44,8 @@ class MicrophoneSetup:
             JabraMicrophoneSetup.setup(modify_asoundrc)
         else:
             DefaultMicrophoneSetup.setup("asoundrc.default", modify_asoundrc)
-
+        copy_asoundconf("asound.conf")
+        copy_asoundrc("asoundrc.respeaker")
 
 class DefaultMicrophoneSetup:
 

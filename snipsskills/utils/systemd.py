@@ -16,12 +16,12 @@ class Systemd:
     """ Systemd utilities. """
 
     @staticmethod
-    def setup():
-        if ask_yes_no("Would you like Snips to start on boot (using systemd)?") == False:
+    def setup(use_default_values=None):
+        if ask_yes_no("Would you like Snips to start on boot (using systemd)?", use_default_values) == False:
             return
 
         (username, snips_home_path, snipsskills_path,
-         snips_path) = Systemd.get_snipsskills_params()
+         snips_path) = Systemd.get_snipsskills_params(use_default_values=use_default_values)
         Systemd.write_snips_file(username, snips_path)
         Systemd.write_snipsskills_file(
             username, snips_home_path, snipsskills_path)
@@ -29,10 +29,13 @@ class Systemd:
         Systemd.enable_service(username, SNIPSSKILLS_SERVICE_NAME)
 
     @staticmethod
-    def get_snipsskills_params():
+    def get_snipsskills_params(use_default_values=None):
         current_username = getpass.getuser()
-        username = raw_input(
-            "Run as user [default: {}]: ".format(current_username))
+        if use_default_values == True:
+            username = current_username
+        else:
+            username = raw_input(
+                "Run as user [default: {}]: ".format(current_username))
         if username is None or username.strip() == "":
             username = current_username
 
@@ -40,11 +43,13 @@ class Systemd:
 
         snipsskills_path = which('snipsskills')
         if snipsskills_path is None or len(snipsskills_path.strip()) == 0:
-            snipsskills_path = raw_input("Path to the snipsskills binary: ")
+            if use_default_values != True:
+                snipsskills_path = raw_input("Path to the snipsskills binary: ")
 
         snips_path = which('snips')
         if snips_path is None or len(snips_path.strip()) == 0:
-            snips_path = raw_input("Path to the snips binary: ")
+            if use_default_values != True:
+                snips_path = raw_input("Path to the snips binary: ")
 
         return (username, snips_home_path, snipsskills_path, snips_path)
 
