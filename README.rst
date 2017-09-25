@@ -46,7 +46,10 @@ Snips Skills is available on macOS via Homebrew. To install it, simply run:
 Usage
 =====
 
-Start your project by creating a ``Snipsfile``, which is where all the configuration is set. This is a simple text file, adhering to the YAML format. Here is a basic configuration:
+Creating the Snipsfile
+----------------------
+
+Start your project by creating a ``Snipsfile``, which is where all the configuration is set. This is a simple text file, adhering to the `YAML <https://en.wikipedia.org/wiki/YAML>`_ format. Here is a basic configuration:
 
 .. code-block:: yaml
 
@@ -70,11 +73,17 @@ Start your project by creating a ``Snipsfile``, which is where all the configura
 
 For further explanations and examples, check out our `Snipsfile Wiki <https://github.com/snipsco/snipsskills/wiki/The-Snipsfile>`_.
 
+Installing the skills
+---------------------
+
 Next, setup the system by running the ``install`` command:
 
 .. code-block:: console
 
     $ snipsskills install
+
+Launching the skills server
+---------------------------
 
 You may need to restart your device. We are now ready to start the service, using the ``run`` command:
 
