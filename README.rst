@@ -26,7 +26,7 @@ Debian package
 
 Snips Skills is available as an ``apt-get`` package. To install it, first add the Snips repository to your list of ``apt-get`` sources. In the folder ``/etc/apt/sources.list.d``, create a file called ``snips.list``, and add the line:
 
-.. code-block:: txt
+.. code-block:: plain
 
   deb https://s3.amazonaws.com/snips-deb/ stable main
 
