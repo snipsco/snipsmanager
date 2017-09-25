@@ -85,7 +85,7 @@ Next, setup the system by running the ``install`` command:
 Launching the skills server
 ---------------------------
 
-You may need to restart your device. We are now ready to start the service, using the ``run`` command:
+If you enabled Snips Skills to run on boot, simply reboot your device. Otherwise, start the service manually by running:
 
 .. code-block:: console
 
