@@ -14,10 +14,16 @@ Snips Skills is part of the [Snips Raspbian image](https://www.snips.ai/snips_ra
 
 #### Debian package
 
-Snips Skills is available as an `apt-get` package. To install it, simply run:
+Snips Skills is available as an `apt-get` package. To install it, first add the Snips repository to your list of `apt-get` sources. Edit `/etc/apt/sources.list` and add the line:
 
 ```sh
-$ sudo apt-get install snipsskills
+deb http://archive.raspbian.org/raspbian/ stretch main
+```
+
+The run
+
+```sh
+$ apt-get install snipsskills
 ```
 
 #### Pip package

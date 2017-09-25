@@ -41,12 +41,9 @@ class Install(Base):
             Install.setup_bluetooth(mqtt_hostname, mqtt_port, answer_yes=True)
             return
 
-<<<<<<< HEAD
-=======
         answer_yes = None
         if self.options['--yes'] == True:
             answer_yes = True
->>>>>>> master
 
         try:
             snipsfile = Snipsfile(SNIPSFILE)
