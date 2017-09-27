@@ -82,10 +82,12 @@ temp/
 ./Makefile
 snipsskills/data/music
 Snipsfile
-Snipsfile.old
+Snipsfile.*
 .snips
 test.py
 venv
 docs/build
 docs/node_modules
 docs/package-lock.json
+*.deb
+.snips_env

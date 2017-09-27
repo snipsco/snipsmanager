@@ -17,11 +17,12 @@ from ..utils.assistant_downloader import AssistantDownloader, \
 from ..utils.intent_class_generator import IntentClassGenerator
 from ..utils.pip_installer import PipInstaller
 from ..utils.snips import Snips, SnipsUnsupportedPlatform, SnipsInstallationFailure
-from ..utils.os_helpers import cmd_exists, is_raspi_os, remove_file, create_dir, ask_for_input, ask_for_password, \
+from ..utils.os_helpers import cmd_exists, is_raspi_os, is_mac_os, remove_file, create_dir, ask_for_input, ask_for_password, \
     get_user_email_git
 from ..utils.microphone_setup import MicrophoneSetup
 from ..utils.systemd import Systemd
 from ..utils.bluetooth import Bluetooth
+from ..utils.message_utils import MessageUtils
 
 from snipsskillscore.logging import log, log_success, log_error, log_warning
 
@@ -32,14 +33,11 @@ class Install(Base):
 
     def run(self):
         """ Command runner. """
-        if self.options['bluetooth'] == True \
-                and (self.options['--bt-mqtt-hostname'] is not None and len(self.options['--bt-mqtt-hostname']) > 0) \
-                and self.options['--bt-mqtt-port'] is not None:
-            mqtt_hostname = self.options['--bt-mqtt-hostname']
-            mqtt_port = self.options['--bt-mqtt-port']
-
-            Install.setup_bluetooth(mqtt_hostname, mqtt_port, answer_yes=True)
+        if self.options['bluetooth'] == True:
+            Install.setup_bluetooth(options)
             return
+
+        MessageUtils.print_platform_message()
 
         answer_yes = None
         if self.options['--yes'] == True:
@@ -144,10 +142,12 @@ class Install(Base):
                     "and it will be run automatically at launch.")
 
     @staticmethod
-    def setup_bluetooth(mqtt_hostname, mqtt_port, answer_yes=None):
+    def install_bluetooth(options):
         if not is_raspi_os():
-            log("System is not Raspberry Pi. Skipping Bluetooth setup.")
+            log_warning("System is not Raspberry Pi. Skipping Bluetooth setup.")
             return
+        mqtt_hostname = options['--bt-mqtt-hostname']
+        mqtt_port = options['--bt-mqtt-port']
         Bluetooth.setup(mqtt_hostname, mqtt_port, answer_yes=answer_yes)
 
     def log_user_in(self):

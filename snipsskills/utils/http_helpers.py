@@ -1,5 +1,14 @@
+# -*-: coding utf-8 -*-
+""" HTTP helpers. """
+
 import json
 import urllib2
+
+
+try:
+    from urllib.request import urlopen
+except ImportError:
+    from urllib2 import urlopen, Request, URLError
 
 def post_request(url, data, headers):
     """
@@ -39,3 +48,9 @@ def post_request_json(url, data, headers={}):
 
     response, info = post_request(url, data, headers)
     return json.loads(response), info
+
+def fetch_url(url, headers=None):
+    if headers is None:
+        return urlopen(url).read()
+    else:
+        return urlopen(Request(url, headers=headers)).read()

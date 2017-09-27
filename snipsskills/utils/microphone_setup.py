@@ -8,66 +8,66 @@ import subprocess
 from .os_helpers import cmd_exists, is_raspi_os, execute_command, pipe_commands
 
 
-def copy_asoundrc(filename):
-    """ Copy asoundrc configuration to local path.
-
-    :param filename: the name of the asoundrc configuration, as
-                     present in the config folder.
-    """
-    this_dir, this_filename = os.path.split(__file__)
-    asoundrc_path = os.path.join(this_dir, "../config/asoundrc", filename)
-    destination = os.path.expanduser('/home/pi/.asoundrc')
-    shutil.copy2(asoundrc_path, destination)
-
-
-def copy_asoundconf(filename):
-    this_dir, this_filename = os.path.split(__file__)
-    asoundrc_path = os.path.join(this_dir, "../config/asoundrc", filename)
-    destination = os.path.expanduser('/etc/asound.conf')
-    shutil.copy2(asoundrc_path, destination)
-
 # pylint: disable=too-few-public-methods
-
-
 class MicrophoneSetup:
     """ Downloader for Snips assistants. """
 
-    @staticmethod
-    def setup(microphone_config=None, modify_asoundrc=True):
-        """ Setup microphone.
+    ASOUNDRC_CONFIG_PATH = "../config/asoundrc"
+    ASOUNDRC_DEST_PATH = "/home/pi/.asoundrc"
+    ASOUNDCONF_DEST_PATH = "/etc/asound.conf"
 
-        :param microphone_id: the microphone id, e.g. 'respeaker'.
-        """
-        if microphone_config is not None and microphone_config.identifier == 'respeaker':
-            RespeakerMicrophoneSetup.setup(microphone_config.params, modify_asoundrc)
-        elif microphone_config is not None and microphone_config.identifier == 'jabra':
-            JabraMicrophoneSetup.setup(modify_asoundrc)
-        else:
-            DefaultMicrophoneSetup.setup("asoundrc.default", modify_asoundrc)
-        copy_asoundconf("asound.conf")
-        copy_asoundrc("asoundrc.respeaker")
-
-class DefaultMicrophoneSetup:
 
     @staticmethod
-    def setup(asoundrc_file="asoundrc.default",  modify_asoundrc=True):
+    def setup_asoundrc(microphone_id):
         if not is_raspi_os():
             return
-        if modify_asoundrc is True:
-            copy_asoundrc(asoundrc_file)
-
-
-class JabraMicrophoneSetup:
+        if microphone_id == 'respeaker':
+            MicrophoneSetup._copy_asoundrc("respeaker.jabra")
+        elif microphone_id == 'jabra':
+            MicrophoneSetup._copy_asoundrc("asoundrc.jabra")
+        else:
+            MicrophoneSetup._copy_asoundrc("asoundrc.default")
 
     @staticmethod
-    def setup(modify_asoundrc = True):
-        DefaultMicrophoneSetup.setup("asoundrc.jabra", modify_asoundrc)
+    def setup_asoundconf():
+        if not is_raspi_os():
+            return
+        MicrophoneSetup._copy_asoundconf()
+
+    # @staticmethod
+    # def setup_system(microphone_id, params=None):
+    #     # if not is_raspi_os():
+    #     #     return
+
+    #     if microphone_id == 'respeaker':
+    #         RespeakerMicrophoneSetup.setup(params)
+
+    @staticmethod
+    def _copy_asoundrc(asoundrc_file):
+        """ Copy asoundrc configuration to local path.
+
+        :param asoundrc_file: the name of the asoundrc configuration, as
+                              present in the config folder.
+        """
+        this_dir, this_filename = os.path.split(__file__)
+        asoundrc_path = os.path.join(this_dir, MicrophoneSetup.ASOUNDRC_CONFIG_PATH, asoundrc_file)
+        destination = os.path.expanduser(MicrophoneSetup.ASOUNDRC_DEST_PATH)
+        shutil.copy2(asoundrc_path, destination)
+
+
+    @staticmethod
+    def _copy_asoundconf():
+        """ Copy asoundconf to local path. """
+        this_dir, this_filename = os.path.split(__file__)
+        asoundrc_path = os.path.join(this_dir, MicrophoneSetup.ASOUNDRC_CONFIG_PATH, "asound.conf")
+        destination = os.path.expanduser(MicrophoneSetup.ASOUNDCONF_DEST_PATH)
+        shutil.copy2(asoundrc_path, destination)
 
 
 class RespeakerMicrophoneSetup:
 
     @staticmethod
-    def setup(params, modify_asoundrc=True):
+    def setup(vendor_id, product_id):
         if not is_raspi_os():
             return
 
@@ -75,13 +75,10 @@ class RespeakerMicrophoneSetup:
 
         echo_command = ("echo ACTION==\"add\", SUBSYSTEMS==\"usb\", ATTRS{{idVendor}}==\"{}\", " +
                         "ATTRS{{idProduct}}==\"{}\", MODE=\"660\", GROUP=\"plugdev\"") \
-            .format(params["vendor_id"], params["product_id"])
+            .format(vendor_id, product_id)
         tee_command = "sudo tee --append /lib/udev/rules.d/50-rspk.rules"
         pipe_commands(echo_command, tee_command, silent=True)
 
         execute_command("sudo adduser pi plugdev")
         execute_command("sudo udevadm control --reload")
         execute_command("sudo udevadm trigger")
-
-        if modify_asoundrc is True:
-            copy_asoundrc("asoundrc.respeaker")

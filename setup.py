@@ -56,5 +56,5 @@ setup(
         ],
     },
     include_package_data=True,
-    cmdclass = {'test': RunTests}
+    cmdclass = { 'test': RunTests }
 )

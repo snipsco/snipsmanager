@@ -1,3 +1,0 @@
-#!/bin/sh
-
-/opt/venvs/snipsskills/bin/snipsskills "$@"

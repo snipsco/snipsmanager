@@ -3,13 +3,14 @@
 
 from getpass import getpass
 import os
+import platform
 import re
 import shlex
 import subprocess
 import urllib2
 
 from snipsskillscore.logging import log, log_success, log_error
-
+from snipsskillscore import pretty_printer as pp
 
 def cmd_exists(cmd):
     """ Check if a command exists.
@@ -27,6 +28,22 @@ def is_raspi_os():
     :return: true if the current system is Raspberry.
     """
     return 'arm' in " ".join(os.uname())
+
+
+def is_mac_os():
+    """ Check if the current system is OSX.
+
+    :return: true if the current system is OSX.
+    """
+    return 'Darwin' in platform.system()
+
+
+def is_node_available():
+    return cmd_exists('node') and cmd_exists('npm')
+
+
+def file_exists(file_path):
+    return os.path.exists(file_path)
 
 
 def create_dir(dir_name):
@@ -48,8 +65,21 @@ def create_dir_verbose(dir_name, indentation_level):
 
 
 def write_text_file(output_file_path, text):
-    with open(output_file_path, "w") as output_file:
-        output_file.write(text)
+    with open(output_file_path, "w") as f:
+        f.write(text)
+
+
+def write_binary_file(output_file_path, content):
+    with open(output_file_path, "wb") as f:
+        f.write(content)
+
+
+def read_file(file_path):
+    if not file_exists(file_path):
+        return None
+    with open(file_path, "r") as f:
+        return f.read()
+    return None
 
 
 def write_text_file_verbose(output_file_path, text, indentation_level):
@@ -69,9 +99,11 @@ def execute_command(command, silent=False):
     """
     if silent:
         stdout = open(os.devnull, 'w')
+        stderr = open(os.devnull, 'w')
     else:
         stdout = subprocess.PIPE
-    subprocess.Popen(command.split(), stdout=stdout).communicate()
+        stderr = subprocess.PIPE
+    subprocess.Popen(command.split(), stdout=stdout, stderr=stderr).communicate()
 
 
 def pipe_commands(first_command, second_command, silent):
@@ -131,10 +163,12 @@ def ask_yes_no(question, default_value=None):
 
 def ask_for_input(question, default_value=None):
     if default_value and len(default_value) > 0:
-        answer = raw_input("{} [{}] ".format(question, default_value))
+        question = pp.generate_user_input_string("{} [{}] ".format(question, default_value))
+        answer = raw_input(question)
         if len(answer) == 0:  # The user hit enter.
             answer = default_value
     else:
+        question = pp.generate_user_input_string(question)
         answer = raw_input(question)
 
     if answer is not None and answer.strip() != "":
@@ -144,9 +178,10 @@ def ask_for_input(question, default_value=None):
 
 
 def ask_for_password(question):
-    answer = getpass("{} ".format(question))
+    question = pp.generate_user_input_string(question)
+    answer = getpass(question)
     if answer is not None and answer.strip() != "":
-        return answer
+        return answer.strip()
     else:
         return None
 

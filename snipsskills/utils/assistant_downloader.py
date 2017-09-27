@@ -15,6 +15,15 @@ except ImportError:
 
 USER_AUTH_ROUTE = "https://external-gateway.snips.ai/v1/user/auth"
 
+class Auth:
+
+    @staticmethod
+    def retrieve_token(self, email, password):
+        data = { 'email': email, 'password': password }
+        response, response_headers = post_request_json(AUTH_URL, data)
+        token = response_headers.getheader('Authorization')
+        return token
+
 
 class AuthException(Exception):
     pass
@@ -70,11 +79,13 @@ class Downloader(object):
 
 
 class AuthDownloader(Downloader):
+
     def __init__(self, email, password, assistantId):
         self.email = email
         self.password = password
         self.assistant_id = assistantId
         self.validate_input()
+
 
     @property
     def auth_url(self):
