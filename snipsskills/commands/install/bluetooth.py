@@ -6,7 +6,7 @@ from ..base import Base
 from ...utils.bluetooth import Bluetooth
 from ...utils.os_helpers import is_raspi_os, is_node_available, execute_command, download_file
 
-from snipsskills import prepare_cache
+from snipsskills import prepare_cache, NODE_MODULES_LOCATION
 
 from snipsskillscore import pretty_printer as pp
 
@@ -40,7 +40,7 @@ class BluetoothInstaller(Base):
         
         prepare_cache()
         try:
-            execute_command("npm install --no-cache --prefix={}/.snips snips-mqtt-relay".format(os.getcwd()), True)
+            execute_command("npm install --no-cache --prefix={} {}".format(NODE_MODULES_LOCATION, node_module), True)
             message.done()
         except:
             message.error()

@@ -6,6 +6,7 @@ Usage:
   snipsskills fetch assistant [--id=<id> --url=<url> --file=<file>]
   snipsskills load assistant [--file=<file>]
   snipsskills setup microphone <microphone_id> [--skip_asoundrc] [--update_asoundconf] [PARAMS ...]
+  snipsskills setup systemd bluetooth [--mqtt_host=<mqtt_host> --mqtt_port=<mqtt_port>]
   snipsskills login
   snipsskills logout
 """
@@ -54,9 +55,14 @@ def main():
     """ Main entry point. """
     options = docopt(__doc__, version=VERSION)
     
-    if options['setup'] == True and options['microphone'] == True:
-        from snipsskills.commands.setup.microphone import Microphone
-        Microphone(options).run()
+    if options['setup'] == True:
+        if options['microphone'] == True:
+            from snipsskills.commands.setup.microphone import Microphone
+            Microphone(options).run()
+        if options['systemd'] == True:
+            if options['bluetooth'] == True:
+                from snipsskills.commands.setup.systemd.bluetooth import SystemdBluetooth
+                SystemdBluetooth(options).run()
     elif options['login'] == True:
         from snipsskills.commands.login import Login
         Login(options).run()

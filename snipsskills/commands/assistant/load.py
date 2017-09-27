@@ -13,8 +13,6 @@ from ...utils.cache import Cache
 from ...utils.snips import Snips
 from .fetch import AssistantFetcher
 
-from snipsskills import SNIPS_CACHE_DIR
-
 from snipsskillscore import pretty_printer as pp
 
 
