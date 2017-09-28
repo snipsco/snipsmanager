@@ -4,11 +4,10 @@
 import json
 import urllib2
 
-
 try:
-    from urllib.request import urlopen
+    from urllib.request import urlopen, Request
 except ImportError:
-    from urllib2 import urlopen, Request, URLError
+    from urllib2 import urlopen, Request
 
 def post_request(url, data, headers):
     """
@@ -22,9 +21,7 @@ def post_request(url, data, headers):
     :rtype: basestring
     """
     raw_data = json.dumps(data)
-    req = urllib2.Request(url,
-                          raw_data,
-                          headers)
+    req = Request(url, raw_data, headers)
     f = urllib2.urlopen(req)
     info = f.info()
     response = f.read()

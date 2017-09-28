@@ -9,8 +9,9 @@ from ..login import Login
 from ...utils.http_helpers import fetch_url
 from ...utils.os_helpers import write_binary_file, file_exists
 from ...utils.cache import Cache
+from ...utils.snipsfile import Snipsfile
 
-from snipsskills import SNIPS_CACHE_DIR
+from ... import SNIPS_CACHE_DIR, DEFAULT_SNIPSFILE_PATH
 
 from snipsskillscore import pretty_printer as pp
 
@@ -31,20 +32,38 @@ class AssistantFetcher(Base):
         
         snipsskills fetch assistant [--id=<id> --url=<url> --file=<filename>]
         """
-
-        aid = self.options['--id']
-        url = self.options['--url']
-        file = self.options['--file']
-
         try:
-            AssistantFetcher.fetch(aid=aid, url=url, file=file)
+            aid = self.options['--id']
+            url = self.options['--url']
+            file = self.options['--file']
+            if aid is not None or url is not None or file is not None:
+                AssistantFetcher.fetch_from_params(aid=aid, url=url, file=file)
+            else:
+                AssistantFetcher.fetch(self.options['--snipsfile'])
         except Exception as e:
             pp.perror(str(e))
 
 
     @staticmethod
-    def fetch(aid=None, url=None, file=None):
-        pp.pcommand("Fetching assistant.")
+    def fetch(snipsfile_path=None):
+        if snipsfile_path is None:
+            snipsfile_path = DEFAULT_SNIPSFILE_PATH
+        if snipsfile_path is not None and not file_exists(snipsfile_path):
+            raise SkillsInstallerException("Error fetching assistant: Snipsfile not found.")
+        snipsfile = Snipsfile(snipsfile_path)
+        AssistantFetcher.fetch_from_snipsfile(snipsfile)
+
+
+    @staticmethod
+    def fetch_from_snipsfile(snipsfile):
+        if snipsfile is None:
+            raise SkillsInstallerException("Error fetching assistant: Snipsfile not found.")
+        AssistantFetcher.fetch_from_params(aid=snipsfile.assistant_id, url=snipsfile.assistant_url, file=snipsfile.assistant_file)
+
+
+    @staticmethod
+    def fetch_from_params(aid=None, url=None, file=None):
+        pp.pcommand("Fetching assistant")
 
         if aid is None and url is None and file is None:
             raise AssistantFetcherException("Error fetching assistant. Please provide an assistant ID, a public URL, or a filename.")
@@ -76,26 +95,42 @@ class AssistantFetcher(Base):
     def download_console_assistant(aid):
         token = Cache.get_login_token()
         if token is None:
-            try:
-                token = Login.login(greeting="Please enter your Snips Console credentials to download your assistant.", silent=True)
-            except Exception as e:
-                raise AssistantFetcherException("Error logging in: {}".format(str(e)))
+            token = AssistantFetcher.get_token()
 
         message = pp.ConsoleMessage("Fetching assistant $GREEN{}$RESET from the Snips Console".format(aid))
+        message.start()
         try:
+            content = AssistantFetcher.download_console_assistant_only(aid, token)
+            message.done()
+        except Exception as e:
+            message.error()
+            Cache.clear_login_token()
+            token = AssistantFetcher.get_token()
+            message = pp.ConsoleMessage("Retrying to fetch assistant $GREEN{}$RESET from the Snips Console".format(aid))
             message.start()
-            url = AssistantFetcher.get_console_url(aid)
-            content = fetch_url(url, headers={'Authorization': token, 'Accept': 'application/json'})
-            message.done()
-        except Exception:
-            message.done()
-            raise AssistantFetcherException("Error fetching assistant from the console. Please make sure the ID is correct, and that you are signed in.")
+            try:
+                content = AssistantFetcher.download_console_assistant_only(aid, token)
+            except Exception:
+                raise AssistantFetcherException("Error fetching assistant from the console. Please make sure the ID is correct, and that you are signed in.")
 
         message = pp.ConsoleMessage("Saving assistant to {}".format(AssistantFetcher.SNIPS_TEMP_ASSISTANT_PATH))
         message.start()
         write_binary_file(AssistantFetcher.SNIPS_TEMP_ASSISTANT_PATH, content)
         message.done()
 
+
+    @staticmethod
+    def download_console_assistant_only(aid, token):
+        url = AssistantFetcher.CONSOLE_ASSISTANT_URL.format(aid)
+        return fetch_url(url, headers={'Authorization': token, 'Accept': 'application/json'})
+
+
+    @staticmethod
+    def get_token():
+        try:
+            return Login.login(greeting="Please enter your Snips Console credentials to download your assistant.", silent=True)
+        except Exception as e:
+            raise AssistantFetcherException("Error logging in: {}".format(str(e)))
 
     @staticmethod
     def copy_local_file(file_path):
@@ -116,8 +151,3 @@ class AssistantFetcher(Base):
             raise AssistantFetcherException(error)
         else:
             message.done()
-
-    
-    @staticmethod
-    def get_console_url(aid):
-        return AssistantFetcher.CONSOLE_ASSISTANT_URL.format(aid)

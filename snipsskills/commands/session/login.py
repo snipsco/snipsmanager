@@ -1,10 +1,10 @@
 # -*-: coding utf-8 -*-
 
-from .base import Base
+from ..base import Base
 from snipsskillscore import pretty_printer as pp
-from ..utils.os_helpers import write_text_file, read_file, file_exists, ask_for_input, ask_for_password
-from ..utils.cache import Cache
-from ..utils.auth import Auth
+from ...utils.os_helpers import write_text_file, read_file, file_exists, ask_for_input, ask_for_password
+from ...utils.cache import Cache
+from ...utils.auth import Auth
 
 
 class InvalidTokenException(Exception):

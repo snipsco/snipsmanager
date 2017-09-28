@@ -4,7 +4,7 @@
 import os
 from .os_helpers import write_text_file, read_file, create_dir, remove_file
 
-from snipsskills import prepare_cache
+from .. import prepare_cache, SNIPS_CACHE_DIR
 
 class Cache:
 

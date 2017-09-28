@@ -6,8 +6,8 @@ After=snips.service
 Type=simple
 User=%i
 ExecStartPre=/bin/sleep 30
-WorkingDirectory={{SNIPS_HOME_PATH}}
-ExecStart={{SNIPSSKILLS_PATH}} run
+WorkingDirectory={{SNIPSFILE_PATH}}
+ExecStart={{SNIPSSKILLS_COMMAND}} run
 
 [Install]
 WantedBy=multi-user.target

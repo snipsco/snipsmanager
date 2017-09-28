@@ -103,7 +103,7 @@ def execute_command(command, silent=False):
     else:
         stdout = subprocess.PIPE
         stderr = subprocess.PIPE
-    subprocess.Popen(command.split(), stdout=stdout, stderr=stderr).communicate()
+    return subprocess.Popen(command.split(), stdout=stdout, stderr=stderr).communicate()
 
 
 def pipe_commands(first_command, second_command, silent):

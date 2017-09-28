@@ -7,22 +7,20 @@ import subprocess
 
 from .os_helpers import cmd_exists, is_raspi_os, execute_command, pipe_commands
 
+from .. import ASOUNDRC_DEST_PATH, ASOUNDCONF_DEST_PATH
 
 # pylint: disable=too-few-public-methods
 class MicrophoneSetup:
     """ Downloader for Snips assistants. """
 
     ASOUNDRC_CONFIG_PATH = "../config/asoundrc"
-    ASOUNDRC_DEST_PATH = "/home/pi/.asoundrc"
-    ASOUNDCONF_DEST_PATH = "/etc/asound.conf"
-
 
     @staticmethod
     def setup_asoundrc(microphone_id):
         if not is_raspi_os():
             return
         if microphone_id == 'respeaker':
-            MicrophoneSetup._copy_asoundrc("respeaker.jabra")
+            MicrophoneSetup._copy_asoundrc("asoundrc.respeaker")
         elif microphone_id == 'jabra':
             MicrophoneSetup._copy_asoundrc("asoundrc.jabra")
         else:
@@ -34,13 +32,6 @@ class MicrophoneSetup:
             return
         MicrophoneSetup._copy_asoundconf()
 
-    # @staticmethod
-    # def setup_system(microphone_id, params=None):
-    #     # if not is_raspi_os():
-    #     #     return
-
-    #     if microphone_id == 'respeaker':
-    #         RespeakerMicrophoneSetup.setup(params)
 
     @staticmethod
     def _copy_asoundrc(asoundrc_file):
@@ -51,7 +42,7 @@ class MicrophoneSetup:
         """
         this_dir, this_filename = os.path.split(__file__)
         asoundrc_path = os.path.join(this_dir, MicrophoneSetup.ASOUNDRC_CONFIG_PATH, asoundrc_file)
-        destination = os.path.expanduser(MicrophoneSetup.ASOUNDRC_DEST_PATH)
+        destination = os.path.expanduser(ASOUNDRC_DEST_PATH)
         shutil.copy2(asoundrc_path, destination)
 
 
@@ -60,7 +51,7 @@ class MicrophoneSetup:
         """ Copy asoundconf to local path. """
         this_dir, this_filename = os.path.split(__file__)
         asoundrc_path = os.path.join(this_dir, MicrophoneSetup.ASOUNDRC_CONFIG_PATH, "asound.conf")
-        destination = os.path.expanduser(MicrophoneSetup.ASOUNDCONF_DEST_PATH)
+        destination = os.path.expanduser(ASOUNDCONF_DEST_PATH)
         shutil.copy2(asoundrc_path, destination)
 
 

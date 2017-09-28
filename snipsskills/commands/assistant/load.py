@@ -1,5 +1,4 @@
 # -*-: coding utf-8 -*-
-"""The microphone setup command."""
 
 import os
 import shutil
@@ -11,7 +10,10 @@ from ...utils.http_helpers import fetch_url
 from ...utils.os_helpers import write_binary_file, file_exists, is_raspi_os
 from ...utils.cache import Cache
 from ...utils.snips import Snips
+from ...utils.intent_class_generator import IntentClassGenerator
 from .fetch import AssistantFetcher
+
+from ... import SNIPS_CACHE_INTENTS_DIR
 
 from snipsskillscore import pretty_printer as pp
 
@@ -22,23 +24,23 @@ class AssistantLoaderException(Exception):
 
 # pylint: disable=too-few-public-methods
 class AssistantLoader(Base):
-    """The microphone setup command."""
 
     def run(self):
         """ Command runner.
 
         Docopt command:
         
-        snipsskills load assistant [--file=<file>]
+        snipsskills load assistant [--file=<file> --platform_only]
         """
         try:
-            AssistantLoader.load(self.options['--file'])
+            generate_classes = not self.options['--platform_only']
+            AssistantLoader.load(self.options['--file'], generate_classes=generate_classes)
         except Exception as e:
             pp.perror(str(e))
 
 
     @staticmethod
-    def load(file_path=None):
+    def load(file_path=None, generate_classes=True):
         pp.pcommand("Loading assistant.")
 
         if not is_raspi_os():
@@ -61,4 +63,21 @@ class AssistantLoader(Base):
             file_path = AssistantFetcher.SNIPS_TEMP_ASSISTANT_PATH
 
         Snips.load_assistant(file_path)
+
+        message.done()
+
+        if generate_classes:
+            AssistantLoader.generate_intent_classes(file_path)
+
+        pp.psuccess("Assistant has been successfully loaded.")
+
+    @staticmethod
+    def generate_intent_classes(file_path):
+        message = pp.ConsoleMessage("Generating classes from assistant model.")
+        message.start()
+        try:
+            shutil.rmtree(SNIPS_CACHE_INTENTS_DIR)
+        except Exception:
+            pass
+        IntentClassGenerator().generate(file_path, SNIPS_CACHE_INTENTS_DIR)
         message.done()

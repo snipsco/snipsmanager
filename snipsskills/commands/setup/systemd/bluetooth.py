@@ -4,10 +4,11 @@
 import time
 
 from ...base import Base
-from ....utils.os_helpers import is_raspi_os, is_node_available, which
+from ....utils.os_helpers import is_raspi_os, is_node_available, which, file_exists
 from ....utils.systemd import Systemd
+from ....utils.snipsfile import Snipsfile
 
-from snipsskills import NODE_MODULES_PATH
+from .... import NODE_MODULES_PATH, DEFAULT_SNIPSFILE_PATH
 
 from snipsskillscore import pretty_printer as pp
 
@@ -24,18 +25,40 @@ class SystemdBluetooth(Base):
     SNIPSBLE_SCRIPT = "{node_bin_path} {node_module_path}/{module_name}/index.js --serviceUUID={serviceUUID} --characteristicUUID={characteristicUUID} {mqtt_hostname} {mqtt_port}"
 
     def run(self):
-        mqtt_host = self.options['--mqtt_host']
-        mqtt_port = self.options['--mqtt_port']
-
         try:
-            SystemdBluetooth.setup(mqtt_host, mqtt_port)
+            mqtt_hostname = self.options['--mqtt_host']
+            mqtt_port = self.options['--mqtt_port']
+            if mqtt_hostname is not None or mqtt_port is not None:
+                SystemdBluetooth.setup_from_params(mqtt_hostname=mqtt_hostname, mqtt_port=mqtt_port)
+            else:
+                SystemdBluetooth.setup(self.options['--snipsfile'])
         except Exception as e:
             pp.perror(str(e))
 
+
     @staticmethod
-    def setup(mqtt_hostname="localhost", mqtt_port=9898):
+    def setup(snipsfile_path=None):
+        if snipsfile_path is None:
+            snipsfile_path = DEFAULT_SNIPSFILE_PATH
+        if snipsfile_path is not None and not file_exists(snipsfile_path):
+            raise SystemdBluetoothException("Error setting up Bluetooth systemd: Snipsfile not found.")
+        snipsfile = Snipsfile(snipsfile_path)
+        SystemdBluetooth.setup_from_snipsfile(snipsfile)
+
+
+    @staticmethod
+    def setup_from_snipsfile(snipsfile):
+        if snipsfile is None:
+            raise SystemdBluetoothException("Error setting up Bluetooth systemd: Snipsfile not found.")
+        SystemdBluetooth.setup_from_params(snipsfile.mqtt_hostname, snipsfile.mqtt_port)
+
+
+    @staticmethod
+    def setup_from_params(mqtt_hostname="localhost", mqtt_port=9898):
+        pp.pcommand("Setting up Bluetooth as a Systemd service.")
+
         if not is_raspi_os():
-            raise SystemdBluetoothException("Bluetooth systemd configuration is only available on Raspberry Pi. Skipping systemd setup.")
+            raise SystemdBluetoothException("Bluetooth Systemd configuration is only available on Raspberry Pi. Skipping Systemd setup.")
 
         if not is_node_available():
             raise SystemdBluetoothException("Error: Bluetooth module must be installed. Run 'snipsskills install bluetooth' to setup Bluetooth.")
@@ -47,7 +70,7 @@ class SystemdBluetooth(Base):
         node_bin_path = which('node')            
         command = SystemdBluetooth.SNIPSBLE_SCRIPT.format(
                 node_bin_path=node_bin_path,
-                node_module_path=NODE_MODULES_PATH,
+                node_module_path=__NODE_MODULES_PATH__,
                 module_name=SystemdBluetooth.SNIPSBLE_MODULE_NAME,
                 serviceUUID=SystemdBluetooth.SNIPSBLE_SERVICE_UUID,
                 characteristicUUID=SystemdBluetooth.SNIPSBLE_CHARACTERISTIC_UUID,

@@ -1,11 +1,11 @@
 [Unit]
-Description=Snips SDK
+Description=Snips Platform
 After=network.target
 
 [Service]
 Type=simple
 User=%i
-ExecStart={{SNIPS_PATH}}
+ExecStart={{SNIPS_COMMAND}}
 
 [Install]
 WantedBy=multi-user.target
