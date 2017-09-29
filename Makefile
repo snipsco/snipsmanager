@@ -1,14 +1,5 @@
 run:
 	@python test.py install bluetooth
-# @python test.py load assistant
-# @python test.py load assistant --file=hello1.zip
-#@python test.py fetch assistant --file=hello.zip
-	
-
-# run:
-# 	@make install
-# 	pip install -e .
-# 	snipsskills install
 
 lint:
 	pylint snipsskills/commands/*.py snipsskills/utils/*.py snipsskills/models/*.py snipsskills/*.py
