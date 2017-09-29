@@ -4,7 +4,7 @@ import os
 
 from ..base import Base
 from ...utils.bluetooth import Bluetooth
-from ...utils.os_helpers import is_raspi_os, is_node_available, execute_command, download_file
+from ...utils.os_helpers import is_raspi_os, is_node_available, execute_command, download_file, file_exists
 
 from ... import prepare_cache, NODE_MODULES_LOCATION
 
@@ -16,15 +16,17 @@ class BluetoothInstallerException(Exception):
 
 class BluetoothInstaller(Base):
     
+    SNIPS_MQTT_RELAY_MODULE_NAME = "snips-mqtt-relay"
+
     def run(self):
         try:
-            BluetoothInstaller.install()
+            BluetoothInstaller.install(force_download=self.options['--force_download'])
         except Exception as e:
             pp.perror(str(e))
 
 
     @staticmethod
-    def install():
+    def install(force_download=False):
         pp.pcommand("Setting up Bluetooth")
 
         if not is_raspi_os():
@@ -32,22 +34,24 @@ class BluetoothInstaller(Base):
 
         if not is_node_available():
             BluetoothInstaller.install_node()
-
-        node_module = "snips-mqtt-relay"
         
-        message = pp.ConsoleMessage("Installing Node module $GREEN{}$RESET".format(node_module))
-        message.start()
-        
-        prepare_cache()
-        try:
-            execute_command("npm install --no-cache --prefix={} {}".format(NODE_MODULES_LOCATION, node_module), True)
-            message.done()
-        except:
-            message.error()
-            raise BluetoothInstallerException("Error: Error installing Bluetooth module {}. Please install it manually".format(node_module))
+        if force_download and not BluetoothInstaller.is_snips_mqtt_relay_installed():
+            message = pp.ConsoleMessage("Installing Node module $GREEN{}$RESET".format(BluetoothInstaller.SNIPS_MQTT_RELAY_MODULE_NAME))
+            message.start()
+            try:
+                execute_command("npm install --no-cache --prefix={} {}".format(NODE_MODULES_LOCATION, BluetoothInstaller.SNIPS_MQTT_RELAY_MODULE_NAME), True)
+                message.done()
+            except:
+                message.error()
+                raise BluetoothInstallerException("Error: Error installing Bluetooth module {}. Please install it manually".format(BluetoothInstaller.SNIPS_MQTT_RELAY_MODULE_NAME))
 
         pp.psuccess("Bluetooth is successfully installed")
 
+
+    @staticmethod
+    def is_snips_mqtt_relay_installed():
+        return os.path.isdir(os.path.join(NODE_MODULES_LOCATION, BluetoothInstaller.SNIPS_MQTT_RELAY_MODULE_NAME))
+        
 
     @staticmethod
     def install_node():

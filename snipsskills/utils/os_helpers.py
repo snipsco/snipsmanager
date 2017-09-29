@@ -14,13 +14,13 @@ from snipsskillscore import pretty_printer as pp
 
 email_regex = r"[^@]+@[^@]+\.[^@]+"
 
-url_regex = re.compile(
-            r'^(?:http|ftp)s?://' # http:// or https://
-            r'(?:(?:[A-Z0-9](?:[A-Z0-9-]{0,61}[A-Z0-9])?\.)+(?:[A-Z]{2,6}\.?|[A-Z0-9-]{2,}\.?)|' #domain...
-            r'localhost|' #localhost...
-            r'\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})' # ...or ip
-            r'(?::\d+)?' # optional port
-            r'(?:/?|[/?]\S+)$', re.IGNORECASE)
+github_url_regex = re.compile(
+                   r'^(?:http|ftp|git)s?://' # http:// or https://
+                   r'(?:(?:[A-Z0-9](?:[A-Z0-9-]{0,61}[A-Z0-9])?\.)+(?:[A-Z]{2,6}\.?|[A-Z0-9-]{2,}\.?)|' #domain...
+                   r'localhost|' #localhost...
+                   r'\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})' # ...or ip
+                   r'(?::\d+)?' # optional port
+                   r'(?:/?|[/?]\S+)$', re.IGNORECASE)
 
 def cmd_exists(cmd):
     """ Check if a command exists.
@@ -259,5 +259,5 @@ def email_is_valid(email):
     return True if re.match(email_regex, email) else False
 
 
-def is_valid_url(url):
-    return True if re.match(url_regex, url) else False
+def is_valid_github_url(url):
+    return True if re.match(github_url_regex, url) else False

@@ -23,7 +23,7 @@ class SkillsInstaller(Base):
     
     def run(self):
         try:
-            SkillsInstaller.install(self.options['--snipsfile'])
+            SkillsInstaller.install(self.options['--snipsfile'], self.options['--force_download'])
         except SkillsInstallerWarning as e:
             pp.pwarning(str(e))
         except Exception as e:
@@ -31,37 +31,37 @@ class SkillsInstaller(Base):
 
 
     @staticmethod
-    def install(snipsfile_path=None, silent=False):
+    def install(snipsfile_path=None, silent=False, force_download=False):
         SkillsInstaller.print_start(silent)
         if snipsfile_path is None:
             snipsfile_path = DEFAULT_SNIPSFILE_PATH
         if snipsfile_path is not None and not file_exists(snipsfile_path):
             raise SkillsInstallerException("Error installing skills: Snipsfile not found")
         snipsfile = Snipsfile(snipsfile_path)
-        num_installed = SkillsInstaller.install_from_snipsfile(snipsfile, silent=True)
+        num_installed = SkillsInstaller.install_from_snipsfile(snipsfile, silent=True, force_download=force_download)
         SkillsInstaller.print_done(num_installed, silent)
 
 
     @staticmethod
-    def install_from_snipsfile(snipsfile, silent=False):
+    def install_from_snipsfile(snipsfile, silent=False, force_download=False):
         SkillsInstaller.print_start(silent)
         if snipsfile is None:
             raise SkillsInstallerException("Error installing skills: no Snipsfile provided")
         skill_urls = snipsfile.get_skill_urls()
         if len(skill_urls) == 0:
             raise SkillsInstallerWarning("No skills found in Snipsfile. Skipping skill installation")
-        num_installed = SkillsInstaller.install_from_urls(skill_urls, silent=True)
+        num_installed = SkillsInstaller.install_from_urls(skill_urls, silent=True, force_download=force_download)
         SkillsInstaller.print_done(num_installed, silent)
         return num_installed
 
 
     @staticmethod
-    def install_from_urls(skill_urls, silent=False):
+    def install_from_urls(skill_urls, silent=False, force_download=False):
         SkillsInstaller.print_start(silent)
         num_installed = 0
         for url in skill_urls:
             try:
-                SkillInstaller.install(url)
+                SkillInstaller.install(url, force_download=force_download)
                 num_installed = num_installed + 1
             except SkillInstallerWarning as e:
                 pp.pwarning(str(e))

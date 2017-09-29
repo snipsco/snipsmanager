@@ -20,3 +20,5 @@ ASOUNDCONF_DEST_PATH = "/etc/asound.conf"
 
 def prepare_cache():
 	create_dir(SNIPS_CACHE_DIR)
+
+prepare_cache()

@@ -4,7 +4,7 @@
 import os
 from .os_helpers import write_text_file, read_file, create_dir, remove_file
 
-from .. import prepare_cache, SNIPS_CACHE_DIR
+from .. import SNIPS_CACHE_DIR
 
 class Cache:
 
@@ -16,7 +16,6 @@ class Cache:
 
     @staticmethod
     def save_login_token(token):
-        prepare_cache()
         write_text_file(Cache.STORE_FILE, token)
     
     @staticmethod

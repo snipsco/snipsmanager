@@ -61,7 +61,7 @@ class GlobalInstaller(Base):
             pp.pwarning(str(e))
 
         try:
-            SkillsInstaller.install()
+            SkillsInstaller.install(force_download=force_download)
         except Exception as e:
             pp.pwarning(str(e))
         
@@ -72,7 +72,7 @@ class GlobalInstaller(Base):
 
         if not skip_bluetooth and is_raspi_os():
             try:
-                BluetoothInstaller.install()
+                BluetoothInstaller.install(force_download=force_download)
             except Exception as e:
                 pp.pwarning(str(e))
 

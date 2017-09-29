@@ -3,7 +3,7 @@
 
 Usage:
   snipsskills install [--skip_bluetooth --skip_systemd --force_download]
-  snipsskills install bluetooth
+  snipsskills install bluetooth [--force_download]
   snipsskills install skill <skill_url>
   snipsskills install skills [--snipsfile=<snipsfile_path>]
   snipsskills fetch assistant [--snipsfile=<snipsfile_path>] [--id=<id> --url=<url> --file=<file>] [--force_download]
@@ -67,11 +67,6 @@ def matches_options(options, option_string):
 def main():
     """ Main entry point. """
     options = docopt(__doc__, version=VERSION)
-    
-    import os_helpers
-    print "==============="
-    print str(os_helpers.is_valud_url("http://www.asd.com"))
-    return
 
     try:
       if options['setup'] == True and options['microphone'] == True:
