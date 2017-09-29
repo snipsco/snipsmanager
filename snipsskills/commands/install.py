@@ -87,7 +87,7 @@ class Install(Base):
                 create_dir(".snips")
                 shutil.copy(src=snipsfile.assistant_file, dst=ASSISTANT_ZIP_PATH)
             else:
-                log_error("Error loading assistant. Could not find file {}. Please ensure it is available.".format(snipsfile.assistant_file))
+                log_error("Error loading assistant. Could not find file {}. Please ensure it is available".format(snipsfile.assistant_file))
                 sys.exit()
         elif snipsfile.assistant_url is not None:
             try:
@@ -123,7 +123,7 @@ class Install(Base):
             log("Installing skills.")
             for skill in snipsfile.skilldefs:
                 if skill.pip is not None:
-                    log("Installing {}.".format(skill.pip))
+                    log("Installing {}".format(skill.pip))
                     PipInstaller.install(skill.pip)
                 else:
                     log("Installing failed. Missing pip or url key for {}".format(skill.package_name))

@@ -25,17 +25,17 @@ class BluetoothInstaller(Base):
 
     @staticmethod
     def install():
-        pp.pcommand("Setting up Bluetooth.")
+        pp.pcommand("Setting up Bluetooth")
 
         if not is_raspi_os():
-            raise BluetoothInstallerException("Error: Bluetooth is only available on a Raspberry Pi.")
+            raise BluetoothInstallerException("Error: Bluetooth is only available on a Raspberry Pi")
 
         if not is_node_available():
             BluetoothInstaller.install_node()
 
         node_module = "snips-mqtt-relay"
         
-        message = pp.ConsoleMessage("Installing Node module $GREEN{}$RESET.".format(node_module))
+        message = pp.ConsoleMessage("Installing Node module $GREEN{}$RESET".format(node_module))
         message.start()
         
         prepare_cache()
@@ -44,15 +44,15 @@ class BluetoothInstaller(Base):
             message.done()
         except:
             message.error()
-            raise BluetoothInstallerException("Error: Error installing Bluetooth module {}. Please install it manually.".format(node_module))
+            raise BluetoothInstallerException("Error: Error installing Bluetooth module {}. Please install it manually".format(node_module))
 
-        pp.psuccess("Bluetooth is successfully installed.")
+        pp.psuccess("Bluetooth is successfully installed")
 
 
     @staticmethod
     def install_node():
         pp.psubmessage("Node is not available. Installing node.", indent=True)
-        message = pp.ConsoleMessage("Removing previous version of Node.")
+        message = pp.ConsoleMessage("Removing previous version of Node")
         message.start()
         try:
             execute_command("sudo apt-get -y remove nodejs nodejs-legacy npm")
@@ -65,7 +65,7 @@ class BluetoothInstaller(Base):
         deb_file = "node_latest_armhf.deb"
         deb_url = "http://node-arm.herokuapp.com/node_latest_armhf.deb"
         
-        message = pp.ConsoleMessage("Downloading Raspbian-compatible version of Node.")
+        message = pp.ConsoleMessage("Downloading Raspbian-compatible version of Node")
         message.start()
 
         try:
@@ -73,21 +73,21 @@ class BluetoothInstaller(Base):
             message.done()
         except:
             message.error()
-            raise BluetoothInstallerException("Error: failed to download compatible version of Node.")
+            raise BluetoothInstallerException("Error: failed to download compatible version of Node")
 
 
-        message = pp.ConsoleMessage("Installing Node.")
+        message = pp.ConsoleMessage("Installing Node")
         message.start()
         try:
             execute_command("sudo dpkg -i {}".format(deb_file))
             message.done()
         except:
             message.error()
-            raise BluetoothInstallerException("Error: installing Node. Please install Node manually.")
+            raise BluetoothInstallerException("Error: installing Node. Please install Node manually")
 
         try:
             remove_file(filename)
         except:
             pass
 
-        pp.psuccess("Successfully installed Node.")
+        pp.psuccess("Successfully installed Node")

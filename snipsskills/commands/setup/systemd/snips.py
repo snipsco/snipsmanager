@@ -28,14 +28,14 @@ class SystemdSnips(Base):
 
     @staticmethod
     def setup():
-        pp.pcommand("Setting up Snips as a Systemd service.")
+        pp.pcommand("Setting up Snips as a Systemd service")
 
         if not is_raspi_os():
-            raise SystemdSnipsException("Snips Systemd configuration is only available on Raspberry Pi. Skipping Systemd setup.")
+            raise SystemdSnipsException("Snips Systemd configuration is only available on Raspberry Pi. Skipping Systemd setup")
 
         snips_path = which('snips')
         if snips_path is None:
-            raise SystemdSnipsException("Error: cannot find command 'snips' on the system. Make sure the Snips Platform is correctly installed. Skipping Systemd setup.")
+            raise SystemdSnipsException("Error: cannot find command 'snips' on the system. Make sure the Snips Platform is correctly installed. Skipping Systemd setup")
 
         command = SystemdSnips.SNIPS_SCRIPT.format(snips_bin_path=snips_path)
         
@@ -43,4 +43,4 @@ class SystemdSnips(Base):
         contents = contents.replace("{{SNIPS_COMMAND}}", command)
         Systemd.write_systemd_file(SystemdSnips.SNIPS_SERVICE_NAME, None, contents)
 
-        pp.psuccess("Successfully set up Snips as a Systemd service.")
+        pp.psuccess("Successfully set up Snips as a Systemd service")

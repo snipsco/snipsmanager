@@ -41,7 +41,7 @@ class SystemdBluetooth(Base):
         if snipsfile_path is None:
             snipsfile_path = DEFAULT_SNIPSFILE_PATH
         if snipsfile_path is not None and not file_exists(snipsfile_path):
-            raise SystemdBluetoothException("Error setting up Bluetooth systemd: Snipsfile not found.")
+            raise SystemdBluetoothException("Error setting up Bluetooth systemd: Snipsfile not found")
         snipsfile = Snipsfile(snipsfile_path)
         SystemdBluetooth.setup_from_snipsfile(snipsfile)
 
@@ -49,19 +49,19 @@ class SystemdBluetooth(Base):
     @staticmethod
     def setup_from_snipsfile(snipsfile):
         if snipsfile is None:
-            raise SystemdBluetoothException("Error setting up Bluetooth systemd: Snipsfile not found.")
+            raise SystemdBluetoothException("Error setting up Bluetooth systemd: Snipsfile not found")
         SystemdBluetooth.setup_from_params(snipsfile.mqtt_hostname, snipsfile.mqtt_port)
 
 
     @staticmethod
     def setup_from_params(mqtt_hostname="localhost", mqtt_port=9898):
-        pp.pcommand("Setting up Bluetooth as a Systemd service.")
+        pp.pcommand("Setting up Bluetooth as a Systemd service")
 
         if not is_raspi_os():
-            raise SystemdBluetoothException("Bluetooth Systemd configuration is only available on Raspberry Pi. Skipping Systemd setup.")
+            raise SystemdBluetoothException("Bluetooth Systemd configuration is only available on Raspberry Pi. Skipping Systemd setup")
 
         if not is_node_available():
-            raise SystemdBluetoothException("Error: Bluetooth module must be installed. Run 'snipsskills install bluetooth' to setup Bluetooth.")
+            raise SystemdBluetoothException("Error: Bluetooth module must be installed. Run 'snipsskills install bluetooth' to setup Bluetooth")
 
         contents = Systemd.get_template(SystemdBluetooth.SNIPSBLE_SERVICE_NAME)
         if contents is None:
@@ -70,7 +70,7 @@ class SystemdBluetooth(Base):
         node_bin_path = which('node')            
         command = SystemdBluetooth.SNIPSBLE_SCRIPT.format(
                 node_bin_path=node_bin_path,
-                node_module_path=__NODE_MODULES_PATH__,
+                node_module_path=NODE_MODULES_PATH,
                 module_name=SystemdBluetooth.SNIPSBLE_MODULE_NAME,
                 serviceUUID=SystemdBluetooth.SNIPSBLE_SERVICE_UUID,
                 characteristicUUID=SystemdBluetooth.SNIPSBLE_CHARACTERISTIC_UUID,
@@ -82,4 +82,4 @@ class SystemdBluetooth(Base):
         Systemd.write_systemd_file(SystemdBluetooth.SNIPSBLE_SERVICE_NAME, None, contents)
         Systemd.enable_service(None, SystemdBluetooth.SNIPSBLE_SERVICE_NAME)
 
-        pp.psuccess("Successfully set up Bluetooth as a Systemd service.")
+        pp.psuccess("Successfully set up Bluetooth as a Systemd service")

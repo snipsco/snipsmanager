@@ -52,7 +52,7 @@ class Snips:
         if ask_yes_no("Would you like to install the Snips SDK?", answer_yes) == False:
             return
 
-        log("Installing the Snips SDK.")
+        log("Installing the Snips SDK")
 
         if not is_raspi_os():
             raise SnipsUnsupportedPlatform()
@@ -66,7 +66,7 @@ class Snips:
         if (rc > 0):
             raise SnipsInstallationFailure(output)
         else:
-            log_success("The Snips SDK was successfully installed.")
+            log_success("The Snips SDK was successfully installed")
 
     @staticmethod
     def run():

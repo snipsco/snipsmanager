@@ -36,7 +36,7 @@ class SkillsInstaller(Base):
         if snipsfile_path is None:
             snipsfile_path = DEFAULT_SNIPSFILE_PATH
         if snipsfile_path is not None and not file_exists(snipsfile_path):
-            raise SkillsInstallerException("Error installing skills: Snipsfile not found.")
+            raise SkillsInstallerException("Error installing skills: Snipsfile not found")
         snipsfile = Snipsfile(snipsfile_path)
         num_installed = SkillsInstaller.install_from_snipsfile(snipsfile, silent=True)
         SkillsInstaller.print_done(num_installed, silent)
@@ -46,10 +46,10 @@ class SkillsInstaller(Base):
     def install_from_snipsfile(snipsfile, silent=False):
         SkillsInstaller.print_start(silent)
         if snipsfile is None:
-            raise SkillsInstallerException("Error installing skills: no Snipsfile provided.")
+            raise SkillsInstallerException("Error installing skills: no Snipsfile provided")
         skill_urls = snipsfile.get_skill_urls()
         if len(skill_urls) == 0:
-            raise SkillsInstallerWarning("No skills found in Snipsfile. Skipping skill installation.")
+            raise SkillsInstallerWarning("No skills found in Snipsfile. Skipping skill installation")
         num_installed = SkillsInstaller.install_from_urls(skill_urls, silent=True)
         SkillsInstaller.print_done(num_installed, silent)
         return num_installed
@@ -80,4 +80,4 @@ class SkillsInstaller(Base):
     @staticmethod
     def print_done(num_installed, silent=False):
         if not silent:
-            pp.psuccess("Successfully installed {} skills.".format(num_installed))
+            pp.psuccess("Successfully installed {} skills".format(num_installed))

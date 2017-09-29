@@ -31,7 +31,7 @@ class GlobalInstaller(Base):
     
     def run(self):
         try:
-            GlobalInstaller.install(self.options['--snipsfile'], skip_bluetooth=self.options['--skip_bluetooth'], skip_systemd=self.options['--skip_systemd'])
+            GlobalInstaller.install(self.options['--snipsfile'], skip_bluetooth=self.options['--skip_bluetooth'], skip_systemd=self.options['--skip_systemd'], force_download=self.options['--force_download'])
         except GlobalInstallerWarning as e:
             pp.pwarning(str(e))
         except Exception as e:
@@ -39,29 +39,26 @@ class GlobalInstaller(Base):
 
 
     @staticmethod
-    def install(snipsfile_path=None, skip_bluetooth=False, skip_systemd=False):
+    def install(snipsfile_path=None, skip_bluetooth=False, skip_systemd=False, force_download=False):
         snipsfile_path = snipsfile_path or DEFAULT_SNIPSFILE_PATH
         if snipsfile_path is not None and not file_exists(snipsfile_path):
-            raise SkillsInstallerException("Error installing skills: Snipsfile not found.")
+            raise SkillsInstallerException("Error installing skills: Snipsfile not found")
         snipsfile = Snipsfile(snipsfile_path)
-        GlobalInstaller.install_from_snipsfile(snipsfile)
+        GlobalInstaller.install_from_snipsfile(snipsfile, skip_bluetooth=skip_bluetooth, skip_systemd=skip_systemd, force_download=force_download)
 
 
     @staticmethod
-    def install_from_snipsfile(snipsfile, skip_bluetooth=False, skip_systemd=False):
+    def install_from_snipsfile(snipsfile, skip_bluetooth=False, skip_systemd=False, force_download=False):
         pp.pheader("Running Snips Skills installer")
 
         if snipsfile is None:
-            raise SkillsInstallerException("Error running installer: no Snipsfile provided.")
+            raise SkillsInstallerException("Error running installer: no Snipsfile provided")
 
-        if is_raspi_os():
-            try:
-                AssistantFetcher.fetch()
-                AssistantLoader.load()
-            except Exception as e:
-                pp.pwarning(str(e))
-        else:
-            pp.pwarning("Skipping assistant installation (Raspberry Pi only).")
+        try:
+            AssistantFetcher.fetch(force_download=force_download)
+            AssistantLoader.load()
+        except Exception as e:
+            pp.pwarning(str(e))
 
         try:
             SkillsInstaller.install()
@@ -92,3 +89,8 @@ class GlobalInstaller(Base):
                 SystemdSnipsSkills.setup()
             except Exception as e:
                 pp.pwarning(str(e))
+
+        if not skip_systemd:
+            pp.pheadersuccess("Snips Skills installer complete! You can now reboot your device, or manually run 'snipsskills run' to start the Snips Skills server")
+        else:
+            pp.pheadersuccess("Snips Skills installer complete! Now run 'snipsskills run' to start the Snips Skills server.")

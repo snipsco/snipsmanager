@@ -51,7 +51,7 @@ class MicrophoneInstaller(Base):
         if snipsfile_path is None:
             snipsfile_path = DEFAULT_SNIPSFILE_PATH
         if snipsfile_path is not None and not file_exists(snipsfile_path):
-            raise SkillsInstallerException("Error setting up microphone: Snipsfile not found.")
+            raise SkillsInstallerException("Error setting up microphone: Snipsfile not found")
         snipsfile = Snipsfile(snipsfile_path)
         MicrophoneInstaller.install_from_snipsfile(snipsfile, silent=True)
         MicrophoneInstaller.print_done(silent)
@@ -61,7 +61,7 @@ class MicrophoneInstaller(Base):
     def install_from_snipsfile(snipsfile, silent=False):
         MicrophoneInstaller.print_start(silent=silent)
         if snipsfile is None:
-            raise MicrophoneInstallerException("Error setting up microphone: Snipsfile not found.")
+            raise MicrophoneInstallerException("Error setting up microphone: Snipsfile not found")
 
         microphone_id = snipsfile.microphone_config.identifier
         params_dict = snipsfile.microphone_config.params
@@ -77,7 +77,7 @@ class MicrophoneInstaller(Base):
         MicrophoneInstaller.print_start(microphone_id, silent)
 
         if not is_raspi_os():
-            raise MicrophoneInstallerWarning("System is not Raspberry Pi. Skipping microphone setup.")
+            raise MicrophoneInstallerWarning("System is not Raspberry Pi. Skipping microphone setup")
         
         if update_asoundrc:
             message = pp.ConsoleMessage("Copying .asoundrc to {}".format(ASOUNDRC_DEST_PATH))
@@ -135,4 +135,4 @@ class MicrophoneInstaller(Base):
     @staticmethod
     def print_done(silent=False):
         if not silent:
-            pp.psuccess("Microphone setup successfully complete.")
+            pp.psuccess("Microphone setup successfully complete")

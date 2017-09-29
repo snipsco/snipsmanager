@@ -41,39 +41,34 @@ class AssistantLoader(Base):
 
     @staticmethod
     def load(file_path=None, generate_classes=True):
-        pp.pcommand("Loading assistant.")
-
-        if not is_raspi_os():
-            raise AssistantLoaderException("Error: loading an assistant is only available on a Raspberry Pi.")
-
-        if not Snips.is_installed():
-            raise AssistantLoaderException("Error: loading an assistant requires the Snips platform to be installed. Please run 'curl https://install.snips.ai -sSf | sh' to install the Snips Platform.")
-
-        if file_path is not None:
-            message = pp.ConsoleMessage("Loading assistant from file {}".format(file_path))
-        else:
-            message = pp.ConsoleMessage("Loading assistant")
-        message.start()
-
-        if file_path is not None and not file_exists(file_path):
-            message.error()
-            raise AssistantLoaderException("Error loading assistant: file {} not found.".format(file_path))
+        pp.pcommand("Loading assistant")
 
         if file_path is None:
             file_path = AssistantFetcher.SNIPS_TEMP_ASSISTANT_PATH
 
-        Snips.load_assistant(file_path)
+        message = pp.ConsoleMessage("Loading assistant from file {}".format(file_path))
+        message.start()
+
+        if file_path is not None and not file_exists(file_path):
+            message.error()
+            raise AssistantLoaderException("Error loading assistant: file {} not found".format(file_path))
+
+        if is_raspi_os():
+            if not Snips.is_installed():
+                message.error()
+                raise AssistantLoaderException("Error: loading an assistant requires the Snips platform to be installed. Please run 'curl https://install.snips.ai -sSf | sh' to install the Snips Platform")
+            Snips.load_assistant(file_path)
 
         message.done()
 
         if generate_classes:
             AssistantLoader.generate_intent_classes(file_path)
 
-        pp.psuccess("Assistant has been successfully loaded.")
+        pp.psuccess("Assistant has been successfully loaded")
 
     @staticmethod
     def generate_intent_classes(file_path):
-        message = pp.ConsoleMessage("Generating classes from assistant model.")
+        message = pp.ConsoleMessage("Generating classes from assistant model")
         message.start()
         try:
             shutil.rmtree(SNIPS_CACHE_INTENTS_DIR)

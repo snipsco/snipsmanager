@@ -31,20 +31,20 @@ class SystemdSnipsSkills(Base):
 
     @staticmethod
     def setup(snipsfile_path=None):
-        pp.pcommand("Setting up Snips Skills as a Systemd service.")
+        pp.pcommand("Setting up Snips Skills as a Systemd service")
 
         snipsfile_path = snipsfile_path or DEFAULT_SNIPSFILE_PATH
         
         if not is_raspi_os():
-            raise SystemdSnipsSkillsException("Snips Systemd configuration is only available on Raspberry Pi. Skipping Systemd setup.")
+            raise SystemdSnipsSkillsException("Snips Systemd configuration is only available on Raspberry Pi. Skipping Systemd setup")
 
         snipsskills_path = which('snipsskills')
         if snipsskills_path is None:
-            raise SystemdSnipsSkillsException("Error: cannot find command 'snipsskills' on the system. Make sure the Snips Skills CLI is correctly installed. Skipping Systemd setup.")
+            raise SystemdSnipsSkillsException("Error: cannot find command 'snipsskills' on the system. Make sure the Snips Skills CLI is correctly installed. Skipping Systemd setup")
 
         contents = Systemd.get_template(SystemdSnipsSkills.SNIPSSKILLS_SERVICE_NAME)
         contents = contents.replace("{{SNIPSSKILLS_COMMAND}}", snipsskills_path)
         contents = contents.replace("{{SNIPSFILE_PATH}}", snipsfile_path)
         Systemd.write_systemd_file(SystemdSnipsSkills.SNIPSSKILLS_SERVICE_NAME, None, contents)
 
-        pp.psuccess("Successfully set up Snips Skills as a Systemd service.")
+        pp.psuccess("Successfully set up Snips Skills as a Systemd service")

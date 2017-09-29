@@ -31,7 +31,7 @@ class Bluetooth:
         #     Bluetooth.install_node(answer_yes)
         # except Exception:
         #     log_warning("Could not download Node, which is required for Bluetooth. " +
-        #                 "Please install Node manually, and restart the snipsskills installation script.")
+        #                 "Please install Node manually, and restart the snipsskills installation script")
         #     return
 
         # Bluetooth.install_mqtt_relay()

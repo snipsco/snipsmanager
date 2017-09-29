@@ -36,4 +36,4 @@ class SkillInstaller(Base):
             message.done()
         except Exception as e:
             message.error()
-            raise SkillInstallerWarning("Error installing skill {}: make sure you have the required access rights, and that the module is available.".format(url_or_pip))
+            raise SkillInstallerWarning("Error installing skill {}: make sure you have the required access rights, and that the module is available".format(url_or_pip))

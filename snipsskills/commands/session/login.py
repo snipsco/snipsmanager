@@ -24,16 +24,16 @@ class Login(Base):
     def login(greeting=None, silent=False):
         token = Cache.get_login_token()
         if not token:
-            pp.pcommand(greeting or "Please enter your Snips Console credentials.")
+            pp.pcommand(greeting or "Please enter your Snips Console credentials")
             email = ask_for_input("Email address:")
             password = ask_for_password("Password:")
             token = Auth.retrieve_token(email, password)
             if token is not None:
                 Cache.save_login_token(token)
-                pp.psuccess("You are now signed in.")
+                pp.psuccess("You are now signed in")
             else:
-                raise InvalidTokenException("Could not validate authentication token.")
+                raise InvalidTokenException("Could not validate authentication token")
         else:
             if not silent:
-                pp.psuccess("You are already signed in.")
+                pp.psuccess("You are already signed in")
         return token
