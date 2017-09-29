@@ -68,6 +68,11 @@ def main():
     """ Main entry point. """
     options = docopt(__doc__, version=VERSION)
     
+    import os_helpers
+    print "==============="
+    print str(os_helpers.is_valud_url("http://www.asd.com"))
+    return
+
     try:
       if options['setup'] == True and options['microphone'] == True:
           from snipsskills.commands.setup.microphone import MicrophoneInstaller

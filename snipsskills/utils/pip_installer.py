@@ -25,3 +25,8 @@ class PipInstaller:
         (output, error) = execute_command(command, silent=False)
         if error is not None and error.strip() != '':
         	raise PipInstallerException(error)
+
+
+    @staticmethod
+    def install_pip(package_name):
+        pip.main(["install", "--upgrade", "--quiet", package_name])
