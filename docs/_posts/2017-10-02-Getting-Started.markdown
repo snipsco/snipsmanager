@@ -10,6 +10,10 @@ In this guide, we will help you through the process of creating a simple weather
 
 First, let's create a simple **Snipsfile**, and put it in an empty folder on the Raspberry Pi:
 
+```html
+<a href="#">Hello world</a>
+```
+
 ```js
 var i = 1;
 ```
