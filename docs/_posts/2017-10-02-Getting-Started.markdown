@@ -11,13 +11,15 @@ In this guide, we will help you through the process of creating a simple assista
 
 First, let's create a simple **Snipsfile**, and put it in an empty folder on the Raspberry Pi:
 
-```bash
-$ apt-get install snipsskills
-```
-
-```js
-var i = 1;
-```
+{% highlight ruby %}
+def show
+  @widget = Widget(params[:id])
+  respond_to do |format|
+    format.html # show.html.erb
+    format.json { render json: @widget }
+  end
+end
+{% endhighlight %}
 
 {% highlight ruby %}
 var i = 1;
