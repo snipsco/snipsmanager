@@ -6,6 +6,7 @@
 @import "colors";
 @import "buttons";
 @import "mixins";
+@import "highlight";
 
 body {
     margin:0;
@@ -17,12 +18,21 @@ body {
 .content {
     max-width: 940px;
     margin: 0 auto;
-    p {
+    p, li {
         font-size: 16px;
         font-weight:400;
         line-height:1.6;
         color:$text-color;
     }
+}
+
+.highlight-box {
+    @include border-radius(15px);
+    padding: 10px 30px;
+    border-style: dotted;
+    border-color: $darkgrey;
+    border-width: 2px;
+    background-color:$lightgrey;
 }
 
 a {
@@ -41,6 +51,45 @@ h1 {
 
 h4 {
     font-size:24px;
+}
+
+h5 {
+        font-family: "apercu-mono";
+    code {
+        font-family: "apercu-mono";
+        font-size:22px;
+        white-space: pre;
+        background-color:$blue;
+        color:#fff;
+        padding: 5px 10px;
+    }
+}
+
+figure {
+    margin:0;
+}
+
+pre {
+    @include box-sizing(border-box);
+    @include border-radius(5px);
+    background-color:$lightgrey;
+    padding: 10px 15px;
+    overflow:scroll;
+    code {
+        padding: 0 !important;
+        line-height:1.5;
+    }
+}
+code {
+    font-family: "apercu-mono";
+    font-size:14px;
+    background-color:$lightgrey;
+    padding: 2px 5px;
+    @include border-radius(5px);
+}
+
+::-webkit-scrollbar { 
+    display: none; 
 }
 
 #menu {
@@ -126,15 +175,6 @@ h4 {
         float:right;
         margin-top:135px;
     }
-}
-
-.highlight-box {
-    @include border-radius(15px);
-    padding: 10px 30px;
-    border-style: dotted;
-    border-color: $darkgrey;
-    border-width: 2px;
-    background-color:$lightgrey;
 }
 
 .main {

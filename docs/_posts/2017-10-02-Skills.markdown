@@ -1,5 +1,5 @@
 ---
-layout: post
+layout: page
 title:  "Skills"
 date:   2017-10-02 12:53:25 +0200
 ---

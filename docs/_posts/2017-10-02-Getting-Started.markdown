@@ -1,8 +1,7 @@
 ---
-layout: post
+layout: page
 title:  "Getting Started"
 date:   2017-10-02 12:53:25 +0200
-id: getting_started
 ---
 
 In this guide, we will help you through the process of creating a simple assistant using the Snips Skills Manager.
@@ -10,20 +9,6 @@ In this guide, we will help you through the process of creating a simple assista
 #### Creating a Snipsfile
 
 First, let's create a simple **Snipsfile**, and put it in an empty folder on the Raspberry Pi:
-
-{% highlight ruby %}
-def show
-  @widget = Widget(params[:id])
-  respond_to do |format|
-    format.html # show.html.erb
-    format.json { render json: @widget }
-  end
-end
-{% endhighlight %}
-
-{% highlight ruby %}
-var i = 1;
-{% endhighlight %}
 
 {% highlight yaml %}
 assistant_url: "https://github.com/snipsco/example-assistants/raw/master/weather-assistant.zip"
