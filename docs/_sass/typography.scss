@@ -1,18 +1,18 @@
 @font-face {
     font-family: "myapercu";
-    src: url('fonts/apercu_regular.ttf');
+    src: url($baseurl + '/fonts/apercu_regular.ttf');
     font-style: normal;
 }
 
 @font-face {
     font-family: "myapercu";
-    src: url('fonts/apercu_medium.ttf');
+    src: url($baseurl + '/fonts/apercu_medium.ttf');
     font-width: 500;
 }
 
 @font-face {
     font-family: "apercu_mono";
-    src: url('fonts/apercu_mono.ttf');
+    src: url($baseurl + '/fonts/apercu_mono.ttf');
     font-style: normal;
 }
 
