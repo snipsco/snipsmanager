@@ -2,6 +2,7 @@
 layout: post
 title:  "Getting Started"
 date:   2017-10-02 12:53:25 +0200
+id: getting_started
 ---
 
 In this guide, we will help you through the process of creating a simple assistant using the Snips Skills Manager.

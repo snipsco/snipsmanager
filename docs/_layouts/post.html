@@ -7,8 +7,8 @@
 		<div class="content">
 			<nav>
 				<ul>
-					<li><a class="selected" href="{{ site.baseurl }}{% post_url 2017-10-02-Getting-Started %}">Getting Started</a></li>
-					<li><a href="{{ site.baseurl }}{% post_url 2017-10-02-Skills %}">Skills</a></li>
+					<li><a {% if page.title == "Getting Started" %}class="selected"{% endif %} href="{{ site.baseurl }}{% post_url 2017-10-02-Getting-Started %}">Getting Started</a></li>
+					<li><a {% if page.title == "Skills" %}class="selected"{% endif %} href="{{ site.baseurl }}{% post_url 2017-10-02-Skills %}">Skills</a></li>
 					<li><a href="{{ site.baseurl }}{% post_url 2017-10-02-Skills %}">API</a></li>
 					<li><a href="{{ site.baseurl }}{% post_url 2017-10-02-Skills %}">Troubleshooting</a></li>
 					<li><a href="{{ site.baseurl }}{% post_url 2017-10-02-Skills %}">iOS app</a></li>

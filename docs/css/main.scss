@@ -143,21 +143,31 @@ h4 {
         margin:0 auto;
         background-color: $green;
         display:block;
-        max-width:360px;
+        max-width:380px;
         font-family: "apercu-mono";
         color:#fff;
+        position:relative;
+        margin-top:10px;
         -webkit-font-smoothing: antialiased;
+        img {
+            position:absolute;
+            left:20px;
+            top:10px;
+        }
+        span {
+            width:100%;
+            text-align:center;
+            padding-top:-5px;
+        }
     }
     .linux-command {
         margin-top:60px;
     }
-    .macos-command {
-        margin-top:10px;
-    }
-    .command::selection {
+
+    .command span::selection {
         background: $darkgreen;
     }
-    .command::-moz-selection {
+    .command span::-moz-selection {
       background: $darkgreen;
     }
     article {
@@ -183,9 +193,11 @@ h4 {
                     font-family: "apercu";
                     color:$text-color;
                     font-weight: 500;
-                    .selected {
-                        background-color:$lightgrey;
-                    }
+                }
+                a.selected {
+                    color:$blue;
+                    text-decoration:underline;
+                    font-weight:500;
                 }
             }
         }
