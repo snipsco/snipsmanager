@@ -10,18 +10,37 @@
 body {
     margin:0;
     padding:0;
-    // font-family:$font-default;
+    font-family:$font-default;
     -webkit-font-smoothing: antialiased;
-    font-family: "apercu";
 }
 
 .content {
     max-width: 940px;
     margin: 0 auto;
+    p {
+        font-size: 16px;
+        font-weight:400;
+        line-height:1.6;
+        color:$text-color;
+    }
 }
 
 a {
     text-decoration:none;
+}
+
+h1,h2,h3,h4 {
+    font-family: "apercu";
+    font-weight:500;
+    -webkit-font-smoothing: antialiased;
+}
+
+h1 {
+    font-size:44px;
+}
+
+h4 {
+    font-size:24px;
 }
 
 #menu {
@@ -109,6 +128,15 @@ a {
     }
 }
 
+.highlight-box {
+    @include border-radius(15px);
+    padding: 10px 30px;
+    border-style: dotted;
+    border-color: $darkgrey;
+    border-width: 2px;
+    background-color:$lightgrey;
+}
+
 .main {
     .command {
         @extend .button-rounded;
@@ -132,21 +160,46 @@ a {
     .command::-moz-selection {
       background: $darkgreen;
     }
+    article {
+        @include box-sizing(border-box);
+        max-width:640px;
+        padding-right:20px;
+    }
+    nav {
+        @include box-sizing(border-box);
+        @extend .highlight-box;
+        width:240px;
+        float:right;
+        padding-left:10px;
+        @include border-radius(10px);
+        ul {
+            list-style-type: none;
+            margin:0;
+            padding:0;
+            li {
+                padding:10px 5px;
+                a {
+                    text-decoration: none;
+                    font-family: "apercu";
+                    color:$text-color;
+                    font-weight: 500;
+                    .selected {
+                        background-color:$lightgrey;
+                    }
+                }
+            }
+        }
+    }
 }
 
 .info .content {
-    @include border-radius(15px);
+    @extend .highlight-box;
     @include box-sizing(border-box);
-    background-color:$lightgrey;
     margin-top:60px;
-    padding: 10px 30px;
-    border-style: dotted;
-    border-color: $darkgrey;
-    border-width: 2px;
     p {
         font-size: 18px;
         line-height: 28px;
-        color: $text-color;
+        color: $text-color-light;
         a {
             text-decoration: underline;
             color: $blue;

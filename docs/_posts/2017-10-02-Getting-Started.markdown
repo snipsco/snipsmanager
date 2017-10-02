@@ -1,17 +1,17 @@
 ---
-layout: page
-title:  "Skills"
+layout: post
+title:  "Getting Started"
 date:   2017-10-02 12:53:25 +0200
 ---
 
-In this guide, we will help you through the process of creating a simple weather assistant using the Snips Skills toolchain.
+In this guide, we will help you through the process of creating a simple assistant using the Snips Skills Manager.
 
 #### Creating a Snipsfile
 
 First, let's create a simple **Snipsfile**, and put it in an empty folder on the Raspberry Pi:
 
-```html
-<a href="#">Hello world</a>
+```bash
+$ apt-get install snipsskills
 ```
 
 ```js

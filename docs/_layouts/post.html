@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+{% include head.html %}
+<body>
+	{% include menu.html %}
+	<div class="main">
+		<div class="content">
+			<nav>
+				<ul>
+					<li><a class="selected" href="{{ site.baseurl }}{% post_url 2017-10-02-Getting-Started %}">Getting Started</a></li>
+					<li><a href="{{ site.baseurl }}{% post_url 2017-10-02-Skills %}">Skills</a></li>
+					<li><a href="{{ site.baseurl }}{% post_url 2017-10-02-Skills %}">API</a></li>
+					<li><a href="{{ site.baseurl }}{% post_url 2017-10-02-Skills %}">Troubleshooting</a></li>
+					<li><a href="{{ site.baseurl }}{% post_url 2017-10-02-Skills %}">iOS app</a></li>
+			</nav>
+			<article>
+				<h1 class="title">{{ page.title }}</h1>
+				{{ content }}
+			</article>
+		</div>
+	</div>
+	{% include footer.html %}
+</body>
+</html>
