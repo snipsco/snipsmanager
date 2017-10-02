@@ -10,6 +10,9 @@
 body {
     margin:0;
     padding:0;
+    // font-family:$font-default;
+    -webkit-font-smoothing: antialiased;
+    font-family: "apercu";
 }
 
 .content {
@@ -17,9 +20,56 @@ body {
     margin: 0 auto;
 }
 
+a {
+    text-decoration:none;
+}
+
 #menu {
     background-color:$darkblue;
     height:100px;
+    .title {
+        -webkit-font-smoothing: antialiased;
+        font-family: "apercu";
+        font-size: 24px;
+        font-weight: 500;
+        color:#fff;
+        padding-top:34px;
+        display:block;
+        float:left;
+        a {
+            text-decoration:none;
+            color:#fff;
+        }
+    }
+    a.github {
+        margin-top:25px;
+        float:right;
+        display:block;
+    }
+}
+
+#footer {
+    background-color:$blue;
+    height:100px;
+    margin-top:100px;
+    img {
+        float: left;
+        margin-top:33px;
+    }
+    .links {
+        float:right;
+        margin-top:40px;
+        span {
+            color:#fff;
+            text-decoration:none;
+        }
+        a {
+            color:#fff;
+            text-decoration:none;
+            font-weight:500;
+            padding-left:20px;
+        }
+    }
     .title {
         -webkit-font-smoothing: antialiased;
         font-family: "apercu";
@@ -81,5 +131,26 @@ body {
     }
     .command::-moz-selection {
       background: $darkgreen;
+    }
+}
+
+.info .content {
+    @include border-radius(15px);
+    @include box-sizing(border-box);
+    background-color:$lightgrey;
+    margin-top:60px;
+    padding: 10px 30px;
+    border-style: dotted;
+    border-color: $darkgrey;
+    border-width: 2px;
+    p {
+        font-size: 18px;
+        line-height: 28px;
+        color: $text-color;
+        a {
+            text-decoration: underline;
+            color: $blue;
+            font-weight: 500;
+        }
     }
 }
