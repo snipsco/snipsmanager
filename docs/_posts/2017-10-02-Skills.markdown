@@ -3,22 +3,39 @@ layout: page
 title:  "Skills"
 date:   2017-10-02 12:53:25 +0200
 ---
-You’ll find this post in your `_posts` directory. Go ahead and edit it and re-build the site to see your changes. You can rebuild the site in many different ways, but the most common way is to run `jekyll serve`, which launches a web server and auto-regenerates your site when a file is updated.
 
-To add new posts, simply add a file in the `_posts` directory that follows the convention `YYYY-MM-DD-name-of-post.ext` and includes the necessary front matter. Take a look at the source for this post to get an idea about how it works.
+#### Fetching an assistant
 
-Jekyll also offers powerful support for code snippets:
+```sh
+snipsskills fetch assistant
+```
 
-{% highlight ruby %}
-def print_hi(name)
-  puts "Hi, #{name}"
-end
-print_hi('Tom')
-#=> prints 'Hi, Tom' to STDOUT.
-{% endhighlight %}
+Downloads an assistant to the device, either from the Snips Console, or from a publicly available location.
 
-Check out the [Jekyll docs][jekyll-docs] for more info on how to get the most out of Jekyll. File all bugs/feature requests at [Jekyll’s GitHub repo][jekyll-gh]. If you have questions, you can ask them on [Jekyll Talk][jekyll-talk].
+Parameters:
 
-[jekyll-docs]: https://jekyllrb.com/docs/home
-[jekyll-gh]:   https://github.com/jekyll/jekyll
-[jekyll-talk]: https://talk.jekyllrb.com/
+* `--id` (optional): the assistant console ID, included in the URL of your assistant in the console.
+* `--url` (optional): if not using the console ID, you may specify a public URL pointing to your assistant.zip file
+* `--snipsfile` (optional): alternatively, you may point to a local Snipsfile, from which to extract the ID or URL of the assistant. In this case, the Snipsfile should contain an items with key `assistant_id`, or `assistant_url`, for instance:
+
+```yaml
+...
+assistant_id: proj_123ABC
+...
+```
+
+* `--force_download` (optional): if true, the command will force redownloading the assistant. Otherwise, it will look for it in the cache.
+
+
+#### Loading an assistant
+
+```sh
+snipsskills load assistant
+```
+
+Loads an assistant into the system, making it available to the Snips Platform, and generating necessary intent classes for the Snips Skills server.
+
+Parameters:
+
+* `--file` (optional): location of a local `assistant.zip` file. If not provided, Snips Skills will revert to the defualt location for the assistant.
+* `--platform_only` (optional): if true, only the Snips Platform will be updated, bypassing the intent class generation required for the Snips Skills server.
