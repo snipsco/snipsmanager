@@ -1,0 +1,22 @@
+@import "colors";
+@import "mixins";
+
+.button-rounded {
+    @include border-radius(25px);
+    font-weight:500;
+    font-size:18;
+    height:50px;
+    box-sizing: border-box;
+    text-align:center;
+    padding: 15px 30px 15px 30px;
+}
+
+.cta-button-green {
+    @extend .button-rounded;
+    font-weight:500;
+    background-color:$green;
+    color:$darkgreen;
+    text-decoration:none;
+    display:block;
+    font-family: "apercu";
+}

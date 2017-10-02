@@ -1,0 +1,81 @@
+---
+# this ensures Jekyll reads the file to be transformed into CSS later
+# only Main files contain this front matter, not partials.
+---
+@import "typography";
+@import "colors";
+@import "buttons";
+@import "mixins";
+
+body {
+    margin:0;
+    padding:0;
+}
+
+.content {
+    max-width: 940px;
+    margin: 0 auto;
+}
+
+#menu {
+    background-color:$darkblue;
+    height:100px;
+    .title {
+        font-family: "apercu";
+        font-size: 24px;
+        font-weight: 500;
+        color:#fff;
+        padding-top:34px;
+        display:block;
+        -webkit-font-smoothing: antialiased;
+        float:left;
+    }
+    a {
+        margin-top:25px;
+        float:right;
+        display:block;
+    }
+}
+
+#hero {
+    background-color:$blue;
+    height:300px;
+    .header {
+        font-family: "apercu";
+        font-size: 44px;
+        color: #fff;
+        margin:0;
+        padding-top:70px;
+        max-width:60%;
+        float:left;
+    }
+    img {
+        float:right;
+        margin-top:135px;
+    }
+}
+
+.main {
+    .command {
+        @extend .button-rounded;
+        margin:0 auto;
+        background-color: $green;
+        display:block;
+        max-width:360px;
+        font-family: "apercu-mono";
+        color:#fff;
+        -webkit-font-smoothing: antialiased;
+    }
+    .linux-command {
+        margin-top:60px;
+    }
+    .macos-command {
+        margin-top:10px;
+    }
+    .command::selection {
+        background: $darkgreen;
+    }
+    .command::-moz-selection {
+      background: $darkgreen;
+    }
+}
