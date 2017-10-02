@@ -42,5 +42,6 @@ class SystemdSnips(Base):
         contents = Systemd.get_template(SystemdSnips.SNIPS_SERVICE_NAME)
         contents = contents.replace("{{SNIPS_COMMAND}}", command)
         Systemd.write_systemd_file(SystemdSnips.SNIPS_SERVICE_NAME, None, contents)
+        Systemd.enable_service(None, SystemdSnips.SNIPS_SERVICE_NAME)
 
         pp.psuccess("Successfully set up Snips as a Systemd service")

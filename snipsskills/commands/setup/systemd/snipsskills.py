@@ -46,5 +46,6 @@ class SystemdSnipsSkills(Base):
         contents = contents.replace("{{SNIPSSKILLS_COMMAND}}", snipsskills_path)
         contents = contents.replace("{{SNIPSFILE_PATH}}", snipsfile_path)
         Systemd.write_systemd_file(SystemdSnipsSkills.SNIPSSKILLS_SERVICE_NAME, None, contents)
+        Systemd.enable_service(None, SystemdSnipsSkills.SNIPSSKILLS_SERVICE_NAME)
 
         pp.psuccess("Successfully set up Snips Skills as a Systemd service")
