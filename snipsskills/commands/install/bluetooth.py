@@ -3,7 +3,6 @@
 import os
 
 from ..base import Base
-from ...utils.bluetooth import Bluetooth
 from ...utils.os_helpers import is_raspi_os, is_node_available, execute_command, download_file, file_exists
 
 from ... import prepare_cache, NODE_MODULES_LOCATION

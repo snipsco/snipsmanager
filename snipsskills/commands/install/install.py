@@ -42,7 +42,7 @@ class GlobalInstaller(Base):
     def install(snipsfile_path=None, skip_bluetooth=False, skip_systemd=False, force_download=False):
         snipsfile_path = snipsfile_path or DEFAULT_SNIPSFILE_PATH
         if snipsfile_path is not None and not file_exists(snipsfile_path):
-            raise SkillsInstallerException("Error installing skills: Snipsfile not found")
+            raise GlobalInstallerException("Error running installer: Snipsfile not found")
         snipsfile = Snipsfile(snipsfile_path)
         GlobalInstaller.install_from_snipsfile(snipsfile, skip_bluetooth=skip_bluetooth, skip_systemd=skip_systemd, force_download=force_download)
 
@@ -52,7 +52,7 @@ class GlobalInstaller(Base):
         pp.pheader("Running Snips Skills installer")
 
         if snipsfile is None:
-            raise SkillsInstallerException("Error running installer: no Snipsfile provided")
+            raise GlobalInstallerException("Error running installer: no Snipsfile provided")
 
         try:
             AssistantFetcher.fetch(force_download=force_download)

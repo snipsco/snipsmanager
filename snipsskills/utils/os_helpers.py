@@ -9,7 +9,6 @@ import shlex
 import subprocess
 import urllib2
 
-from snipsskillscore.logging import log, log_success, log_error
 from snipsskillscore import pretty_printer as pp
 
 email_regex = r"[^@]+@[^@]+\.[^@]+"
@@ -67,10 +66,6 @@ def create_dir(dir_name):
 
 
 def create_dir_verbose(dir_name, indentation_level):
-    log("\tcreating: {} {}".format(
-        indentation_level * "+++",
-        dir_name
-    ))
     create_dir(dir_name)
 
 
@@ -94,11 +89,6 @@ def read_file(file_path):
 
 def write_text_file_verbose(output_file_path, text, indentation_level):
     write_text_file(output_file_path, text)
-
-    log("\tcreating: {} {}".format(
-        indentation_level * "+++",
-        output_file_path
-    ))
 
 
 def execute_command(command, silent=False):

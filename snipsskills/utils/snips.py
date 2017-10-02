@@ -6,7 +6,7 @@ import subprocess
 
 from .os_helpers import cmd_exists, is_raspi_os, ask_yes_no
 
-from snipsskillscore.logging import log, log_success, log_warning, log_error
+# from snipsskillscore.logging import log, log_success, log_warning, log_error
 
 try:
     from subprocess import DEVNULL
@@ -43,42 +43,42 @@ class SnipsInstallationFailure(Exception):
 class Snips:
     """ Utilities for managing the Snips SDK. """
 
-    @staticmethod
-    def install(answer_yes=None):
-        """ Install the Snips SDK. """
-        if Snips.is_installed():
-            return
+    # @staticmethod
+    # def install(answer_yes=None):
+    #     """ Install the Snips SDK. """
+    #     if Snips.is_installed():
+    #         return
 
-        if ask_yes_no("Would you like to install the Snips SDK?", answer_yes) == False:
-            return
+    #     if ask_yes_no("Would you like to install the Snips SDK?", answer_yes) == False:
+    #         return
 
-        log("Installing the Snips SDK")
+    #     log("Installing the Snips SDK")
 
-        if not is_raspi_os():
-            raise SnipsUnsupportedPlatform()
+    #     if not is_raspi_os():
+    #         raise SnipsUnsupportedPlatform()
 
-        curl_command = subprocess.Popen(
-            SNIPS_INSTALL_COMMAND.split(), stdout=subprocess.PIPE)
-        sh_command = subprocess.Popen("sh", stdin=curl_command.stdout)
-        output, error = sh_command.communicate()
-        rc = sh_command.returncode
+    #     curl_command = subprocess.Popen(
+    #         SNIPS_INSTALL_COMMAND.split(), stdout=subprocess.PIPE)
+    #     sh_command = subprocess.Popen("sh", stdin=curl_command.stdout)
+    #     output, error = sh_command.communicate()
+    #     rc = sh_command.returncode
 
-        if (rc > 0):
-            raise SnipsInstallationFailure(output)
-        else:
-            log_success("The Snips SDK was successfully installed")
+    #     if (rc > 0):
+    #         raise SnipsInstallationFailure(output)
+    #     else:
+    #         log_success("The Snips SDK was successfully installed")
 
-    @staticmethod
-    def run():
-        """ Run the Snips SDK. """
-        if not Snips.is_installed():
-            raise SnipsNotFound()
+    # @staticmethod
+    # def run():
+    #     """ Run the Snips SDK. """
+    #     if not Snips.is_installed():
+    #         raise SnipsNotFound()
 
-        try:
-            subprocess.Popen(
-                "snips", stdout=DEVNULL, stderr=subprocess.STDOUT)
-        except OSError as e:
-            raise SnipsRuntimeFailure(str(e))
+    #     try:
+    #         subprocess.Popen(
+    #             "snips", stdout=DEVNULL, stderr=subprocess.STDOUT)
+    #     except OSError as e:
+    #         raise SnipsRuntimeFailure(str(e))
 
     @staticmethod
     def is_installed():
