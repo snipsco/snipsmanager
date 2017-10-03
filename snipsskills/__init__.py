@@ -5,8 +5,6 @@ __version__ = '0.1.6.14'
 import os
 import logging
 
-from .utils.os_helpers import create_dir
-
 SNIPS_CACHE_DIR_NAME = ".snips"
 HOME_DIR = os.path.expanduser("~")
 SNIPS_CACHE_DIR = os.path.join(HOME_DIR, SNIPS_CACHE_DIR_NAME)
@@ -21,7 +19,8 @@ ASOUNDCONF_DEST_PATH = "/etc/asound.conf"
 
 
 def prepare_cache():
-	create_dir(SNIPS_CACHE_DIR)
+	if not os.path.exists(SNIPS_CACHE_DIR):
+        os.makedirs(SNIPS_CACHE_DIR)
 
 prepare_cache()
 
