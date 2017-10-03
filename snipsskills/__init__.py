@@ -19,7 +19,7 @@ ASOUNDCONF_DEST_PATH = "/etc/asound.conf"
 
 
 def prepare_cache():
-	if not os.path.exists(SNIPS_CACHE_DIR):
+    if not os.path.exists(SNIPS_CACHE_DIR):
         os.makedirs(SNIPS_CACHE_DIR)
 
 prepare_cache()
