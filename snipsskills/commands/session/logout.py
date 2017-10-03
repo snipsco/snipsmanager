@@ -11,7 +11,11 @@ class Logout(Base):
 
     def run(self):
         if Cache.get_login_token() is not None:
-            Cache.clear_login_token()
+            Logout.logout()
             pp.psuccess("You are now signed out")
         else:
             pp.psuccess("You are already signed out")
+
+    @staticmethod
+    def logout():
+        Cache.clear_login_token()

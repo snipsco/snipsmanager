@@ -31,7 +31,7 @@ class GlobalInstaller(Base):
     
     def run(self):
         try:
-            GlobalInstaller.install(self.options['--snipsfile'], skip_bluetooth=self.options['--skip_bluetooth'], skip_systemd=self.options['--skip_systemd'], force_download=self.options['--force_download'])
+            GlobalInstaller.install(self.options['--snipsfile'], skip_bluetooth=self.options['--skip_bluetooth'], skip_systemd=self.options['--skip_systemd'], email=self.options['--email'], password=self.options['--password'], force_download=self.options['--force_download'])
         except GlobalInstallerWarning as e:
             pp.pwarning(str(e))
         except Exception as e:
@@ -39,23 +39,23 @@ class GlobalInstaller(Base):
 
 
     @staticmethod
-    def install(snipsfile_path=None, skip_bluetooth=False, skip_systemd=False, force_download=False):
+    def install(snipsfile_path=None, skip_bluetooth=False, skip_systemd=False, email=None, password=None, force_download=False):
         snipsfile_path = snipsfile_path or DEFAULT_SNIPSFILE_PATH
         if snipsfile_path is not None and not file_exists(snipsfile_path):
             raise GlobalInstallerException("Error running installer: Snipsfile not found")
         snipsfile = Snipsfile(snipsfile_path)
-        GlobalInstaller.install_from_snipsfile(snipsfile, skip_bluetooth=skip_bluetooth, skip_systemd=skip_systemd, force_download=force_download)
+        GlobalInstaller.install_from_snipsfile(snipsfile, skip_bluetooth=skip_bluetooth, skip_systemd=skip_systemd, email=email, password=password, force_download=force_download)
 
 
     @staticmethod
-    def install_from_snipsfile(snipsfile, skip_bluetooth=False, skip_systemd=False, force_download=False):
+    def install_from_snipsfile(snipsfile, skip_bluetooth=False, skip_systemd=False, email=None, password=None, force_download=False):
         pp.pheader("Running Snips Skills installer")
 
         if snipsfile is None:
             raise GlobalInstallerException("Error running installer: no Snipsfile provided")
 
         try:
-            AssistantFetcher.fetch(force_download=force_download)
+            AssistantFetcher.fetch(email=email, password=password, force_download=force_download)
             AssistantLoader.load()
         except Exception as e:
             pp.pwarning(str(e))

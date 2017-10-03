@@ -2,18 +2,18 @@
 """ snipsskills
 
 Usage:
-  snipsskills install [--snipsfile=<snipsfile_path> --skip_bluetooth --skip_systemd --force_download]
+  snipsskills install [--snipsfile=<snipsfile_path> --skip_bluetooth --skip_systemd --force_download] [--email=<email> --password=<password>]
   snipsskills install bluetooth [--force_download]
   snipsskills install skill <skill_url>
   snipsskills install skills [--snipsfile=<snipsfile_path>]
-  snipsskills fetch assistant [--snipsfile=<snipsfile_path>] [--id=<id> --url=<url> --file=<file>] [--force_download]
+  snipsskills fetch assistant [--snipsfile=<snipsfile_path>] [--id=<id> --url=<url> --file=<file>] [--email=<email> --password=<password>] [--force_download]
   snipsskills load assistant [--file=<file> --platform_only]
   snipsskills setup microphone [--snipsfile=<snipsfile_path>] [<microphone_id> [--skip_asoundrc] [--update_asoundconf] [PARAMS ...]]
   snipsskills setup systemd bluetooth [--mqtt_host=<mqtt_host> --mqtt_port=<mqtt_port>]
   snipsskills setup systemd snips
   snipsskills setup systemd skills [--snipsfile=<snipsfile_path>]
   snipsskills run [--snipsfile=<snipsfile_path>]
-  snipsskills login
+  snipsskills login [--email=<email> --password=<password>]
   snipsskills logout
   snipsskills -h | --help
   snipsskills --version
