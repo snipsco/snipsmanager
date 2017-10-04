@@ -5,7 +5,7 @@ import shutil
 import time
 
 from ..base import Base
-from ..login import Login
+from ..session.login import Login
 from ...utils.http_helpers import fetch_url
 from ...utils.os_helpers import write_binary_file, file_exists, is_raspi_os
 from ...utils.cache import Cache
