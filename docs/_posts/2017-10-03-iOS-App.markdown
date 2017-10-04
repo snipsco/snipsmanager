@@ -1,0 +1,26 @@
+---
+layout: page
+title:  "Snips Control"
+date:   2017-10-02 12:53:25 +0200
+---
+
+<div style="float:right; margin-left:40px;">
+    <img style="float:right" src="{{ site.baseurl }}/images/iPhone.png" srcset="{{ site.baseurl }}/images/iPhone@2x.png 2x" />
+</div>
+
+With the Snips Control app for iOS, you can configure and control your Snips device over Bluetooth.
+
+In the app, you can:
+
+* Load an assistant remotely, either from the [Snips Console](https://console.snips.ai), a public URL, or a locally available file
+* Choose a microphone configuration
+* Update the Wi-Fi credentials
+* Install skills from the public [Snips Skills registry](https://github.com/snipsco/skills-registry)
+* Inspect the intents being detected by the Snips engine, via a chat-like dashboard
+
+The app is currently available for iOS. The Android version is in the works.
+
+<br />
+<a href="{{ site.baseurl }}">
+    <img style="text-align:center" src="{{ site.baseurl }}/images/AppStoreBadge.png" srcset="{{ site.baseurl }}/images/AppStoreBadge@2x.png 2x" />
+</a>

@@ -40,6 +40,7 @@ body {
 
 a {
     text-decoration:none;
+    color:$blue;
 }
 
 h1,h2,h3,h4 {
@@ -52,7 +53,7 @@ h1 {
     font-size:44px;
 }
 
-h4 {
+h2 {
     font-size:24px;
 }
 
@@ -239,7 +240,8 @@ code {
                 }
                 a.selected {
                     color:$blue;
-                    text-decoration:underline;
+                    // text-decoration:underline;
+                    text-decoration:none;
                     font-weight:500;
                 }
             }

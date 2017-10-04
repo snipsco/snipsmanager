@@ -6,7 +6,7 @@ date:   2017-10-02 12:53:25 +0200
 
 In this guide, we will help you through the process of creating a simple assistant using the Snips Skills Manager.
 
-#### Creating a Snipsfile
+## Creating a Snipsfile
 
 First, let's create a simple **Snipsfile**, and put it in an empty folder on the Raspberry Pi:
 
@@ -24,7 +24,7 @@ skills:
 
 This Snipsfile points to a weather assistant, as created in the [Snips Console](https://console.snips.ai), using the prepackaged Weather Bundle. It uses the Snips on-device text-to-speech engine, and binds to a single skill, [snipsfakeweather](https://github.com/snipsco/snips-skill-fakeweather), which, given a date and a location, generates a fake spoken weather forecast.
 
-#### Installing dependencies
+## Installing dependencies
 
 From the command line, we place ourselves at the location of the Snipsfile, and run:
 
@@ -36,7 +36,7 @@ This will download the language models, create bindings between intents and skil
 
 After the installation has completed, we are ready to run the assistant!
 
-#### Running
+## Running
 
 Simply run the following:
 

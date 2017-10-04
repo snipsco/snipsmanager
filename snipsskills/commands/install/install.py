@@ -4,8 +4,8 @@ import os
 
 from ..base import Base
 from ...utils.os_helpers import file_exists
-from ...utils.snipsfile import Snipsfile
 from ...utils.os_helpers import is_raspi_os
+from ...utils.snipsfile import Snipsfile
 
 from ..assistant.fetch import AssistantFetcher
 from ..assistant.load import AssistantLoader

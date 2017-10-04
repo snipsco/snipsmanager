@@ -1,0 +1,9 @@
+<nav>
+    <ul>
+        <li><a {% if page.title == "Getting Started" %}class="selected"{% endif %} href="{{ site.baseurl }}{% post_url 2017-10-02-Getting-Started %}">Getting Started</a></li>
+        <li><a {% if page.title == "Skills" %}class="selected"{% endif %} href="{{ site.baseurl }}{% post_url 2017-10-02-Skills %}">Skills</a></li>
+        <li><a {% if page.title == "API" %}class="selected"{% endif %} href="{{ site.baseurl }}{% post_url 2017-10-02-API %}">API</a></li>
+        <li><a href="{{ site.baseurl }}{% post_url 2017-10-02-Skills %}">Troubleshooting</a></li>
+        <li><a {% if page.title == "Snips Control" %}class="selected"{% endif %} href="{{ site.baseurl }}{% post_url 2017-10-03-iOS-App %}">iOS app</a></li>
+    </ul>
+</nav>

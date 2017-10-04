@@ -5,14 +5,7 @@
 	{% include menu.html %}
 	<div class="main">
 		<div class="content">
-			<nav>
-				<ul>
-					<li><a {% if page.title == "Getting Started" %}class="selected"{% endif %} href="{{ site.baseurl }}{% post_url 2017-10-02-Getting-Started %}">Getting Started</a></li>
-					<li><a {% if page.title == "Skills" %}class="selected"{% endif %} href="{{ site.baseurl }}{% post_url 2017-10-02-Skills %}">Skills</a></li>
-					<li><a {% if page.title == "API" %}class="selected"{% endif %} href="{{ site.baseurl }}{% post_url 2017-10-02-API %}">API</a></li>
-					<li><a href="{{ site.baseurl }}{% post_url 2017-10-02-Skills %}">Troubleshooting</a></li>
-					<li><a href="{{ site.baseurl }}{% post_url 2017-10-02-Skills %}">iOS app</a></li>
-			</nav>
+			{% include nav.html %}
 			<article>
 				<h1 class="title">{{ page.title }}</h1>
 				{{ content }}
