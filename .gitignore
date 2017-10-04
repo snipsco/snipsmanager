@@ -82,7 +82,7 @@ temp/
 Makefile
 snipsskills/data/music
 Snipsfile
-Snipsfile.*
+Snipsfile.tmp
 .snips
 test.py
 venv
