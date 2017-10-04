@@ -34,6 +34,7 @@ class SystemdSnipsSkills(Base):
         pp.pcommand("Setting up Snips Skills as a Systemd service")
 
         snipsfile_path = snipsfile_path or DEFAULT_SNIPSFILE_PATH
+        working_directory = os.path.dirname(snipsfile_path)
         
         if not is_raspi_os():
             raise SystemdSnipsSkillsException("Snips Systemd configuration is only available on Raspberry Pi. Skipping Systemd setup")
@@ -44,7 +45,7 @@ class SystemdSnipsSkills(Base):
 
         contents = Systemd.get_template(SystemdSnipsSkills.SNIPSSKILLS_SERVICE_NAME)
         contents = contents.replace("{{SNIPSSKILLS_COMMAND}}", snipsskills_path)
-        contents = contents.replace("{{SNIPSFILE_PATH}}", snipsfile_path)
+        contents = contents.replace("{{WORKING_DIRECTORY}}", working_directory)
         Systemd.write_systemd_file(SystemdSnipsSkills.SNIPSSKILLS_SERVICE_NAME, None, contents)
         Systemd.enable_service(None, SystemdSnipsSkills.SNIPSSKILLS_SERVICE_NAME)
 
