@@ -29,7 +29,7 @@ class BluetoothInstaller(Base):
         pp.pcommand("Setting up Bluetooth")
 
         if not is_raspi_os():
-            raise BluetoothInstallerException("Error: Bluetooth is only available on a Raspberry Pi")
+            raise BluetoothInstallerException("Error: Bluetooth is only available on Raspberry Pi")
 
         if not is_node_available():
             BluetoothInstaller.install_node()

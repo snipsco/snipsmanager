@@ -6,7 +6,7 @@ import os
 import logging
 
 SNIPS_CACHE_DIR_NAME = ".snips"
-HOME_DIR = os.path.expanduser("~")
+HOME_DIR = "/home/pi"
 SNIPS_CACHE_DIR = os.path.join(HOME_DIR, SNIPS_CACHE_DIR_NAME)
 NODE_MODULES_LOCATION = SNIPS_CACHE_DIR
 NODE_MODULES_PATH = os.path.join(NODE_MODULES_LOCATION, "node_modules")
@@ -19,6 +19,8 @@ ASOUNDCONF_DEST_PATH = "/etc/asound.conf"
 
 
 def prepare_cache():
+    if not os.path.exists(HOME_DIR):
+        os.makedirs(HOME_DIR)
     if not os.path.exists(SNIPS_CACHE_DIR):
         os.makedirs(SNIPS_CACHE_DIR)
 
