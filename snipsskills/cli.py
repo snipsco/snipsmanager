@@ -2,7 +2,7 @@
 """ snipsskills
 
 Usage:
-  snipsskills install [--snipsfile=<snipsfile_path> --skip_bluetooth --skip_systemd --force_download] [--email=<email> --password=<password>]
+  snipsskills install [--snipsfile=<snipsfile_path> --skip_bluetooth --skip_systemd --force_download --silent] [--email=<email> --password=<password>]
   snipsskills install bluetooth [--force_download]
   snipsskills install skill <skill_url>
   snipsskills install skills [--snipsfile=<snipsfile_path>]

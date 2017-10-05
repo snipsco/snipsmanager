@@ -97,7 +97,7 @@ class SkillsRunner:
                 self.skills[skilldef.package_name] = skill_instance
                 logger.info("Successfully loaded skill {}".format(skilldef.package_name))
             except Exception as e:
-                logger.error("Error loading skill: {}".format(
+                logger.error("Error loading skill {}: {}".format(
                     skilldef.package_name, str(e)))
 
     def start(self):
