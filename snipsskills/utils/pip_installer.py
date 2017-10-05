@@ -58,6 +58,8 @@ class PipInstaller:
     @staticmethod
     def activate_venv():
         try:
+            print("COMMAND")
+            print("source {}/bin/activate".format(DEB_VENV))
             execute_command("source {}/bin/activate".format(DEB_VENV), silent=True)
             print("\n")
             print("**************")
