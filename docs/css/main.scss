@@ -131,6 +131,10 @@ code {
                     font-family:$font-default;
                     font-weight:500;
                     color:#fff;
+                    text-decoration:none;
+                }
+                a.selected {
+                    text-decoration:underline;
                 }
                 a:hover {
                     text-decoration:underline;
