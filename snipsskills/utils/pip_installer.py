@@ -7,7 +7,7 @@ import pip
 from .os_helpers import execute_command, is_valid_github_url, read_file
 
 from .. import SNIPS_CACHE_DIR
-from .. import DEB_VENV
+from .. import DEB_VENV, SHELL_COMMAND
 
 class PipInstallerException(Exception):
     pass
