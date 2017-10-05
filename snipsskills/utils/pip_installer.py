@@ -7,6 +7,7 @@ import pip
 from .os_helpers import execute_command, is_valid_github_url, read_file
 
 from .. import SNIPS_CACHE_DIR
+from .. import DEB_VENV
 
 class PipInstallerException(Exception):
     pass
@@ -30,10 +31,7 @@ class PipInstaller:
     @staticmethod
     def install_pip(package_name, force_download=False):
         no_cache = "--no-cache" if force_download else ""
-        command = "pip install --upgrade --quiet {} {}".format(no_cache, package_name)
-        (output, error) = execute_command(command, silent=False)
-        if error is not None and error.strip() != '':
-            raise PipInstallerException(error)
+        PipInstaller.execute_pip("pip install --upgrade --quiet {} {}".format(no_cache, package_name))
     
 
     @staticmethod
@@ -44,12 +42,41 @@ class PipInstaller:
         if not force_download and PipCache.is_installed(url):
             return
 
-        command = "pip install --upgrade --quiet {}".format(url)
+        PipInstaller.execute_pip("pip install --upgrade --quiet {}".format(url))
+        PipCache.add(url)
+
+
+    @staticmethod
+    def execute_pip(command):
+        is_venv_active = PipInstaller.activate_venv()
         (output, error) = execute_command(command, silent=False)
+        if is_venv_active:
+            PipInstaller.deactivate_venv()
         if error is not None and error.strip() != '':
             raise PipInstallerException(error)
 
-        PipCache.add(url)
+    @staticmethod
+    def activate_venv():
+        try:
+            execute_command("source {}/bin/activate".format(DEB_VENV), silent=True)
+            print("\n")
+            print("**************")
+            print("USING VENV")
+            print("\n")
+            return True
+        except:
+            print("\n")
+            print("**************")
+            print("NOT USING VENV")
+            print("\n")
+            return False
+
+    @staticmethod
+    def deactivate_venv():
+        try:
+            execute_command("deactivate", silent=True)
+        except:
+            pass
 
 
 class PipCache:

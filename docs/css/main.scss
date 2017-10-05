@@ -114,10 +114,35 @@ code {
         }
     }
     a.github {
-        margin-top:25px;
-        float:right;
-        display:block;
+        // display:block;
     }
+    .links {
+        margin-top:35px;
+        float:right;
+        ul {
+            list-style-type: none;
+            margin:0;
+            padding:0;
+            li {
+                display: inline;
+                list-style-type: none;
+                padding-left: 20px;
+                a {
+                    font-family:$font-default;
+                    font-weight:500;
+                    color:#fff;
+                }
+                a:hover {
+                    text-decoration:underline;
+                }
+                a.github:hover {
+                    text-decoration:none;
+                    background-color:$meddarkgreen;
+                }
+            }
+        }
+    }
+
 }
 
 #footer {

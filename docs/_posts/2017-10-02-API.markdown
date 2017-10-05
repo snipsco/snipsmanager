@@ -5,7 +5,7 @@ date:   2017-10-02 12:53:25 +0200
 permalink: /api/
 ---
 
-#### Fetching an assistant
+## Fetching an assistant
 
 ```sh
 snipsskills fetch assistant
@@ -28,7 +28,7 @@ assistant_id: proj_123ABC
 * `--force_download` (optional): if true, the command will force redownloading the assistant. Otherwise, it will look for it in the cache.
 
 
-#### Loading an assistant
+## Loading an assistant
 
 ```sh
 snipsskills load assistant
