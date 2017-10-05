@@ -5,7 +5,7 @@ date:   2017-10-02 12:53:25 +0200
 permalink: /skills/
 ---
 
-This page provides a sample of awesome skills from the [Snips Skills Registry](https://github.com/snipsco/snips-skills-registry). If you want to add yours, simply submit a [Pull Request on Github](https://github.com/snipsco/snips-skills-registry/pulls), adding the appropriate line to the [Registry](https://github.com/snipsco/snips-skills-registry/blob/master/REGISTRY) file. This will also make it discoverable through the [iOS App]({% post_url 2017-10-03-iOS-App %}).
+This page provides a sample of awesome skills made for Snips. If you want to add yours, simply submit a [Pull Request on Github](https://github.com/snipsco/snips-skills-registry/pulls), adding the appropriate line to the [Registry](https://github.com/snipsco/snips-skills-registry/blob/master/REGISTRY) file. This will also make it discoverable through the [iOS App]({% post_url 2017-10-03-iOS-App %}).
 
 <div class="skill">
     <img src="{{ site.baseurl }}/images/skills/Light.png" srcset="{{ site.baseurl }}/images/skills/Light@2x.png 2x" />
