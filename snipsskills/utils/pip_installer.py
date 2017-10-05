@@ -51,6 +51,8 @@ class PipInstaller:
         is_venv_active = PipInstaller.activate_venv()
         try:
             print("**************")
+            print("USING EASY INSTALL")
+            execute_command("easy_install --upgrade pip", silent=False)
             print("RUNING PIP COMMAND")
             (output, error) = execute_command(command, silent=False)
         except:
