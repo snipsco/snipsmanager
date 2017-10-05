@@ -59,8 +59,7 @@ class PipInstaller:
     def activate_venv():
         try:
             print("COMMAND")
-            print("source {}/bin/activate".format(DEB_VENV))
-            execute_command("source {}/bin/activate".format(DEB_VENV), silent=True)
+            execute_command("{} {}/bin/activate".format(SHELL_COMMAND, DEB_VENV), silent=True)
             print("\n")
             print("**************")
             print("USING VENV")
