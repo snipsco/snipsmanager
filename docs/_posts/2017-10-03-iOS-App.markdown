@@ -2,6 +2,7 @@
 layout: page
 title:  "Snips Control"
 date:   2017-10-02 12:53:25 +0200
+permalink: /ios/
 ---
 
 <div style="float:right; margin-left:40px;">

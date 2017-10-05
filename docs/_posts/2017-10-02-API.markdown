@@ -2,6 +2,7 @@
 layout: page
 title:  "API"
 date:   2017-10-02 12:53:25 +0200
+permalink: /api/
 ---
 
 #### Fetching an assistant
