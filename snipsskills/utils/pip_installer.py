@@ -64,7 +64,7 @@ class PipInstaller:
             print("USING VENV")
             print("\n")
             return True
-        except Exception e:
+        except Exception as e:
             print("\n")
             print("**************")
             print("NOT USING VENV")
