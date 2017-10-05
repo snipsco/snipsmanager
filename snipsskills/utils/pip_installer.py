@@ -49,7 +49,11 @@ class PipInstaller:
     @staticmethod
     def execute_pip(command):
         is_venv_active = PipInstaller.activate_venv()
-        (output, error) = execute_command(command, silent=False)
+        try:
+            (output, error) = execute_command(command, silent=False)
+        except:
+            execute_command("easy_install --upgrade pip", silent=False)
+            (output, error) = execute_command(command, silent=False)
         if is_venv_active:
             PipInstaller.deactivate_venv()
         if error is not None and error.strip() != '':
