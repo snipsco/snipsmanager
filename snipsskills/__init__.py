@@ -19,6 +19,7 @@ SNIPS_CACHE_INTENT_REGISTRY_FILE = os.path.join(SNIPS_CACHE_INTENTS_DIR, "intent
 
 DEB_VENV = "/opt/venvs/snipsskills"
 SHELL_COMMAND = "/bin/bash"
+PIP_BINARY = os.path.join(DEB_VENV, "bin/pip")
 
 ASOUNDRC_DEST_PATH = os.path.join(HOME_DIR, ".asoundrc")
 ASOUNDCONF_DEST_PATH = "/etc/asound.conf"

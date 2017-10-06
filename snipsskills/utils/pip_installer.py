@@ -7,7 +7,7 @@ import pip
 from .os_helpers import execute_command, is_valid_github_url, read_file
 
 from .. import SNIPS_CACHE_DIR
-from .. import DEB_VENV, SHELL_COMMAND
+from .. import DEB_VENV, SHELL_COMMAND, PIP_BINARY
 
 class PipInstallerException(Exception):
     pass
@@ -31,7 +31,7 @@ class PipInstaller:
     @staticmethod
     def install_pip(package_name, force_download=False):
         no_cache = "--no-cache" if force_download else ""
-        PipInstaller.execute_pip("pip install --upgrade --quiet {} {}".format(no_cache, package_name))
+        PipInstaller.execute_pip_install("--upgrade --quiet {} {}".format(no_cache, package_name))
     
 
     @staticmethod
@@ -42,26 +42,18 @@ class PipInstaller:
         if not force_download and PipCache.is_installed(url):
             return
 
-        PipInstaller.execute_pip("pip install --upgrade --quiet {}".format(url))
+        PipInstaller.execute_pip_install("--upgrade --quiet {}".format(url))
         PipCache.add(url)
 
 
     @staticmethod
-    def execute_pip(command):
+    def execute_pip_install(arguments):
         is_venv_active = PipInstaller.activate_venv()
-        try:
-            print("**************")
-            print("USING EASY INSTALL")
-            execute_command("easy_install --upgrade pip", silent=False)
-            print("RUNING PIP COMMAND")
-            (output, error) = execute_command(command, silent=False)
-        except:
-            print("**************")
-            print("FAILED, USING EASY INSTALL")
-            execute_command("easy_install --upgrade pip", silent=False)
-            print("**************")
-            print("DONE UPGRADING; TRYING AGAIN")
-            (output, error) = execute_command(command, silent=False)
+        # execute_command("easy_install --upgrade pip", silent=False)
+        print("*************")
+        command = "{} {}".format(PIP_BINARY, arguments)
+        print("Executing command: {}".format(command))
+        (output, error) = execute_command("{} install {}".format(PIP_BINARY, arguments), silent=False)
         if is_venv_active:
             PipInstaller.deactivate_venv()
         if error is not None and error.strip() != '':
@@ -70,19 +62,9 @@ class PipInstaller:
     @staticmethod
     def activate_venv():
         try:
-            print("COMMAND")
             execute_command("{} {}/bin/activate".format(SHELL_COMMAND, DEB_VENV), silent=True)
-            print("\n")
-            print("**************")
-            print("USING VENV")
-            print("\n")
             return True
         except Exception as e:
-            print("\n")
-            print("**************")
-            print("NOT USING VENV")
-            print(str(e))
-            print("\n")
             return False
 
     @staticmethod
