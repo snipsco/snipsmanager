@@ -58,7 +58,7 @@ h2 {
 }
 
 h5 {
-        font-family: "apercu-mono";
+    font-family: "apercu-mono";
     code {
         font-family: "apercu-mono";
         font-size:22px;
@@ -84,12 +84,17 @@ pre {
         line-height:1.5;
     }
 }
+
 code {
     font-family: "apercu-mono";
     font-size:14px;
     background-color:$lightgrey;
     padding: 2px 5px;
     @include border-radius(5px);
+}
+
+code.nobackground {
+    background-color:transparent !important;
 }
 
 ::-webkit-scrollbar { 
@@ -231,8 +236,12 @@ code {
             width:100%;
             text-align:center;
             padding-top:-5px;
+            span {
+                color:$darkgreen
+            }
         }
     }
+
     .linux-command {
         margin-top:60px;
     }
@@ -243,11 +252,28 @@ code {
     .command span::-moz-selection {
       background: $darkgreen;
     }
+
+    .mini-info {
+        text-align:center;
+        font-size:12px;
+        font-family:$font-default;
+        color:$text-color-light;
+        width:60%;
+        margin:0 auto;
+        margin-top:30px;
+        code {
+            color:$text-color;
+            background-color:none !important;
+            font-size:12px;
+        }
+    }
+
     article {
         @include box-sizing(border-box);
         max-width:640px;
         padding-right:20px;
     }
+
     nav {
         @include box-sizing(border-box);
         @extend .highlight-box;
