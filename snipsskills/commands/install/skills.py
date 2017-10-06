@@ -23,7 +23,7 @@ class SkillsInstaller(Base):
     
     def run(self):
         try:
-            SkillsInstaller.install(self.options['--snipsfile'], self.options['--force_download'])
+            SkillsInstaller.install(self.options['--snipsfile'], self.options['--force-download'])
         except SkillsInstallerWarning as e:
             pp.pwarning(str(e))
         except Exception as e:

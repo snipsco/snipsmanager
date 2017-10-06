@@ -29,13 +29,13 @@ class MicrophoneInstaller(Base):
 
         Docopt command:
         
-        snipsskills setup microphone [--snipsfile=<snipsfile>] [<microphone_id> [--skip_asoundrc] [--update_asoundconf] [PARAMS ...]]
+        snipsskills setup microphone [--snipsfile=<snipsfile>] [<microphone_id> [--skip-asoundrc] [--update_asoundconf] [PARAMS ...]]
         """
         try:
             microphone_id = self.options['<microphone_id>']
             if microphone_id is not None:
-                update_asoundrc = not self.options['--skip_asoundrc']
-                update_asoundconf = self.options['--update_asoundconf']
+                update_asoundrc = not self.options['--skip-asoundrc']
+                update_asoundconf = self.options['--update-asoundconf']
                 params = self.options['PARAMS']
                 MicrophoneInstaller.install_from_params(microphone_id, update_asoundrc, update_asoundconf, params_list=params)
             else:

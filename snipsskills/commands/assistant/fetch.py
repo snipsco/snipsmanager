@@ -34,7 +34,7 @@ class AssistantFetcher(Base):
         
         snipsskills fetch assistant [--id=<id> --url=<url> --file=<filename>]
         """
-        force_download = self.options['--force_download']
+        force_download = self.options['--force-download']
         try:
             aid = self.options['--id']
             url = self.options['--url']

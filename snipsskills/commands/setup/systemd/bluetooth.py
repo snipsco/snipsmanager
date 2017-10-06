@@ -26,8 +26,8 @@ class SystemdBluetooth(Base):
 
     def run(self):
         try:
-            mqtt_hostname = self.options['--mqtt_host']
-            mqtt_port = self.options['--mqtt_port']
+            mqtt_hostname = self.options['--mqtt-host']
+            mqtt_port = self.options['--mqtt-port']
             if mqtt_hostname is not None or mqtt_port is not None:
                 SystemdBluetooth.setup_from_params(mqtt_hostname=mqtt_hostname, mqtt_port=mqtt_port)
             else:

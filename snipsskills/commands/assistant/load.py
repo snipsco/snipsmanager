@@ -30,10 +30,10 @@ class AssistantLoader(Base):
 
         Docopt command:
         
-        snipsskills load assistant [--file=<file> --platform_only]
+        snipsskills load assistant [--file=<file> --platform-only]
         """
         try:
-            generate_classes = not self.options['--platform_only']
+            generate_classes = not self.options['--platform-only']
             AssistantLoader.load(self.options['--file'], generate_classes=generate_classes)
         except Exception as e:
             pp.perror(str(e))

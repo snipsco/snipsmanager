@@ -32,7 +32,7 @@ class GlobalInstaller(Base):
     def run(self):
         pp.silent = self.options['--silent']
         try:
-            GlobalInstaller.install(self.options['--snipsfile'], skip_bluetooth=self.options['--skip_bluetooth'], skip_systemd=self.options['--skip_systemd'], email=self.options['--email'], password=self.options['--password'], force_download=self.options['--force_download'])
+            GlobalInstaller.install(self.options['--snipsfile'], skip_bluetooth=self.options['--skip-bluetooth'], skip_systemd=self.options['--skip-systemd'], email=self.options['--email'], password=self.options['--password'], force_download=self.options['--force-download'])
         except GlobalInstallerWarning as e:
             pp.pwarning(str(e))
         except Exception as e:

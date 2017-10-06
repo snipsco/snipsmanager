@@ -19,7 +19,7 @@ class BluetoothInstaller(Base):
 
     def run(self):
         try:
-            BluetoothInstaller.install(force_download=self.options['--force_download'])
+            BluetoothInstaller.install(force_download=self.options['--force-download'])
         except Exception as e:
             pp.perror(str(e))
 

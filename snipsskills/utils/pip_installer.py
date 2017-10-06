@@ -49,10 +49,7 @@ class PipInstaller:
     @staticmethod
     def execute_pip_install(arguments):
         is_venv_active = PipInstaller.activate_venv()
-        # execute_command("easy_install --upgrade pip", silent=False)
-        print("*************")
         command = "{} {}".format(PIP_BINARY, arguments)
-        print("Executing command: {}".format(command))
         (output, error) = execute_command("{} install {}".format(PIP_BINARY, arguments), silent=False)
         if is_venv_active:
             PipInstaller.deactivate_venv()
