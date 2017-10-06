@@ -94,7 +94,6 @@ class Snipsfile:
         self.snips_sdk_version = get(yaml_config, ['snips_sdk', 'version'])
         self.locale = get(yaml_config, ['locale'], 'en_US')
         self.tts_service = get(yaml_config, ['tts', 'service'])
-        # self.logging = get(yaml_config, ['logging'], True)
         self.default_location = get(
             yaml_config, ['default_location'], 'Paris,fr')
         self.mqtt_hostname = get(

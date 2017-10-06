@@ -12,7 +12,7 @@ Usage:
   snipsskills setup systemd bluetooth [--mqtt-host=<mqtt_host> --mqtt-port=<mqtt_port>]
   snipsskills setup systemd snips
   snipsskills setup systemd skills [--snipsfile=<snipsfile_path>]
-  snipsskills run [--snipsfile=<snipsfile_path>]
+  snipsskills run [--snipsfile=<snipsfile_path>] [--mqtt-host=<mqtt_host> --mqtt-port=<mqtt_port> --tts-service=<tts_service> --locale=<locale>]
   snipsskills login [--email=<email> --password=<password>]
   snipsskills logout
   snipsskills -h | --help
@@ -38,6 +38,7 @@ import sys
 from docopt import docopt
 from snipsskillscore import pretty_printer as pp
 
+from . import logger
 from . import __version__ as VERSION
 
 def matches_options(options, option_string):
@@ -103,7 +104,7 @@ def main():
     except KeyboardInterrupt:
         try:
             print("\n")
-            pp.perror("Snips Skills server stopped")
+            logger.error("Snips Skills server stopped")
             sys.exit(0)
         except SystemExit:
             os._exit(0)

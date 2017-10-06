@@ -41,29 +41,33 @@ class Runner(Base):
     def run(self):
         """ Command runner. """
         try:
-            Runner.run(self.options['--snipsfile'])
-        except GlobalInstallerWarning as e:
-            pp.pwarning(str(e))
+            snipsfile = self.options['--snipsfile']
+            mqtt_hostname = self.options['--mqtt-host']
+            mqtt_port = self.options['--mqtt-port']
+            tts_service_id = self.options['--tts-service']
+            locale = self.options['--locale']
+            Runner.run_from_snipsfile_path(snipsfile_path=snipsfile, mqtt_hostname=mqtt_hostname, mqtt_port=mqtt_port, tts_service_id=tts_service_id, locale=locale)
+
         except Exception as e:
-            pp.perror(str(e))
+            logger.error(str(e))
 
 
     @staticmethod
-    def run(snipsfile_path=None):
+    def run_from_snipsfile_path(snipsfile_path=None, mqtt_hostname=None, mqtt_port=None, tts_service_id=None, locale=None):
         snipsfile_path = snipsfile_path or DEFAULT_SNIPSFILE_PATH
         if snipsfile_path is not None and not file_exists(snipsfile_path):
             raise RunnerException("Error running skills server: Snipsfile not found")
         snipsfile = Snipsfile(snipsfile_path)
-        Runner.run_from_snipsfile(snipsfile)
+        Runner.run_from_snipsfile(snipsfile, mqtt_hostname=mqtt_hostname, mqtt_port=mqtt_port, tts_service_id=tts_service_id, locale=locale)
 
 
     @staticmethod
-    def run_from_snipsfile(snipsfile):
+    def run_from_snipsfile(snipsfile, mqtt_hostname=None, mqtt_port=None, tts_service_id=None, locale=None):
         Runner.run_with_params(
-            mqtt_hostname=snipsfile.mqtt_hostname,
-            mqtt_port=snipsfile.mqtt_port,
-            tts_service_id=snipsfile.tts_service,
-            locale=snipsfile.locale,
+            mqtt_hostname=mqtt_hostname or snipsfile.mqtt_hostname,
+            mqtt_port=mqtt_port or snipsfile.mqtt_port,
+            tts_service_id=tts_service_id or snipsfile.tts_service,
+            locale=locale or snipsfile.locale,
             skilldefs=snipsfile.skilldefs)
 
 
@@ -76,6 +80,8 @@ class Runner(Base):
 class SkillsRunner:
 
     def __init__(self, mqtt_hostname, mqtt_port, tts_service_id, locale, skilldefs=[]):
+        logger.info("Starting Snips Skills")
+
         self.registry = IntentRegistry()
         self.server = Server(mqtt_hostname, mqtt_port, tts_service_id, locale, self.registry, self.handle_intent_async, logger)
 
@@ -93,7 +99,9 @@ class SkillsRunner:
                 cls = eval(class_name)
                 skill_instance = cls(**skilldef.params)
                 if skilldef.requires_tts:
-                    skill_instance.tts = server.tts_service
+                    skill_instance = cls(tts_service=self.server.tts_service, **skilldef.params)
+                else:
+                    skill_instance = cls(**skilldef.params)
                 self.skills[skilldef.package_name] = skill_instance
                 logger.info("Successfully loaded skill {}".format(skilldef.package_name))
             except Exception as e:
@@ -120,6 +128,8 @@ class SkillsRunner:
         for skilldef in self.skilldefs:
             intent_def = skilldef.find(intent)
             if intent_def is None:
+                continue
+            if not skilldef.package_name in self.skills:
                 continue
             skill = self.skills[skilldef.package_name]
             if intent_def.action.startswith("{%"):

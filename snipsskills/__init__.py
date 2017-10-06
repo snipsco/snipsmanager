@@ -32,7 +32,7 @@ def prepare_cache():
 
 prepare_cache()
 
-logger = logging.getLogger()
+logger = logging.getLogger(__name__)
 handler = logging.StreamHandler()
 log_format = '\033[2m%(asctime)s\033[0m [%(levelname)s] %(message)s'
 date_format = '%Y-%m-%d %H:%M:%S'

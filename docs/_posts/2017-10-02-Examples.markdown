@@ -1,13 +1,13 @@
 ---
 layout: page
-title:  "Skills"
+title:  "Examples"
 date:   2017-10-02 12:53:25 +0200
-permalink: /skills/
+permalink: /examples/
 ---
 
 This page provides a sample of awesome skills made for Snips. If you want to add yours, simply submit a [Pull Request on Github](https://github.com/snipsco/snips-skills-registry/pulls), adding the appropriate line to the [Registry](https://github.com/snipsco/snips-skills-registry/blob/master/REGISTRY) file. This will also make it discoverable through the [iOS App]({% post_url 2017-10-02-iOS-App %}).
 
-<div class="skill">
+<div class="skill" style="margin-top:60px">
     <img src="{{ site.baseurl }}/images/skills/Light.png" srcset="{{ site.baseurl }}/images/skills/Light@2x.png 2x" />
     <h1>Philips Hue</h1>
     <p>Control your Philips Hue lights</p>
@@ -17,7 +17,7 @@ This page provides a sample of awesome skills made for Snips. If you want to add
 <div class="skill">
     <img src="{{ site.baseurl }}/images/skills/Weather.png" srcset="{{ site.baseurl }}/images/skills/Weather@2x.png 2x" />
     <h1>Fake Weather Forecasts</h1>
-    <p>We got fake news. Now it's time for fake weather forecasts.</p>
+    <p>We got fake news. Now it's time for fake weather forecasts</p>
     <a href="https://github.com/snipsco/snips-skill-hue">https://github.com/snipsco/snips-skill-fakeweather</a>
 </div>
 
