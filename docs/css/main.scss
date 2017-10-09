@@ -237,7 +237,7 @@ code.nobackground {
             text-align:center;
             padding-top:-5px;
             span {
-                color:$darkgreen
+                color:$darkgreen;
             }
         }
     }
@@ -258,7 +258,7 @@ code.nobackground {
         font-size:12px;
         font-family:$font-default;
         color:$text-color-light;
-        width:60%;
+        width:75%;
         margin:0 auto;
         margin-top:30px;
         code {
