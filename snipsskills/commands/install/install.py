@@ -10,6 +10,7 @@ from ...utils.snipsfile import Snipsfile
 from ..assistant.fetch import AssistantFetcher
 from ..assistant.load import AssistantLoader
 from ..setup.microphone import MicrophoneInstaller
+from ..setup.speaker import SpeakerInstaller
 from ..setup.systemd.bluetooth import SystemdBluetooth
 from ..setup.systemd.snips import SystemdSnips
 from ..setup.systemd.snipsskills import SystemdSnipsSkills
@@ -68,6 +69,11 @@ class GlobalInstaller(Base):
         
         try:
             MicrophoneInstaller.install()
+        except Exception as e:
+            pp.pwarning(str(e))
+
+        try:
+            SpeakerInstaller.install()
         except Exception as e:
             pp.pwarning(str(e))
 
