@@ -3,11 +3,10 @@
 
 import os
 import shutil
-import subprocess
 
 from .os_helpers import cmd_exists, is_raspi_os, execute_command, pipe_commands
 
-from .. import ASOUNDRC_DEST_PATH, ASOUNDCONF_DEST_PATH
+from .. import ASOUNDRC_DEST_PATH
 
 # pylint: disable=too-few-public-methods
 class MicrophoneSetup:
@@ -26,12 +25,6 @@ class MicrophoneSetup:
         else:
             MicrophoneSetup._copy_asoundrc("asoundrc.default")
 
-    @staticmethod
-    def setup_asoundconf():
-        if not is_raspi_os():
-            return
-        MicrophoneSetup._copy_asoundconf()
-
 
     @staticmethod
     def _copy_asoundrc(asoundrc_file):
@@ -46,13 +39,6 @@ class MicrophoneSetup:
         shutil.copy2(asoundrc_path, destination)
 
 
-    @staticmethod
-    def _copy_asoundconf():
-        """ Copy asoundconf to local path. """
-        this_dir, this_filename = os.path.split(__file__)
-        asoundrc_path = os.path.join(this_dir, MicrophoneSetup.ASOUNDRC_CONFIG_PATH, "asound.conf")
-        destination = os.path.expanduser(ASOUNDCONF_DEST_PATH)
-        shutil.copy2(asoundrc_path, destination)
 
 
 class RespeakerMicrophoneSetup:

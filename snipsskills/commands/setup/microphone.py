@@ -84,12 +84,6 @@ class MicrophoneInstaller(Base):
             message.start()
             MicrophoneSetup.setup_asoundrc(microphone_id)
             message.done()
-            
-        if update_asoundconf:
-            message = pp.ConsoleMessage("Copying asound.conf to {}".format(MicrophoneSetup.ASOUNDCONF_DEST_PATH))
-            message.start()
-            MicrophoneSetup.setup_asoundconf()
-            message.done()
 
         if microphone_id == 'respeaker':
             message = pp.ConsoleMessage("Installing ReSpeaker drivers")
