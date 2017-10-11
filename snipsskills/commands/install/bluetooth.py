@@ -34,7 +34,7 @@ class BluetoothInstaller(Base):
         if not is_node_available():
             BluetoothInstaller.install_node()
         
-        if force_download and not BluetoothInstaller.is_snips_mqtt_relay_installed():
+        if force_download or not BluetoothInstaller.is_snips_mqtt_relay_installed():
             message = pp.ConsoleMessage("Installing Node module $GREEN{}$RESET".format(BluetoothInstaller.SNIPS_MQTT_RELAY_MODULE_NAME))
             message.start()
             try:
