@@ -4,7 +4,8 @@ from .os_helpers import is_raspi_os, execute_command
 from .. import ASOUNDRC_DEST_PATH, ASOUNDCONF_DEST_PATH
 
 class SpeakerSetup:
-    ASOUNDRC_CONFIG_PATH = "../config/"
+    ASOUNDRC_CONFIG_PATH = "../config/asoundrc/"
+    SOUND_DRIVER_PATH = "../config/drivers/"
 
     @staticmethod
     def setup_asoundrc(speaker_id):
@@ -53,6 +54,6 @@ class SpeakerSetup:
         if not is_raspi_os():
             return
         this_dir, this_filename = os.path.split(__file__)
-        driver_path = os.path.join(this_dir, SpeakerSetup.ASOUNDRC_CONFIG_PATH, driver_file)
+        driver_path = os.path.join(this_dir, SpeakerSetup.SOUND_DRIVER_PATH, driver_file)
         execute_command("sudo chmod a+x " + driver_path)
         execute_command(driver_path) #or execute_command("." + driver_path) ?
