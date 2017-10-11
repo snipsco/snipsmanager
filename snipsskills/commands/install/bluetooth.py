@@ -38,7 +38,7 @@ class BluetoothInstaller(Base):
             message = pp.ConsoleMessage("Installing Node module $GREEN{}$RESET".format(BluetoothInstaller.SNIPS_MQTT_RELAY_MODULE_NAME))
             message.start()
             try:
-                execute_command("npm install --no-cache --prefix={} {}".format(NODE_MODULES_LOCATION, BluetoothInstaller.SNIPS_MQTT_RELAY_MODULE_NAME), True)
+                execute_command("sudo npm install --no-cache --prefix={} {}".format(NODE_MODULES_LOCATION, BluetoothInstaller.SNIPS_MQTT_RELAY_MODULE_NAME), True)
                 message.done()
             except:
                 message.error()

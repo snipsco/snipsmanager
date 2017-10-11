@@ -5,32 +5,46 @@ date:   2017-10-02 12:53:25 +0200
 permalink: /examples/
 ---
 
-This page provides a sample of awesome skills made for Snips. If you want to add yours, simply submit a [Pull Request on Github](https://github.com/snipsco/snips-skills-registry/pulls), adding the appropriate line to the [Registry](https://github.com/snipsco/snips-skills-registry/blob/master/REGISTRY) file. This will also make it discoverable through the [iOS App]({% post_url 2017-10-02-iOS-App %}).
+Here are a few sample skills to get you started. If you want to add yours, simply submit a [Pull Request on Github](https://github.com/snipsco/snips-skills-registry/pulls), adding the appropriate line to the [Registry](https://github.com/snipsco/snips-skills-registry/blob/master/REGISTRY) file. This will also make it discoverable through the [iOS App]({{ site.baseurl }}/{% post_url 2017-10-02-iOS-App %}).
 
 <div class="skill" style="margin-top:60px">
     <img src="{{ site.baseurl }}/images/skills/Light.png" srcset="{{ site.baseurl }}/images/skills/Light@2x.png 2x" />
     <h1>Philips Hue</h1>
     <p>Control your Philips Hue lights</p>
-    <a href="https://github.com/snipsco/snips-skill-hue">https://github.com/snipsco/snips-skill-hue</a>
+    <div class="links">
+        <a href="https://github.com/snipsco/snips-skill-hue"><i class="fa fa fa-github" aria-hidden="true"></i> Github</a>
+        <a href="#"><i class="fa fa fa-code" aria-hidden="true"></i> Snipsfile</a>
+        <a href="#"><i class="fa fa fa-play" aria-hidden="true"></i> Demo</a>
+    </div>
 </div>
 
 <div class="skill">
     <img src="{{ site.baseurl }}/images/skills/Weather.png" srcset="{{ site.baseurl }}/images/skills/Weather@2x.png 2x" />
     <h1>Fake Weather Forecasts</h1>
     <p>We got fake news. Now it's time for fake weather forecasts</p>
-    <a href="https://github.com/snipsco/snips-skill-hue">https://github.com/snipsco/snips-skill-fakeweather</a>
+    <div class="links">
+        <a href="https://github.com/snipsco/snips-skill-fakeweather"><i class="fa fa fa-github" aria-hidden="true"></i> Github</a>
+        <a href="#"><i class="fa fa fa-code" aria-hidden="true"></i> Snipsfile</a>
+        <a href="#"><i class="fa fa fa-play" aria-hidden="true"></i> Demo</a>
+    </div>
 </div>
 
 <div class="skill">
     <img src="{{ site.baseurl }}/images/skills/Coffee.png" srcset="{{ site.baseurl }}/images/skills/Coffee@2x.png 2x" />
     <h1>Smarter Coffee</h1>
     <p>Brew coffee with the Smarter Coffee machine</p>
-    <a href="https://github.com/snipsco/snips-skill-smartercoffee">https://github.com/snipsco/snips-skill-smartercoffee</a>
+    <div class="links">
+        <a href="https://github.com/snipsco/snips-skill-smartercoffee"><i class="fa fa fa-github" aria-hidden="true"></i> Github</a>
+        <a href="#"><i class="fa fa fa-code" aria-hidden="true"></i> Snipsfile</a>
+    </div>
 </div>
 
 <div class="skill">
     <img src="{{ site.baseurl }}/images/skills/Music.png" srcset="{{ site.baseurl }}/images/skills/Music@2x.png 2x" />
     <h1>Local Music Player</h1>
     <p>Play music offline from a local music database</p>
-    <a href="https://github.com/snipsco/snips-skill-localmusic">https://github.com/snipsco/snips-skill-localmusic</a>
+    <div class="links">
+        <a href="https://github.com/snipsco/snips-skill-localmusic"><i class="fa fa fa-github" aria-hidden="true"></i> Github</a>
+        <a href="#"><i class="fa fa fa-code" aria-hidden="true"></i> Snipsfile</a>
+    </div>
 </div>

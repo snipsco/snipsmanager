@@ -338,14 +338,22 @@ code.nobackground {
         margin-bottom:0;
         line-height:29px;
     }
-    p, a {
+    p {
         margin-bottom:0;
         margin-top:2px;
         padding:0;
         font-size:16px;
     }
-    a {
-        display:block;
-        color:$blue;
+    .links {
+        margin-top:5px;
+        i {
+            margin-right:2px;
+        }
+        a {
+            font-size:14px;
+            display:inline-block;
+            color:$blue;
+            padding-right:20px;
+        }
     }
 }
