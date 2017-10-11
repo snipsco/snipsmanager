@@ -52,8 +52,8 @@ class SpeakerInstaller(Base):
 
         speaker_id = snipsfile.speaker_config.identifier
         params_dict = snipsfile.speaker_config.params
-        modify_asoundrc = snipsfile.speaker_modify_asoundrc
-        modify_asoundconf = snipsfile.speaker_modify_asoundconf
+        modify_asoundrc = snipsfile.speaker_config.modify_asoundrc
+        modify_asoundconf = snipsfile.speaker_config.modify_asoundconf
 
         SpeakerInstaller.install_from_params(speaker_id, modify_asoundrc, modify_asoundconf, params_dict=params_dict, silent=True)
         SpeakerInstaller.print_done(silent)
