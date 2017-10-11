@@ -56,4 +56,4 @@ class SpeakerSetup:
         this_dir, this_filename = os.path.split(__file__)
         driver_path = os.path.join(this_dir, SpeakerSetup.SOUND_DRIVER_PATH, driver_file)
         execute_command("sudo chmod a+x " + driver_path)
-        execute_command(driver_path) #or execute_command("." + driver_path) ?
+        execute_command(driver_path + " -y")

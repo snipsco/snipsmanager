@@ -245,8 +245,8 @@ class MicrophoneConfig:
 class SpeakerConfig:
     def __init__(self, yaml_config):
         self.identifier = get(yaml_config, ['speaker', 'identifier'])
-        self.speaker_modify_asoundrc = get(yaml_config, ['speaker', 'modify_asoundrc'], True)
-        self.speaker_modify_asoundconf = get(yaml_config, ['speaker', 'modify_asoundconf'], True)
+        self.modify_asoundrc = get(yaml_config, ['speaker', 'modify_asoundrc'], True)
+        self.modify_asoundconf = get(yaml_config, ['speaker', 'modify_asoundconf'], True)
         self.params = {}
         for key, value in get(yaml_config, ['speaker', 'params'], {}).items():
             self.params[key] = value
