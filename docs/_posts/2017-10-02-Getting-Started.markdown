@@ -5,7 +5,32 @@ date:   2017-10-02 12:53:25 +0200
 permalink: /getting-started/
 ---
 
-In this guide, we will help you through the process of creating a simple assistant using the Snips Skills Manager.
+In this guide, we will help you through the process of creating a simple assistant using the Snips Assistant Manager.
+
+## What is an assistant composed of?
+
+A typical voice assistant is a device, such as a Raspberry Pi, equipped with a microphone. The device is waiting for a hotword, e.g. *Hey Snips*, *OK Google* or *Alexa*, that puts it in listening mode. Then it starts transcribing the user's voice into text, using Automatic Speech Recognition (ASR). After a short silence, it sends the transcribed phrase to a Natural Language Understanding (NLU) component, which extract the meaning of the phrase encoded in a JSON object, a so-called *intent*, that the system can understand and act upon. For instance, if the user says *Turn on the lights*, the system will output an intent which could be named `Lights` with parameter `state=on`. This is the first part illustrated in the following diagram, and consistutes the Snips Platform:
+
+<img src="{{ site.baseurl }}/images/Platform.png" srcset="{{ site.baseurl }}/images/Platform@2x.png 2x"/>
+
+The second part, the Skills part, corresponds to what happens after an intent has been detected by the Snips Platform. For instance, for a connected alarm clock, on may want to add a weather skill and a radio skill which react to `WeatherForecast` and `TurnOnRadio` intents, respectively.
+
+The hotword, ASR, and NLU modules are configured in the [Snips Console](https://console.snips.ai). This is a web interface that allows you to specify the language of the system, to define the types of queries that the system should understand, and to provide custom training examples that correspond exactly to the intended use.
+
+## What is Sam?
+
+The Snips Assistant Manager, or Sam, is a set of command-line utilities for managing assistants built with Snips. With it, you can completely specify the behaviour of your assistant without a single line of code.
+
+All the information about an assistant is contained in a file, the Snipsfile. In it, you can specify:
+
+- The location of your assistant models
+- The skills you want to include, and accompanying parameters, such as an API key or a username
+- Optionally, how skills should react to intents
+- Various general configuration parameters, such as microphone type or Text-to-Speech service
+
+
+
+## Installation
 
 ## Creating a Snipsfile
 
