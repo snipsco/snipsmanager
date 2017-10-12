@@ -17,6 +17,11 @@ DEFAULT_SNIPSFILE_PATH = os.path.join(os.getcwd(), "Snipsfile")
 SNIPS_CACHE_INTENTS_DIR = os.path.join(SNIPS_CACHE_DIR, "intents")
 SNIPS_CACHE_INTENT_REGISTRY_FILE = os.path.join(SNIPS_CACHE_INTENTS_DIR, "intent_registry.py")
 
+this_dir, this_filename = os.path.split(__file__)
+print("===========")
+print(str(this_filename))
+print("===========")
+
 DEB_VENV = "/opt/venvs/snipsskills"
 SHELL_COMMAND = "/bin/bash"
 PIP_BINARY = os.path.join(DEB_VENV, "bin/pip")
