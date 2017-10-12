@@ -1,6 +1,6 @@
 # -*-: coding utf-8 -*-
 """ snipsskills module """
-__version__ = '0.1.6.22'
+__version__ = '0.1.6.23'
 
 import os
 import logging
@@ -30,9 +30,6 @@ ASOUNDCONF_DEST_PATH = "/etc/asound.conf"
 
 SHELL_COMMAND = which("bash", "/bin/bash")
 
-# this_dir, this_filename = os.path.split(__file__)
-# __DEB_VENV = "/opt/venvs/{}".format(PACKAGE_NAME)
-
 if 'VIRTUAL_ENV' in os.environ:
     VENV_PATH = os.environ['VIRTUAL_ENV']
     # For pip to be the one from the venv
@@ -41,15 +38,6 @@ if 'VIRTUAL_ENV' in os.environ:
 else:
     VENV_PATH = None
     PIP_BINARY = which("pip", "/usr/local/bin/pip")
-# if this_dir.startswith(__DEB_VENV):
-#     VENV_PATH = __DEB_VENV
-#     PIP_BINARY = os.path.join(VENV_PATH, "bin/pip")
-# else:
-#     PIP_BINARY = which("pip", "/usr/local/bin/pip")
-#     if 'VIRTUAL_ENV' in os.environ:
-#         VENV_PATH = os.environ['VIRTUAL_ENV']
-#     else:
-#         VENV_PATH = None
 
 def prepare_cache():
     if not os.path.exists(HOME_DIR):

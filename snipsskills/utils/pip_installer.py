@@ -49,7 +49,10 @@ class PipInstaller:
     @staticmethod
     def execute_pip_install(arguments):
         is_venv_active = PipInstaller.activate_venv()
-        command = "{} {}".format(PIP_BINARY, arguments)
+        print("\n")
+        print("Execute PIP")
+        print("{} install {}".format(PIP_BINARY, arguments))
+        print("\n")
         (output, error) = execute_command("{} install {}".format(PIP_BINARY, arguments), silent=False)
         if is_venv_active:
             PipInstaller.deactivate_venv()
