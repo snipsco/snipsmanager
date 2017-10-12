@@ -1,0 +1,98 @@
+pcm.sc {
+    type hw
+    card 1
+}
+
+pcm.mic_channel0 {
+  type file
+  file "/tmp/matrix_micarray_channel_0"
+  infile "/tmp/matrix_micarray_channel_0"
+  format "raw"
+  slave {
+    pcm sc
+  }
+}
+
+
+pcm.mic_channel1 {
+  type file
+  file "/tmp/matrix_micarray_channel_1"
+  infile "/tmp/matrix_micarray_channel_1"
+  format "raw"
+  slave {
+    pcm sc
+  }
+}
+
+
+pcm.mic_channel2 {
+  type file
+  file "/tmp/matrix_micarray_channel_2"
+  infile "/tmp/matrix_micarray_channel_2"
+  format "raw"
+  slave {
+    pcm sc
+  }
+}
+
+
+pcm.mic_channel3 {
+  type file
+  file "/tmp/matrix_micarray_channel_3"
+  infile "/tmp/matrix_micarray_channel_3"
+  format "raw"
+  slave {
+    pcm sc
+  }
+}
+
+pcm.mic_channel4 {
+  type file
+  file "/tmp/matrix_micarray_channel_4"
+  infile "/tmp/matrix_micarray_channel_4"
+  format "raw"
+  slave {
+    pcm sc
+  }
+}
+
+
+pcm.mic_channel5 {
+  type file
+  file "/tmp/matrix_micarray_channel_5"
+  infile "/tmp/matrix_micarray_channel_5"
+  format "raw"
+  slave {
+    pcm sc
+  }
+}
+
+pcm.mic_channel6 {
+  type file
+  file "/tmp/matrix_micarray_channel_6"
+  infile "/tmp/matrix_micarray_channel_6"
+  format "raw"
+  slave {
+    pcm sc
+  }
+}
+
+pcm.mic_channel7 {
+  type file
+  file "/tmp/matrix_micarray_channel_7"
+  infile "/tmp/matrix_micarray_channel_7"
+  format "raw"
+  slave {
+    pcm sc
+  }
+}
+
+pcm.mic_channel8 {
+  type file
+  file "/tmp/matrix_micarray_channel_8"
+  infile "/tmp/matrix_micarray_channel_8"
+  format "raw"
+  slave {
+    pcm sc
+  }
+}
