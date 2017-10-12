@@ -7,7 +7,7 @@ import pip
 from .os_helpers import execute_command, is_valid_github_url, read_file
 
 from .. import SNIPS_CACHE_DIR
-from .. import DEB_VENV, SHELL_COMMAND, PIP_BINARY
+from .. import VENV_PATH, SHELL_COMMAND, PIP_BINARY
 
 class PipInstallerException(Exception):
     pass
@@ -58,8 +58,10 @@ class PipInstaller:
 
     @staticmethod
     def activate_venv():
+        if VENV_PATH is None:
+            return False
         try:
-            execute_command("{} {}/bin/activate".format(SHELL_COMMAND, DEB_VENV), silent=True)
+            execute_command("{} {}/bin/activate".format(SHELL_COMMAND, VENV_PATH), silent=True)
             return True
         except Exception as e:
             return False

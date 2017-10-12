@@ -4,11 +4,20 @@ __version__ = '0.1.6.22'
 
 import os
 import logging
+import subprocess
+import sys
+
+def which(command, default_value):
+    try:
+        return subprocess.check_output(["which", command]).strip()
+    except subprocess.CalledProcessError:
+        return default_value
 
 HOME_DIR = os.path.expanduser('~')
 if 'arm' in " ".join(os.uname()):
     HOME_DIR = "/home/pi"
 
+PACKAGE_NAME = "snipsskills"
 SNIPS_CACHE_DIR_NAME = ".snips"
 SNIPS_CACHE_DIR = os.path.join(HOME_DIR, SNIPS_CACHE_DIR_NAME)
 NODE_MODULES_LOCATION = SNIPS_CACHE_DIR
@@ -16,18 +25,31 @@ NODE_MODULES_PATH = os.path.join(NODE_MODULES_LOCATION, "node_modules")
 DEFAULT_SNIPSFILE_PATH = os.path.join(os.getcwd(), "Snipsfile")
 SNIPS_CACHE_INTENTS_DIR = os.path.join(SNIPS_CACHE_DIR, "intents")
 SNIPS_CACHE_INTENT_REGISTRY_FILE = os.path.join(SNIPS_CACHE_INTENTS_DIR, "intent_registry.py")
-
-this_dir, this_filename = os.path.split(__file__)
-print("===========")
-print(str(this_filename))
-print("===========")
-
-DEB_VENV = "/opt/venvs/snipsskills"
-SHELL_COMMAND = "/bin/bash"
-PIP_BINARY = os.path.join(DEB_VENV, "bin/pip")
-
 ASOUNDRC_DEST_PATH = os.path.join(HOME_DIR, ".asoundrc")
 ASOUNDCONF_DEST_PATH = "/etc/asound.conf"
+
+SHELL_COMMAND = which("bash", "/bin/bash")
+
+# this_dir, this_filename = os.path.split(__file__)
+# __DEB_VENV = "/opt/venvs/{}".format(PACKAGE_NAME)
+
+if 'VIRTUAL_ENV' in os.environ:
+    VENV_PATH = os.environ['VIRTUAL_ENV']
+    # For pip to be the one from the venv
+    # (in the Deb version, by default it used another, wrong, one)
+    PIP_BINARY = os.path.join(VENV_PATH, "bin/pip")
+else:
+    VENV_PATH = None
+    PIP_BINARY = which("pip", "/usr/local/bin/pip")
+# if this_dir.startswith(__DEB_VENV):
+#     VENV_PATH = __DEB_VENV
+#     PIP_BINARY = os.path.join(VENV_PATH, "bin/pip")
+# else:
+#     PIP_BINARY = which("pip", "/usr/local/bin/pip")
+#     if 'VIRTUAL_ENV' in os.environ:
+#         VENV_PATH = os.environ['VIRTUAL_ENV']
+#     else:
+#         VENV_PATH = None
 
 def prepare_cache():
     if not os.path.exists(HOME_DIR):
