@@ -83,7 +83,7 @@ class Snips:
     @staticmethod
     def is_installed():
         """ Check if the Snips SDK is installed. """
-        return cmd_exists("snips")
+        return cmd_exists("snips") or cmd_exists("snips-asr") or cmd_exists("snips-hotword")
 
     @staticmethod
     def load_assistant(assistant_zip_path):

@@ -101,19 +101,19 @@ class MicrophoneInstaller(Base):
 
     @staticmethod
     def normalize_respeaker_params(params_list=None, params_dict=None):
-        vendorId = None
-        productId = None
+        vendor_id = None
+        product_id = None
         exception = MicrophoneInstallerException("Error installing ReSpeaker drivers: you must provide both vendor id and product id")
         if params_list is not None:
             if len(params_list) < 2:
                 raise exception
-            vendorId = params_list[0]
-            productId = params_list[1]
+            vendor_id = params_list[0]
+            product_id = params_list[1]
         elif params_dict is not None:
-            if not 'vendorId' in params_dict and not 'productId' in params_dict:
+            if not 'vendor_id' in params_dict and not 'product_id' in params_dict:
                 raise exception
-            vendorId = params_dict['vendorId']
-            productId = params_dict['productId']
+            vendorId = params_dict['vendor_id']
+            productId = params_dict['product_id']
         return { 'vendorId': vendorId, 'productId': productId }
 
 
