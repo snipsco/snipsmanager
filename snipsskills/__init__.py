@@ -30,10 +30,14 @@ ASOUNDCONF_DEST_PATH = "/etc/asound.conf"
 
 SHELL_COMMAND = which("bash", "/bin/bash")
 
-if 'VIRTUAL_ENV' in os.environ:
+this_dir, this_filename = os.path.split(__file__)
+__DEB_VENV = "/opt/venvs/{}".format(PACKAGE_NAME)
+if this_dir.startswith(__DEB_VENV):
+    # We need to force this in Deb version
+    VENV_PATH = __DEB_VENV
+    PIP_BINARY = os.path.join(VENV_PATH, "bin/pip")
+elif 'VIRTUAL_ENV' in os.environ:
     VENV_PATH = os.environ['VIRTUAL_ENV']
-    # For pip to be the one from the venv
-    # (in the Deb version, by default it used another, wrong, one)
     PIP_BINARY = os.path.join(VENV_PATH, "bin/pip")
 else:
     VENV_PATH = None
