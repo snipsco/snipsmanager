@@ -1,6 +1,6 @@
 # -*-: coding utf-8 -*-
 """ snipsskills module """
-__version__ = '0.1.6.23'
+__version__ = '0.1.6.24'
 
 import os
 import logging
