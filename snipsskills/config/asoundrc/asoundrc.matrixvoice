@@ -1,0 +1,18 @@
+pcm.!default
+{
+  type asym
+  playback.pcm {
+    type hw
+    card 0
+    device 0
+  }
+  capture.pcm {
+    type file
+    file "/tmp/matrix_micarray_channel_7"
+    infile "/tmp/matrix_micarray_channel_7"
+    format "raw"
+    slave {
+        pcm sc
+    }
+  }
+}
