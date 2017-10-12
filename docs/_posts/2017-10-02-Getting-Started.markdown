@@ -7,7 +7,7 @@ permalink: /getting-started/
 
 In this guide, we will help you through the process of creating a simple assistant using the Snips Assistant Manager.
 
-## What is an assistant composed of?
+## What is a Snips assistant composed of?
 
 A typical voice assistant is a device, such as a Raspberry Pi, equipped with a microphone. The device is waiting for a hotword, e.g. *Hey Snips*, *OK Google* or *Alexa*, that puts it in listening mode. Then it starts transcribing the user's voice into text, using Automatic Speech Recognition (ASR). After a short silence, it sends the transcribed phrase to a Natural Language Understanding (NLU) component, which extract the meaning of the phrase encoded in a JSON object, a so-called *intent*, that the system can understand and act upon. For instance, if the user says *Turn on the lights*, the system will output an intent which could be named `Lights` with parameter `state=on`. This is the first part illustrated in the following diagram, and consistutes the Snips Platform:
 

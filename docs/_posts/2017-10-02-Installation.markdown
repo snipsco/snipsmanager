@@ -15,7 +15,7 @@ On Raspbian, Sam can be installed in three ways: either with the custom Snips Ra
 
 Download the [Snips Raspbian Image]() and burn it to an SD card, for instance using [Etcher](https://etcher.io). Insert the SD card in your Raspberry Pi, and boot.
 
-In order to get your Raspberry Pi connected to you Wi-Fi network, you can use the companion [iOS App]({{ site.baseurl }}/{% post_url 2017-10-02-iOS-App %}). Alternatively, you can follow the [instructions](https://www.raspberrypi.org/documentation/configuration/wireless/wireless-cli.md) on the Raspberry Pi website.
+In order to get your Raspberry Pi connected to your Wi-Fi network, you can use the companion [iOS App]({{ site.baseurl }}/{% post_url 2017-10-02-iOS-App %}). Alternatively, you can follow the [instructions](https://www.raspberrypi.org/documentation/configuration/wireless/wireless-cli.md) on the Raspberry Pi website.
 
 ### Debian package
 
