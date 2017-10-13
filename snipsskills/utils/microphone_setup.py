@@ -56,7 +56,7 @@ class MicrophoneSetup:
         this_dir, this_filename = os.path.split(__file__)
         driver_path = os.path.join(this_dir, MicrophoneSetup.SOUND_DRIVER_PATH, driver_file)
         execute_command("sudo chmod a+x " + driver_path)
-        execute_command("sudo" + driver_path)
+        execute_command("sudo " + driver_path)
 
 
 class RespeakerMicrophoneSetup:
