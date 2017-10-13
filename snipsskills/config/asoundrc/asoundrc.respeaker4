@@ -1,0 +1,30 @@
+pcm.!default {
+    type asym
+    playback.pcm "playback"
+    capture.pcm "capture"
+}
+
+pcm.playback {
+    type plug
+    slave.pcm "hw:0,0"
+}
+
+pcm.capture {
+    type plug
+    slave.pcm "array"
+}
+
+pcm.array {
+    type dsnoop
+    slave {
+        pcm "hw:1,0"
+        channels 2
+    }
+    ipc_key 666666
+}
+
+pcm.ac108 {
+        type ac108
+        slavepcm "hw:1,0"
+        channels 4
+}

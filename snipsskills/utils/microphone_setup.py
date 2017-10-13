@@ -13,6 +13,7 @@ class MicrophoneSetup:
     """ Downloader for Snips assistants. """
 
     ASOUNDRC_CONFIG_PATH = "../config/asoundrc"
+    SOUND_DRIVER_PATH = "../config/drivers/"
 
     @staticmethod
     def setup_asoundrc(microphone_id):
@@ -22,8 +23,18 @@ class MicrophoneSetup:
             MicrophoneSetup._copy_asoundrc("asoundrc.respeaker")
         elif microphone_id == 'jabra':
             MicrophoneSetup._copy_asoundrc("asoundrc.jabra")
+        elif microphone_id == 'respeaker4':
+            MicrophoneSetup._copy_asoundrc("asoundrc.respeaker4")
         else:
             MicrophoneSetup._copy_asoundrc("asoundrc.default")
+
+
+    @staticmethod
+    def setup_driver(microphone_id):
+        if not is_raspi_os():
+            return
+        elif microphone_id == 'respeaker4':
+            MicrophoneSetup._install_driver("respeaker4.sh")
 
 
     @staticmethod
@@ -38,7 +49,14 @@ class MicrophoneSetup:
         destination = os.path.expanduser(ASOUNDRC_DEST_PATH)
         shutil.copy2(asoundrc_path, destination)
 
-
+    @staticmethod
+    def _install_driver(driver_file):
+        if not is_raspi_os():
+            return
+        this_dir, this_filename = os.path.split(__file__)
+        driver_path = os.path.join(this_dir, MicrophoneSetup.SOUND_DRIVER_PATH, driver_file)
+        execute_command("sudo chmod a+x " + driver_path)
+        execute_command("sudo" + driver_path)
 
 
 class RespeakerMicrophoneSetup:

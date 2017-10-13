@@ -95,6 +95,15 @@ class MicrophoneInstaller(Base):
             except MicrophoneInstallerException as e:
                 message.error()
                 raise MicrophoneInstallerException(str(e))
+        elif microphone_id == 'respeaker4':
+            message = pp.ConsoleMessage("Installing ReSpeaker drivers")
+            message.start()
+            try:
+                MicrophoneSetup.setup_driver(microphone_id)
+            except MicrophoneInstallerException as e:
+                message.error()
+                raise MicrophoneInstallerException(str(e))
+            message.done()
 
         MicrophoneInstaller.print_done(silent)
 
