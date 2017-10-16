@@ -15,8 +15,18 @@
     @extend .button-rounded;
     font-weight:500;
     background-color:$green;
-    color:$darkgreen;
+    color:white;
     text-decoration:none;
-    // display:block;
+    font-family: "apercu";
+}
+
+.field-grey {
+    @extend .button-rounded;
+    @include border-radius(5px);
+    padding: 15px;
+    font-weight:500;
+    background-color:$darkergrey;
+    color:white;
+    text-decoration:none;
     font-family: "apercu";
 }

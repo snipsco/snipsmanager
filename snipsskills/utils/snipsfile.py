@@ -122,10 +122,11 @@ class Snipsfile:
 
             class_name = self.get_skill_attribute(skill, snipsspec_file, 'class_name')
             requires_tts = self.get_skill_attribute(skill, snipsspec_file, 'requires_tts', False)
+            addons = self.get_skill_attribute(skill, snipsspec_file, 'addons', [])
             intent_defs = self.get_intent_defs(skill, snipsspec_file)
 
             self.skilldefs.append(SkillDef(package_name, class_name, url,
-                                           params, intent_defs, requires_tts))
+                                           params, intent_defs, requires_tts, addons))
 
     def get_skill_attribute(self, skill, snipsspec_file, attribute_name, default_value=None):
         """ Get an attribute for a skill. The value, if provided, by the Snipsfile
@@ -220,6 +221,7 @@ class SnipsSpec:
         self.package_name = get(yaml_config, ['package_name'])
         self.class_name = get(yaml_config, ['class_name'])
         self.requires_tts = get(yaml_config, ['requires_tts'])
+        self.addons = get(yaml_config, ['addons'])
 
         self.intent_defs = []
         for intent in get(yaml_config, ['intents'], []):

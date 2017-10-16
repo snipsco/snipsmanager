@@ -1,0 +1,22 @@
+assistant_id: proj_9po3YAeBV
+default_location: Paris,fr
+tts:
+  service: google
+mqtt_broker:
+  hostname: raspi3-mika2.local
+  port: 9898
+skills:
+  - url: https://github.com/snipsco/snips-skill-hue
+    package_name: snipshue
+    class_name: SnipsHue
+    params:
+      hostname: 192.168.163.96
+      username: XyWT7TlG3RkMAzbKRt4fWpHEo1TudukIgH2OKz79
+      light_ids: [1, 2, 3, 4, 5, 6]
+  - url: https://github.com/snipsco/snips-skill-sonos
+    package_name: snipssonos
+    class_name: SnipsSonos
+    params:
+      spotify_client_id: 765e1498b29949c5a36dbcae4eea8330
+      spotify_client_secret: 72e1fb080f3a49f99b357fd6b8d79cd7
+      spotify_refresh_token: AQDqF-RH8Dn9SMCN7I0UnjrKEgKhdgQFTyJq-FFcB5mGEb1NwBMuFM2U69mNje2OXmCpOn68F_DAvrbHvFOtvTqpFZCRz2NCigUTur7RnPvXSe4D-uwyxCxiSuQJOE11wLI

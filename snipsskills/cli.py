@@ -5,7 +5,8 @@ Usage:
   snipsskills install [--snipsfile=<snipsfile_path> --skip-bluetooth --skip-systemd --force-download --silent] [--email=<email> --password=<password>]
   snipsskills install bluetooth [--force-download]
   snipsskills install skill <skill_url>
-  snipsskills install skills [--snipsfile=<snipsfile_path>]
+  snipsskills install skills [--snipsfile=<snipsfile_path> --silent]
+  snipsskills install addon <addon_id> [--silent --non-interactive] [PARAMS ...]
   snipsskills fetch assistant [--snipsfile=<snipsfile_path>] [--id=<id> --url=<url> --file=<file>] [--email=<email> --password=<password>] [--force-download]
   snipsskills load assistant [--file=<file> --platform-only]
   snipsskills setup microphone [--snipsfile=<snipsfile_path>] [<microphone_id> [--skip-asoundrc] [--update-asoundconf] [PARAMS ...]]
@@ -83,6 +84,9 @@ def main():
         elif options['install'] == True and options['skill'] == True:
             from snipsskills.commands.install.skill import SkillInstaller
             SkillInstaller(options).run()
+        elif options['install'] == True and options['addon'] == True:
+            from snipsskills.commands.install.addon import AddonInstaller
+            AddonInstaller(options).run()
         elif options['install'] == True and options['skills'] == True:
             from snipsskills.commands.install.skills import SkillsInstaller
             SkillsInstaller(options).run()

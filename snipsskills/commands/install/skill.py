@@ -31,9 +31,9 @@ class SkillInstaller(Base):
     def install(url_or_pip, force_download=False):
         message = pp.ConsoleMessage("Installing skill: $GREEN{}$RESET".format(url_or_pip))
         message.start()
-        # try:
-        PipInstaller.install(url_or_pip, force_download=force_download)
-        message.done()
-        # except Exception as e:
-        #     message.error()
-        #     raise SkillInstallerWarning("Error installing skill {}: make sure you have the required access rights, and that the module is available".format(url_or_pip))
+        try:
+            PipInstaller.install(url_or_pip, force_download=force_download)
+            message.done()
+        except Exception as e:
+            message.error()
+            raise SkillInstallerWarning("Error installing skill {}: make sure you have the required access rights, and that the module is available".format(url_or_pip))

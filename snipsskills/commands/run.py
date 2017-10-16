@@ -97,11 +97,14 @@ class SkillsRunner:
                 module_name = skilldef.package_name + "." + skilldef.package_name
                 exec("from {} import {}".format(module_name, class_name))
                 cls = eval(class_name)
-                skill_instance = cls(**skilldef.params)
                 if skilldef.requires_tts:
-                    skill_instance = cls(tts_service=self.server.tts_service, **skilldef.params)
-                else:
-                    skill_instance = cls(**skilldef.params)
+                    skilldef.params[tts_service] = self.server.tts_service
+                for addon_id in skilldef.addons:
+                    logger.info("Loading add-on {}".format(addon_id))
+                    success = Addons.update_params(params=skilldef.params, addon_id=addon_id)
+                    if not success:
+                        logger.info("{} add-on was not loaded. Run `snipsskills install addon {}` to setup add-on".format(addon_id, addon_id))
+                skill_instance = cls(**skilldef.params)
                 self.skills[skilldef.package_name] = skill_instance
                 logger.info("Successfully loaded skill {}".format(skilldef.package_name))
             except Exception as e:

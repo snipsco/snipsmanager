@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+{% include head.html %}
+<body>
+    {% include menu.html %}
+    <div class="content">
+        <div style="margin-top:100px; text-align:center">
+            <a id="login-button" class="github cta-button-green">Login with Spotify</a>
+            <a id="login-auth-code" style="max-width:100%;" class="github field-grey"></a>
+        </div>
+    </div>
+    {% include footer.html %}
+    <script type="text/javascript">
+        
+        function parse_query_string(query) {
+            var vars = query.split("&");
+            var query_string = {};
+            for (var i = 0; i < vars.length; i++) {
+                var pair = vars[i].split("=");
+                if (typeof query_string[pair[0]] === "undefined") {
+                    query_string[pair[0]] = decodeURIComponent(pair[1]);
+                } else if (typeof query_string[pair[0]] === "string") {
+                    var arr = [query_string[pair[0]], decodeURIComponent(pair[1])];
+                    query_string[pair[0]] = arr;
+                } else {
+                    query_string[pair[0]].push(decodeURIComponent(pair[1]));
+                }
+            }
+            return query_string;
+        }
+
+        $(function() {
+            var saveState = 'nELMpgJULt';
+            var scope = 'user-read-private';
+            var clientId = '765e1498b29949c5a36dbcae4eea8330';
+            // var redirectUrl = 'https://snipsco.github.io/snipsskills/spotify-login';
+            var redirectUrl = 'http://localhost:4000/snipsskills/spotify-login';
+            var authUrl = "https://accounts.spotify.com/authorize/?client_id=" + clientId + "&response_type=code&redirect_uri=" + encodeURIComponent(redirectUrl) + "&scope=" + scope + "&state=" + saveState;
+
+            $("login-button").attr('href', authUrl);
+            console.log("authUrl = " + authUrl)
+
+            var url = window.location.search.substring(1);
+            var parsed_url = parse_query_string(url);
+            if (parsed_url.code !== null && parsed_url.state === saveState) {
+                $("login-button").css('display', 'none');
+                $("login-auth-code").css('display', 'inline-block');
+                $("login-auth-code").html(parsed_url.code);
+            } else {
+                $("login-button").css('display', 'inline-block');
+                $("login-auth-code").css('display', 'none');
+            }
+        });
+        
+    </script>
+</body>
+</html>
