@@ -17,9 +17,9 @@ The second part, the Skills part, corresponds to what happens after an intent ha
 
 The hotword, ASR, and NLU modules are configured in the [Snips Console](https://console.snips.ai). This is a web interface that allows you to specify the language of the system, to define the types of queries that the system should understand, and to provide custom training examples that correspond exactly to the intended use.
 
-## What is Sam?
+## What is the Snips Assistant Manager?
 
-The Snips Assistant Manager, or Sam, is a set of command-line utilities for managing assistants built with Snips. With it, you can completely specify the behaviour of your assistant without a single line of code.
+The Snips Assistant Manager is a set of command-line utilities for managing assistants built with Snips. With it, you can completely specify the behaviour of your assistant without a single line of code.
 
 All the information about an assistant is contained in a file, the Snipsfile. In it, you can specify:
 

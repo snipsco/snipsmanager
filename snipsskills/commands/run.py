@@ -12,6 +12,7 @@ from sys import path
 from .base import Base
 from ..utils.snipsfile import Snipsfile
 from ..utils.os_helpers import file_exists
+from ..utils.addons import Addons
 
 from .. import DEFAULT_SNIPSFILE_PATH, SNIPS_CACHE_INTENTS_DIR, logger
 
@@ -26,8 +27,6 @@ path.append(os.path.join(SNIPS_CACHE_INTENTS_DIR, "intents"))
 
 from intent_registry import IntentRegistry
 from intents import *
-
-#INTENT_REGISTRY_FILE = ".snips/intents/intent_registry.py"
 
 
 class RunnerException(Exception):
@@ -47,7 +46,6 @@ class Runner(Base):
             tts_service_id = self.options['--tts-service']
             locale = self.options['--locale']
             Runner.run_from_snipsfile_path(snipsfile_path=snipsfile, mqtt_hostname=mqtt_hostname, mqtt_port=mqtt_port, tts_service_id=tts_service_id, locale=locale)
-
         except Exception as e:
             logger.error(str(e))
 
@@ -99,11 +97,12 @@ class SkillsRunner:
                 cls = eval(class_name)
                 if skilldef.requires_tts:
                     skilldef.params[tts_service] = self.server.tts_service
-                for addon_id in skilldef.addons:
-                    logger.info("Loading add-on {}".format(addon_id))
-                    success = Addons.update_params(params=skilldef.params, addon_id=addon_id)
-                    if not success:
-                        logger.info("{} add-on was not loaded. Run `snipsskills install addon {}` to setup add-on".format(addon_id, addon_id))
+                if skilldef.addons is not None:
+                    for addon_id in skilldef.addons:
+                        logger.info("Loading add-on {}".format(addon_id))
+                        success = Addons.update_params(params=skilldef.params, addon_id=addon_id)
+                        if not success:
+                            logger.info("{} add-on was not loaded. Run `snipsskills install addon {}` to setup add-on".format(addon_id, addon_id))
                 skill_instance = cls(**skilldef.params)
                 self.skills[skilldef.package_name] = skill_instance
                 logger.info("Successfully loaded skill {}".format(skilldef.package_name))
