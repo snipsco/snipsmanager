@@ -57,6 +57,9 @@ def main():
         if options['setup'] == True and options['microphone'] == True:
             from snipsskills.commands.setup.microphone import MicrophoneInstaller
             MicrophoneInstaller(options).run()
+        elif options['setup'] == True and options['speaker'] == True:
+            from snipsskills.commands.setup.speaker import SpeakerInstaller
+            SpeakerInstaller(options).run()
         elif options['setup'] == True and options['systemd'] == True and options['bluetooth'] == True:
             from snipsskills.commands.setup.systemd.bluetooth import SystemdBluetooth
             SystemdBluetooth(options).run()

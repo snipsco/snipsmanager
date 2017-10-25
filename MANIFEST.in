@@ -3,6 +3,7 @@ include LICENSE.txt
 include setup.cfg
 include snipsskills/config/*
 include snipsskills/config/asoundrc/*
+include snipsskills/config/drivers/*
 include snipsskills/config/systemd/*
 include snipsskills/data/sounds/*
 include snipsskills/templates/*

@@ -101,8 +101,8 @@ class Snipsfile:
         self.mqtt_port = get(yaml_config, ['mqtt_broker', 'port'], 9898)
         self.modify_asoundrc = get(yaml_config, ['modify_asoundrc'], True)
         self.modify_asoundconf = get(yaml_config, ['modify_asoundconf'], False)
-
         self.microphone_config = MicrophoneConfig(yaml_config)
+        self.speaker_config = SpeakerConfig(yaml_config)
 
         self.skilldefs = []
         for skill in get(yaml_config, ['skills'], []):
@@ -242,4 +242,13 @@ class MicrophoneConfig:
         self.identifier = get(yaml_config, ['microphone','identifier'])
         self.params = {}
         for key, value in get(yaml_config, ['microphone','params'], {}).items():
+            self.params[key] = value
+
+class SpeakerConfig:
+    def __init__(self, yaml_config):
+        self.identifier = get(yaml_config, ['speaker', 'identifier'])
+        self.modify_asoundrc = get(yaml_config, ['speaker', 'modify_asoundrc'], True)
+        self.modify_asoundconf = get(yaml_config, ['speaker', 'modify_asoundconf'], True)
+        self.params = {}
+        for key, value in get(yaml_config, ['speaker', 'params'], {}).items():
             self.params[key] = value
