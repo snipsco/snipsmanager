@@ -41,7 +41,7 @@ class SkillInstaller(Base):
             PipInstaller.install(url_or_pip, force_download=force_download)
             message.done()
         except Exception as e:
+            message.error()
             if debug:
                 raise e
-            message.error()
             raise SkillInstallerWarning("Error installing skill {}: make sure you have the required access rights, and that the module is available".format(url_or_pip))
