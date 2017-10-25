@@ -22,7 +22,7 @@ class SkillInstaller(Base):
         debug = self.options['--debug']
 
         try:
-            SkillInstaller.install(url_or_pip, force_download=force_download)
+            SkillInstaller.install(url_or_pip, force_download=force_download, debug=debug)
         except SkillInstallerWarning as e:
             if debug:
                 raise e
@@ -34,12 +34,14 @@ class SkillInstaller(Base):
 
 
     @staticmethod
-    def install(url_or_pip, force_download=False):
+    def install(url_or_pip, force_download=False, debug=False):
         message = pp.ConsoleMessage("Installing skill: $GREEN{}$RESET".format(url_or_pip))
         message.start()
         try:
             PipInstaller.install(url_or_pip, force_download=force_download)
             message.done()
         except Exception as e:
+            if debug:
+                raise e
             message.error()
             raise SkillInstallerWarning("Error installing skill {}: make sure you have the required access rights, and that the module is available".format(url_or_pip))
