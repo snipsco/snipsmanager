@@ -4,7 +4,7 @@
 Usage:
   snipsskills install [--snipsfile=<snipsfile_path> --skip-bluetooth --skip-systemd --force-download --silent --debug] [--email=<email> --password=<password>]
   snipsskills install bluetooth [--force-download]
-  snipsskills install skill <skill_url> [--force-download]
+  snipsskills install skill <skill_url> [--force-download --debug]
   snipsskills install skills [--snipsfile=<snipsfile_path> --silent]
   snipsskills install addon <addon_id> [--silent --non-interactive] [PARAMS ...]
   snipsskills fetch assistant [--snipsfile=<snipsfile_path>] [--id=<id> --url=<url> --file=<file>] [--email=<email> --password=<password>] [--force-download]

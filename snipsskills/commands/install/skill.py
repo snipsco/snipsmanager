@@ -19,12 +19,17 @@ class SkillInstaller(Base):
     def run(self):
         url_or_pip = self.options['<skill_url>']
         force_download = self.options['--force-download']
+        debug = self.options['--debug']
 
         try:
             SkillInstaller.install(url_or_pip, force_download=force_download)
         except SkillInstallerWarning as e:
+            if debug:
+                raise e
             pp.pwarning(str(e))
         except Exception as e:
+            if debug:
+                raise e
             pp.perror(str(e))
 
 
