@@ -10,6 +10,7 @@ Usage:
   snipsskills fetch assistant [--snipsfile=<snipsfile_path>] [--id=<id> --url=<url> --file=<file>] [--email=<email> --password=<password>] [--force-download]
   snipsskills load assistant [--file=<file> --platform-only]
   snipsskills setup microphone [--snipsfile=<snipsfile_path>] [<microphone_id> [--skip-asoundrc] [--update-asoundconf] [PARAMS ...]]
+  snipsskills setup speaker [--snipsfile=<snipsfile_path>] [<speaker_id> [--skip-asoundrc] [--update-asoundconf] [PARAMS ...]]
   snipsskills setup systemd bluetooth [--mqtt-host=<mqtt_host> --mqtt-port=<mqtt_port>]
   snipsskills setup systemd snips
   snipsskills setup systemd skills [--snipsfile=<snipsfile_path>]
