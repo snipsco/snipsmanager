@@ -2,9 +2,9 @@
 """ snipsskills
 
 Usage:
-  snipsskills install [--snipsfile=<snipsfile_path> --skip-bluetooth --skip-systemd --force-download --silent] [--email=<email> --password=<password>]
+  snipsskills install [--snipsfile=<snipsfile_path> --skip-bluetooth --skip-systemd --force-download --silent --debug] [--email=<email> --password=<password>]
   snipsskills install bluetooth [--force-download]
-  snipsskills install skill <skill_url>
+  snipsskills install skill <skill_url> [--force-download]
   snipsskills install skills [--snipsfile=<snipsfile_path> --silent]
   snipsskills install addon <addon_id> [--silent --non-interactive] [PARAMS ...]
   snipsskills fetch assistant [--snipsfile=<snipsfile_path>] [--id=<id> --url=<url> --file=<file>] [--email=<email> --password=<password>] [--force-download]
@@ -14,7 +14,7 @@ Usage:
   snipsskills setup systemd bluetooth [--mqtt-host=<mqtt_host> --mqtt-port=<mqtt_port>]
   snipsskills setup systemd snips
   snipsskills setup systemd skills [--snipsfile=<snipsfile_path>]
-  snipsskills run [--snipsfile=<snipsfile_path>] [--mqtt-host=<mqtt_host> --mqtt-port=<mqtt_port> --tts-service=<tts_service> --locale=<locale>]
+  snipsskills run [--snipsfile=<snipsfile_path>] [--mqtt-host=<mqtt_host> --mqtt-port=<mqtt_port> --tts-service=<tts_service> --locale=<locale>] [--debug]
   snipsskills login [--email=<email> --password=<password>]
   snipsskills logout
   snipsskills -h | --help

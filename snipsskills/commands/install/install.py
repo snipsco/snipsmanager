@@ -21,8 +21,10 @@ from ... import DEFAULT_SNIPSFILE_PATH
 
 from snipsskillscore import pretty_printer as pp
 
+
 class GlobalInstallerException(Exception):
     pass
+
 
 class GlobalInstallerWarning(Exception):
     pass
@@ -32,11 +34,16 @@ class GlobalInstaller(Base):
     
     def run(self):
         pp.silent = self.options['--silent']
+        debug = self.options['--debug']
         try:
             GlobalInstaller.install(self.options['--snipsfile'], skip_bluetooth=self.options['--skip-bluetooth'], skip_systemd=self.options['--skip-systemd'], email=self.options['--email'], password=self.options['--password'], force_download=self.options['--force-download'])
         except GlobalInstallerWarning as e:
+            if debug:
+                raise e
             pp.pwarning(str(e))
         except Exception as e:
+            if debug:
+                raise e
             pp.perror(str(e))
 
 

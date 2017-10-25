@@ -42,7 +42,10 @@ class PipInstaller:
         if not force_download and PipCache.is_installed(url):
             return
 
-        PipInstaller.execute_pip_install("--upgrade --quiet {}".format(url))
+        params = ["--upgrade", "--quiet"]
+        if force_download:
+            params.append("--force-reinstall")
+        PipInstaller.execute_pip_install("{} {}".format(" ".join(params), url))
         PipCache.add(url)
 
 

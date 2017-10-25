@@ -39,6 +39,7 @@ class Runner(Base):
     # pylint: disable=undefined-variable,exec-used,eval-used
     def run(self):
         """ Command runner. """
+        debug = self.options['--debug']
         try:
             snipsfile = self.options['--snipsfile']
             mqtt_hostname = self.options['--mqtt-host']
@@ -47,6 +48,8 @@ class Runner(Base):
             locale = self.options['--locale']
             Runner.run_from_snipsfile_path(snipsfile_path=snipsfile, mqtt_hostname=mqtt_hostname, mqtt_port=mqtt_port, tts_service_id=tts_service_id, locale=locale)
         except Exception as e:
+            if debug:
+                raise e
             logger.error(str(e))
 
 

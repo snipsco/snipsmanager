@@ -16,8 +16,9 @@ class SkillInstallerWarning(Exception):
 
 class SkillInstaller(Base):
     
-    def run(self, force_download=False):
+    def run(self):
         url_or_pip = self.options['<skill_url>']
+        force_download = self.options['--force-download']
 
         try:
             SkillInstaller.install(url_or_pip, force_download=force_download)
