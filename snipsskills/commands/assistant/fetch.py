@@ -116,9 +116,6 @@ class AssistantFetcher(Base):
             AssistantFetcher.copy_to_temp_assistant_from_assistant_id(aid)
             return
 
-        if email is not None and password is not None:
-            Logout.logout()
-
         token = Cache.get_login_token()
         if token is None:
             token = AssistantFetcher.get_token(email=email, password=password)
