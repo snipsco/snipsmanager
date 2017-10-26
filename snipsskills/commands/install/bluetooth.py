@@ -5,7 +5,7 @@ import os
 from ..base import Base
 from ...utils.os_helpers import is_raspi_os, is_node_available, execute_command, download_file, file_exists
 
-from ... import prepare_cache, NODE_MODULES_LOCATION
+from ... import prepare_cache, NODE_MODULES_PARENT_DIR, NODE_MODULES_DIR
 
 from snipsskillscore import pretty_printer as pp
 
@@ -38,7 +38,7 @@ class BluetoothInstaller(Base):
             message = pp.ConsoleMessage("Installing Node module $GREEN{}$RESET".format(BluetoothInstaller.SNIPS_MQTT_RELAY_MODULE_NAME))
             message.start()
             try:
-                execute_command("sudo npm install --no-cache --prefix={} {}".format(NODE_MODULES_LOCATION, BluetoothInstaller.SNIPS_MQTT_RELAY_MODULE_NAME), True)
+                execute_command("sudo npm install --no-cache --prefix={} {}".format(NODE_MODULES_PARENT_DIR, BluetoothInstaller.SNIPS_MQTT_RELAY_MODULE_NAME), True)
                 message.done()
             except:
                 message.error()
@@ -49,7 +49,7 @@ class BluetoothInstaller(Base):
 
     @staticmethod
     def is_snips_mqtt_relay_installed():
-        return os.path.isdir(os.path.join(NODE_MODULES_LOCATION, BluetoothInstaller.SNIPS_MQTT_RELAY_MODULE_NAME))
+        return os.path.isdir(os.path.join(NODE_MODULES_DIR, BluetoothInstaller.SNIPS_MQTT_RELAY_MODULE_NAME))
         
 
     @staticmethod

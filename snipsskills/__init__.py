@@ -20,8 +20,8 @@ if 'arm' in " ".join(os.uname()):
 PACKAGE_NAME = "snipsskills"
 SNIPS_CACHE_DIR_NAME = ".snips"
 SNIPS_CACHE_DIR = os.path.join(HOME_DIR, SNIPS_CACHE_DIR_NAME)
-NODE_MODULES_LOCATION = SNIPS_CACHE_DIR
-NODE_MODULES_PATH = os.path.join(NODE_MODULES_LOCATION, "node_modules")
+NODE_MODULES_PARENT_DIR = SNIPS_CACHE_DIR
+NODE_MODULES_DIR = os.path.join(NODE_MODULES_PARENT_DIR, "node_modules")
 DEFAULT_SNIPSFILE_PATH = os.path.join(os.getcwd(), "Snipsfile")
 SNIPS_CACHE_INTENTS_DIR = os.path.join(SNIPS_CACHE_DIR, "intents")
 SNIPS_CACHE_INTENT_REGISTRY_FILE = os.path.join(SNIPS_CACHE_INTENTS_DIR, "intent_registry.py")
