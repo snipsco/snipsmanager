@@ -8,7 +8,7 @@ from ....utils.os_helpers import is_raspi_os, is_node_available, which, file_exi
 from ....utils.systemd import Systemd
 from ....utils.snipsfile import Snipsfile
 
-from .... import NODE_MODULES_PATH, DEFAULT_SNIPSFILE_PATH
+from .... import NODE_MODULES_DIR, DEFAULT_SNIPSFILE_PATH
 
 from snipsskillscore import pretty_printer as pp
 
@@ -70,7 +70,7 @@ class SystemdBluetooth(Base):
         node_bin_path = which('node')            
         command = SystemdBluetooth.SNIPSBLE_SCRIPT.format(
                 node_bin_path=node_bin_path,
-                node_module_path=NODE_MODULES_PATH,
+                node_module_path=NODE_MODULES_DIR,
                 module_name=SystemdBluetooth.SNIPSBLE_MODULE_NAME,
                 serviceUUID=SystemdBluetooth.SNIPSBLE_SERVICE_UUID,
                 characteristicUUID=SystemdBluetooth.SNIPSBLE_CHARACTERISTIC_UUID,
