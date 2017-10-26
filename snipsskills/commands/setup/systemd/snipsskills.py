@@ -8,7 +8,7 @@ from ...base import Base
 from ....utils.os_helpers import is_raspi_os, which
 from ....utils.systemd import Systemd
 
-from .... import NODE_MODULES_PATH, DEFAULT_SNIPSFILE_PATH
+from .... import DEFAULT_SNIPSFILE_PATH
 
 from snipsskillscore import pretty_printer as pp
 
