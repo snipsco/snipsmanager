@@ -17,7 +17,7 @@ except ImportError:
 
 
 SNIPS_INSTALL_COMMAND = "curl https://install.snips.ai -sSf"
-SNIPS_INSTALL_ASSISTANT_COMMAND = "snips-install-assistant {}"
+SNIPS_INSTALL_ASSISTANT_COMMAND = "snips-install-assistant"
 SNIPS_CONFIG_PATH="/usr/share/snips"
 
 
@@ -44,43 +44,6 @@ class SnipsInstallationFailure(Exception):
 class Snips:
     """ Utilities for managing the Snips SDK. """
 
-    # @staticmethod
-    # def install(answer_yes=None):
-    #     """ Install the Snips SDK. """
-    #     if Snips.is_installed():
-    #         return
-
-    #     if ask_yes_no("Would you like to install the Snips SDK?", answer_yes) == False:
-    #         return
-
-    #     log("Installing the Snips SDK")
-
-    #     if not is_raspi_os():
-    #         raise SnipsUnsupportedPlatform()
-
-    #     curl_command = subprocess.Popen(
-    #         SNIPS_INSTALL_COMMAND.split(), stdout=subprocess.PIPE)
-    #     sh_command = subprocess.Popen("sh", stdin=curl_command.stdout)
-    #     output, error = sh_command.communicate()
-    #     rc = sh_command.returncode
-
-    #     if (rc > 0):
-    #         raise SnipsInstallationFailure(output)
-    #     else:
-    #         log_success("The Snips SDK was successfully installed")
-
-    # @staticmethod
-    # def run():
-    #     """ Run the Snips SDK. """
-    #     if not Snips.is_installed():
-    #         raise SnipsNotFound()
-
-    #     try:
-    #         subprocess.Popen(
-    #             "snips", stdout=DEVNULL, stderr=subprocess.STDOUT)
-    #     except OSError as e:
-    #         raise SnipsRuntimeFailure(str(e))
-
     @staticmethod
     def is_installed():
         """ Check if the Snips SDK is installed. """
@@ -97,8 +60,7 @@ class Snips:
             execute_command("sudo unzip " + assistant_zip_path + " -d " + SNIPS_CONFIG_PATH)
             return
 
-        process = subprocess.Popen(
-            SNIPS_INSTALL_ASSISTANT_COMMAND.format(assistant_zip_path).split(),
-            stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        command = "{} {}".format(SNIPS_INSTALL_ASSISTANT_COMMAND, assistant_zip_path)
+        process = subprocess.Popen(command.split(), stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         output, error = process.communicate()
         return process.returncode
