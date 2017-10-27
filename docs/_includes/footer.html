@@ -13,12 +13,15 @@
 </div>
  -->
  <script type="text/javascript">
-  // $('div.highlight').replaceWith(function() {
-  //   return $('<pre/>', {
-  //       html: this.innerHTML,
-  //       class: this.class
-  //   });
-  // });
+  $('div.highlight').replaceWith(function() {
+    var classes = $(this).attr('class');
+    console.log("Class = " + classes);
+    
+    return $('<pre/>', {
+        html: this.innerHTML,
+        class: classes
+    });
+  });
 
   window.onload = function(){
       var blocks = document.getElementsByClassName("highlight");
