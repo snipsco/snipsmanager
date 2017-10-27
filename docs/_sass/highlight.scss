@@ -1,12 +1,11 @@
 @import "colors";
 @import "mixins";
 
-// .content pre {
-.highlight {
+.highlight, .content pre {
   @include border-radius(3px);
   margin-bottom:20px;
-  overflow-x: auto;
-  padding: 1.25em 1.5em;
+  overflow-x: auto !important;
+  padding: 1.25em 1.5em !important;
   code {
     background-color:transparent;
   }
