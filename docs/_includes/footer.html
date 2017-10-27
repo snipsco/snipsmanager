@@ -15,8 +15,6 @@
  <script type="text/javascript">
   $('div.highlight').replaceWith(function() {
     var classes = $(this).attr('class');
-    console.log("Class = " + classes);
-    
     return $('<pre/>', {
         html: this.innerHTML,
         class: classes
