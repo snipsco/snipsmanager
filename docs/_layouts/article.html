@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+{% include head.html %}
+<body>
+  {% include navbar.html %}
+  <section class="section">
+    <div class="container">
+      <div class="columns">
+        <div class="column is-3 is-offset-1">{% include menu-articles.html %}</div>
+        <div class="column is-7 content">
+          <h1 class="title">
+            {{ page.title }}
+          </h1>
+          {{ content }}
+        </div>
+      </div>
+    </div>
+  </section>
+  {% include footer.html %}
+
+</body>

@@ -2,7 +2,7 @@
 layout: page
 title:  "Getting Started"
 date:   2017-10-02 12:53:25 +0200
-permalink: /getting-started/
+permalink: /getting-started2/
 ---
 
 In this guide, we will help you through the process of creating a simple assistant using the Snips Assistant Manager.
