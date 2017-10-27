@@ -5,6 +5,9 @@
 .highlight {
   @include border-radius(3px);
   margin-bottom:20px;
+  code {
+    background-color:transparent;
+  }
 }
 
 .highlight, .content pre, .hljs {
