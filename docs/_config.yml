@@ -23,7 +23,14 @@ baseurl: "/snipsskills" # the subpath of your site, e.g. /blog
 url: "https://www.snips.ai" # the base hostname & protocol for your site, e.g. http://example.com
 twitter_username: snips
 github_username:  snipsco
-    
+
+markdown: kramdown
+kramdown:
+  input: GFM
+  hard_wrap: false
+  auto_ids: true
+  syntax_highlighter: rouge
+
 # theme: minima
 # plugins:
 #   - jekyll-feed
