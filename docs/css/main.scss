@@ -15,8 +15,8 @@ $menu-item-active-color: $link;
 $menu-item-active-background-color: rgba(#000, 0.02);
 $menu-item-hover-background-color: rgba(#000, 0.02);
 
-@import "bulma";
 @import "highlight";
+@import "bulma";
 
 .content {
     p {

@@ -1,17 +1,12 @@
 @import "colors";
 @import "mixins";
 
-.highlight, .content pre {
+.content pre {
   @include border-radius(3px);
   margin-bottom:20px;
-  overflow-x: auto !important;
-  padding: 1.25em 1.5em !important;
-  code {
-    background-color:transparent;
-  }
 }
 
-.highlight, .content pre, .hljs {
+.content pre, .hljs {
   display: block;
   overflow-x: auto;
   padding: 0.5em;
