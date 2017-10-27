@@ -5,6 +5,8 @@
 .highlight {
   @include border-radius(3px);
   margin-bottom:20px;
+  overflow-x: auto;
+  padding: 1.25em 1.5em;
   code {
     background-color:transparent;
   }
