@@ -78,6 +78,11 @@ class Runner(Base):
         skillsRunner.start()
 
 
+class BaseSkill:
+
+    def __init__(self):
+        pass
+
 class SkillsRunner:
 
     def __init__(self, mqtt_hostname, mqtt_port, tts_service_id, locale, skilldefs=[]):
@@ -90,25 +95,26 @@ class SkillsRunner:
         self.skills = {}
         for skilldef in self.skilldefs:
             try:
-                logger.info("Loading skill {}".format(skilldef.package_name))
-                if skilldef.package_name is None:
-                    logger.error("Error loading skill: required entry 'package_name' not found for the skill definition in your Snipsfile")
-                    continue
-                class_name = skilldef.class_name or "Skill"
-                module_name = skilldef.package_name + "." + skilldef.package_name
-                exec("from {} import {}".format(module_name, class_name))
-                cls = eval(class_name)
-                if skilldef.requires_tts:
-                    skilldef.params[tts_service] = self.server.tts_service
-                if skilldef.addons is not None:
-                    for addon_id in skilldef.addons:
-                        logger.info("Loading add-on {}".format(addon_id))
-                        success = Addons.update_params(params=skilldef.params, addon_id=addon_id)
-                        if not success:
-                            logger.info("{} add-on was not loaded. Run `snipsskills install addon {}` to setup add-on".format(addon_id, addon_id))
-                skill_instance = cls(**skilldef.params)
-                self.skills[skilldef.package_name] = skill_instance
-                logger.info("Successfully loaded skill {}".format(skilldef.package_name))
+                if skilldef.package_name is not None:
+                    logger.info("Loading skill {}".format(skilldef.package_name))
+                    class_name = skilldef.class_name or "Skill"
+                    module_name = skilldef.package_name + "." + skilldef.package_name
+                    exec("from {} import {}".format(module_name, class_name))
+                    cls = eval(class_name)
+                    if skilldef.requires_tts:
+                        skilldef.params[tts_service] = self.server.tts_service
+                    if skilldef.addons is not None:
+                        for addon_id in skilldef.addons:
+                            logger.info("Loading add-on {}".format(addon_id))
+                            success = Addons.update_params(params=skilldef.params, addon_id=addon_id)
+                            if not success:
+                                logger.info("{} add-on was not loaded. Run `snipsskills install addon {}` to setup add-on".format(addon_id, addon_id))
+                    skill_instance = cls(**skilldef.params)
+                    self.skills[skilldef.package_name] = skill_instance
+                    logger.info("Successfully loaded skill {}".format(skilldef.package_name))
+                elif skilldef.name is not None:
+                    self.skills[skilldef.name] = BaseSkill()
+                    logger.info("Successfully loaded skill {}".format(skilldef.name))
             except Exception as e:
                 logger.error("Error loading skill {}: {}".format(
                     skilldef.package_name, str(e)))
@@ -130,13 +136,17 @@ class SkillsRunner:
 
         :param intent: the incoming intent to handle.
         """
+            
         for skilldef in self.skilldefs:
             intent_def = skilldef.find(intent)
             if intent_def is None:
                 continue
-            if not skilldef.package_name in self.skills:
+            if skilldef.package_name in self.skills:
+                skill = self.skills[skilldef.package_name]
+            elif skilldef.name in self.skills:
+                skill = self.skills[skilldef.name]
+            else:
                 continue
-            skill = self.skills[skilldef.package_name]
             if intent_def.action.startswith("{%"):
                 # Replace variables in scope with random variables
                 # to prevent the skill from accessing/editing them.
@@ -146,7 +156,6 @@ class SkillsRunner:
                     .replace("skilldef", "_snips_eejycfyrdfzilgfb") \
                     .replace("intent_def", "_snips_jkqdruouzuahmgns") \
                     .replace("snipsfile", "_snips_pdzdcpaygyjklngz") \
-                    .replace("tts_service", "_snips_bxzbomfguxlyxswo") \
                     .strip()
                 exec(action)
             else:

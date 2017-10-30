@@ -31,3 +31,7 @@ code {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+
+.notification code {
+  background-color: rgba(#fff, 0.3);
+}

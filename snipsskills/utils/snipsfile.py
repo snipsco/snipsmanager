@@ -120,12 +120,13 @@ class Snipsfile:
             except (SnipsspecNotFoundError, SnipsfileParseException) as e:
                 pass
 
+            name = self.get_skill_attribute(skill, snipsspec_file, 'name')
             class_name = self.get_skill_attribute(skill, snipsspec_file, 'class_name')
             requires_tts = self.get_skill_attribute(skill, snipsspec_file, 'requires_tts', False)
             addons = self.get_skill_attribute(skill, snipsspec_file, 'addons', [])
             intent_defs = self.get_intent_defs(skill, snipsspec_file)
 
-            self.skilldefs.append(SkillDef(package_name, class_name, url,
+            self.skilldefs.append(SkillDef(name, package_name, class_name, url,
                                            params, intent_defs, requires_tts, addons))
 
     def get_skill_attribute(self, skill, snipsspec_file, attribute_name, default_value=None):

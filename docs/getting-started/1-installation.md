@@ -6,14 +6,6 @@ permalink: /getting-started/installation/
 
 In this step you will install the Sam Command Line Interface (CLI). You will use the CLI to create, manage and deploy your assistants, to configure your hardware, to view the logs of your assistants as it runs on the Raspberry, as well as to run your application locally for quick prototyping.
 
-<div class="language-sh highlighter-rouge"><div class="highlight hljs shell"><code><span class="nv"><span class="hljs-meta">$</span><span class="bash"> </span></span><span class="bash">sam devices</span>
-Scanning Raspberry Pi devices on the network...
-Found 2 device<span class="o">(</span>s<span class="o">)</span>:
-- raspberrypi <span class="o">(</span>192.168.9.2<span class="o">)</span>
-- raspi-basement <span class="o">(</span>192.168.9.3<span class="o">)</span>
-</code></div></div>
-
-
 <div class="dropdown is-hoverable">
   <div class="dropdown-trigger">
     <button class="button is-primary" aria-haspopup="true" aria-controls="dropdown-menu4">

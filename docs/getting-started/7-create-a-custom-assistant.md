@@ -12,11 +12,18 @@ assistant_url: https://s3.amazonaws.com/labs-assistants/assistant_labs.zip
 
 In this step, you will replace this with your own assistant.
 
-To do so, head over to the [Snips Console](https://console.snips.ai). If you haven't done so already, create an account
+To do so, head over to the Snips Console, and if you haven't already, create an account:
+
+<a class="button is-primary" href="https://console.snips.ai" target="_blank">
+  <span>Open the Snips Console</span>
+  <span class="icon">
+    <i class="fa fa-arrow-circle-right"></i>
+  </span>
+</a>
 
 ### Create an assistant
 
-Create an assistant, selecting "Raspberry" as the platform:
+Once signed in, create an assistant, selecting "Raspberry" as the platform:
 
 <img src="{{ site.baseurl }}/images/console-create-assistant.png" srcset="{{ site.baseurl }}/images/console-create-assistant@2x.png 2x"/>
 

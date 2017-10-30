@@ -6,9 +6,10 @@ class SkillDef:
     """ Skill definition from a YAML config. """
 
     # pylint: disable=too-many-arguments
-    def __init__(self, package_name, class_name, url, params, intent_defs, requires_tts, addons):
+    def __init__(self, name, package_name, class_name, url, params, intent_defs, requires_tts, addons):
         """ Initialisation.
 
+        :param name: skill name.
         :param package_name: the name of the Python module.
         :param class_name: the name of the Python class.
         :param url: the url package (name or url).
@@ -17,6 +18,7 @@ class SkillDef:
         :param requires_tts: whether the skill requires TTS.
         :param addons: addon modules.
         """
+        self.name = name
         self.package_name = package_name
         self.class_name = class_name
         self.url = url
