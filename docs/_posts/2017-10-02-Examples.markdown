@@ -13,8 +13,6 @@ Here are a few sample skills to get you started. If you want to add yours, simpl
     <p>Control your Philips Hue lights</p>
     <div class="links">
         <a href="https://github.com/snipsco/snips-skill-hue"><i class="fa fa fa-github" aria-hidden="true"></i> Github</a>
-        <a href="#"><i class="fa fa fa-code" aria-hidden="true"></i> Snipsfile</a>
-        <a href="#"><i class="fa fa fa-play" aria-hidden="true"></i> Demo</a>
     </div>
 </div>
 
@@ -24,7 +22,6 @@ Here are a few sample skills to get you started. If you want to add yours, simpl
     <p>Play music on a Sonos system</p>
     <div class="links">
         <a href="https://github.com/snipsco/snips-skill-sonos"><i class="fa fa fa-github" aria-hidden="true"></i> Github</a>
-        <a href="#"><i class="fa fa fa-code" aria-hidden="true"></i> Snipsfile</a>
         <a href="https://vimeo.com/237742054"><i class="fa fa fa-play" aria-hidden="true"></i> Demo</a>
     </div>
 </div>
@@ -35,7 +32,6 @@ Here are a few sample skills to get you started. If you want to add yours, simpl
     <p>Brew coffee with the Smarter Coffee machine</p>
     <div class="links">
         <a href="https://github.com/snipsco/snips-skill-smartercoffee"><i class="fa fa fa-github" aria-hidden="true"></i> Github</a>
-        <a href="#"><i class="fa fa fa-code" aria-hidden="true"></i> Snipsfile</a>
     </div>
 </div>
 
@@ -45,7 +41,5 @@ Here are a few sample skills to get you started. If you want to add yours, simpl
     <p>Get weather forecasts using the OpenWeatherMap API</p>
     <div class="links">
         <a href="https://github.com/snipsco/snips-skill-owm"><i class="fa fa fa-github" aria-hidden="true"></i> Github</a>
-        <a href="#"><i class="fa fa fa-code" aria-hidden="true"></i> Snipsfile</a>
-        <a href="#"><i class="fa fa fa-play" aria-hidden="true"></i> Demo</a>
     </div>
 </div>
