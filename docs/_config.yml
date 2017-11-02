@@ -24,13 +24,15 @@ url: "https://www.snips.ai" # the base hostname & protocol for your site, e.g. h
 twitter_username: snips
 github_username:  snipsco
 
+# Build settings
+
 markdown: kramdown
 kramdown:
   input: GFM
   hard_wrap: false
   auto_ids: true
   syntax_highlighter: rouge
-
+    
 # theme: minima
 # plugins:
 #   - jekyll-feed

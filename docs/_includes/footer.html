@@ -1,77 +1,13 @@
-<!-- <div id="footer">
-  <div class="content">
-    <a href="https://www.snips.ai">
-      <img src="{{ site.baseurl }}/images/Logo.png" srcset="{{ site.baseurl }}/images/Logo@2x.png 2x" />
-    </a>
-    <div class="links">
-      <a href="https://www.snips.ai">Snips</a>
-      <a href="https://github.com/snipsco/">Github</a>
-      <a href="https://twitter.com/snips">Twitter</a>
-      <a href="https://snipslabs.herokuapp.com/">Slack</a>
-    </div>
-  </div>
+<div id="footer">
+	<div class="content">
+		<a href="https://www.snips.ai">
+			<img src="{{ site.baseurl }}/images/Logo.png" srcset="{{ site.baseurl }}/images/Logo@2x.png 2x" />
+		</a>
+		<div class="links">
+			<a href="https://www.snips.ai">Snips</a>
+			<a href="https://github.com/snipsco/">Github</a>
+			<a href="https://twitter.com/snips">Twitter</a>
+			<a href="https://snipslabs.herokuapp.com/">Slack</a>
+		</div>
+	</div>
 </div>
- -->
- <script type="text/javascript">
-  $('div.highlight').replaceWith(function() {
-    var classes = $(this).attr('class');
-    return $('<pre/>', {
-        html: this.innerHTML,
-        class: classes
-    });
-  });
-
-  window.onload = function(){
-      var blocks = document.getElementsByClassName("highlight");
-      for(var i = 0; i < blocks.length; i++) {
-        var block = blocks[i];
-        var parent = block.parentElement;
-        if (parent.classList.contains("language-sh")) {
-          var lines = block.innerText.split(/\n/);
-          var formattedLines = "";
-          for(var j = 0; j < lines.length; j++) {
-            var line = lines[j];
-            var formattedLine;
-            if (line.startsWith("$ ")) {
-              var command = line.replace("$ ", "");
-              formattedLine = "<span class=\"prompt\">$ </span><span class=\"command\">" + command + "</span>";
-            } else {
-              formattedLine = "<span class=\"output\">" + line + "</span>";
-            }
-            var br = "<br />"
-            if (j == lines.length - 1) {
-              br = "";
-            }
-            formattedLines = formattedLines.concat(formattedLine + br);
-          }
-          block.className += " sh";
-          block.innerHTML = "<code>" + formattedLines + "</code";
-        } else if (parent.classList.contains("language-yaml")) {
-          var lines = block.innerText.split(/\n/);
-          var formattedLines = "";
-          for(var j = 0; j < lines.length; j++) {
-            var line = lines[j];
-            var formattedLine;
-            var si = line.indexOf(':');
-            if (si == -1) {
-              formattedLine = "<span class=\"value\">" + line + "</span>";
-            } else {
-              var key = line.slice(0,si);
-              var value = line.slice(si+1);
-              formattedLine = "<span class=\"key\">" + key + ":</span><span class=\"value\">" + value + "</span>";
-            }
-            var br = "<br />"
-            if (j == lines.length - 1) {
-              br = "";
-            }
-            formattedLines = formattedLines.concat(formattedLine + br);
-          }
-          block.className += " yaml";
-          block.innerHTML = "<code>" + formattedLines + "</code";
-
-        } else {
-          hljs.highlightBlock(block);
-        }
-      }
-  };
-  </script>
