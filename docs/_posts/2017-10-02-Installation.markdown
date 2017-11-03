@@ -21,7 +21,7 @@ In order to get your Raspberry Pi connected to your Wi-Fi network, you can use t
 
 If you already have a working Raspberry Pi setup, you can install Snips Skills using `apt-get`. You will first need to update the Debian package repository:
 
-- Create a file `/etc/apt/source.list.d/snips.list` (we use `snips.list` here, but any name will work)
+- Create a file `/etc/apt/sources.list.d/snips.list` (we use `snips.list` here, but any name will work)
 - Add the following line: `deb https://s3.amazonaws.com/snips-deb/ stable main`
 - Run `sudo apt-get update` to update the repository
 
