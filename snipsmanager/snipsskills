@@ -1,0 +1,6 @@
+#!/bin/sh
+#
+# DO NOT REMOVE!
+# This file is used for the Debian package.
+
+/opt/venvs/snipsmanager/bin/snipsmanager "$@"

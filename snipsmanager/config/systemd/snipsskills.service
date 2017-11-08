@@ -1,0 +1,13 @@
+[Unit]
+Description=Snips Manager
+After=snips.service
+
+[Service]
+Type=simple
+User=%i
+ExecStartPre=/bin/sleep 30
+WorkingDirectory={{WORKING_DIRECTORY}}
+ExecStart={{SNIPSMANAGER_COMMAND}} run
+
+[Install]
+WantedBy=multi-user.target

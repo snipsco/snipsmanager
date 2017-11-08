@@ -50,10 +50,10 @@ about documentation?  I suck at english so if you're fluent with it (or notice
 any error), why not help with that? In any case, other than GitHub help_ pages,
 you might want to check this excellent `Effective Guide to Pull Requests`_
 
-.. _`the repository`: https://github.com/snipsco/snipsskills
-.. _AUTHORS: https://github.com/snipsco/snipsskills/blob/master/AUTHORS
-.. _`open issues`: https://github.com/snipsco/snipsskills/issues
-.. _`new issue`: https://github.com/snipsco/snipsskills/issues/new
+.. _`the repository`: https://github.com/snipsco/snipsmanager
+.. _AUTHORS: https://github.com/snipsco/snipsmanager/blob/master/AUTHORS
+.. _`open issues`: https://github.com/snipsco/snipsmanager/issues
+.. _`new issue`: https://github.com/snipsco/snipsmanager/issues/new
 .. _Fork: https://help.github.com/articles/fork-a-repo
 .. _`proper format`: http://tbaggery.com/2008/04/19/a-note-about-git-commit-messages.html
 .. _PEP8: https://www.python.org/dev/peps/pep-0008/
