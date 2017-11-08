@@ -136,9 +136,6 @@ class SkillsRunner:
 
         :param intent: the incoming intent to handle.
         """
-
-        print("handle_intent " + str(intent.intentName))
-            
         for skilldef in self.skilldefs:
             intent_def = skilldef.find(intent)
             if intent_def is None:
