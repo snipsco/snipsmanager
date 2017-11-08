@@ -6,8 +6,6 @@ import subprocess
 
 from .os_helpers import cmd_exists, is_raspi_os, ask_yes_no, execute_command
 
-# from snipsskillscore.logging import log, log_success, log_warning, log_error
-
 try:
     from subprocess import DEVNULL
 except ImportError:

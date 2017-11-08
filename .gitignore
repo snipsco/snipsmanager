@@ -80,7 +80,7 @@ temp/
 .DS_Store
 .AppleDouble/
 Makefile
-snipsskills/data/music
+snipsmanager/data/music
 .snips
 test.py
 venv
