@@ -35,7 +35,7 @@ setup(
     long_description = long_description,
     url = 'https://github.com/snipsco/snipsmanager',
     author = 'Snips',
-    author_email = 'michael.fester@snips.ai',
+    author_email = 'labs@snips.ai',
     license='MIT',
     keywords = ['cli', 'snips'],
     packages = find_packages(exclude=['docs', 'tests*']),
