@@ -64,9 +64,6 @@ def main():
         elif options['setup'] == True and options['systemd'] == True and options['bluetooth'] == True:
             from snipsmanager.commands.setup.systemd.bluetooth import SystemdBluetooth
             SystemdBluetooth(options).run()
-        elif options['setup'] == True and options['systemd'] == True and options['snips'] == True:
-            from snipsmanager.commands.setup.systemd.snips import SystemdSnips
-            SystemdSnips(options).run()
         elif options['setup'] == True and options['systemd'] == True and options['skills'] == True:
             from snipsmanager.commands.setup.systemd.snipsmanager import Systemdsnipsmanager
             Systemdsnipsmanager(options).run()

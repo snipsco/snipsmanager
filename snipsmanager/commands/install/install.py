@@ -12,7 +12,6 @@ from ..assistant.load import AssistantLoader
 from ..setup.microphone import MicrophoneInstaller
 from ..setup.speaker import SpeakerInstaller
 from ..setup.systemd.bluetooth import SystemdBluetooth
-from ..setup.systemd.snips import SystemdSnips
 from ..setup.systemd.snipsmanager import SystemdSnipsManager
 from .skills import SkillsInstaller, SkillsInstallerWarning
 from .bluetooth import BluetoothInstaller
@@ -93,10 +92,6 @@ class GlobalInstaller(Base):
         if not skip_systemd and is_raspi_os():
             try:
                 SystemdBluetooth.setup()
-            except Exception as e:
-                pp.pwarning(str(e))
-            try:
-                SystemdSnips.setup()
             except Exception as e:
                 pp.pwarning(str(e))
             try:
