@@ -5,6 +5,5 @@ include snipsmanager/config/*
 include snipsmanager/config/asoundrc/*
 include snipsmanager/config/drivers/*
 include snipsmanager/config/systemd/*
-include snipsmanager/data/sounds/*
 include snipsmanager/templates/*
 include snipsmanager/snipsmanager
