@@ -25,8 +25,8 @@ class AssistantFetcher(Base):
 
     SNIPS_TEMP_ASSISTANT_FILENAME = "assistant.zip"
     SNIPS_TEMP_ASSISTANT_PATH = os.path.join(SNIPS_CACHE_DIR, SNIPS_TEMP_ASSISTANT_FILENAME)
-    # CONSOLE_ASSISTANT_URL = "https://external-gateway.snips.ai/v1/assistant/{}/download"
-    CONSOLE_ASSISTANT_URL = "https://console.snips.ai/api/assistants/{}/download"
+    CONSOLE_ASSISTANT_URL = "https://external-gateway.snips.ai/v1/assistant/{}/download"
+    # CONSOLE_ASSISTANT_URL = "https://console.snips.ai/api/assistants/{}/download"
 
 
     def run(self):
