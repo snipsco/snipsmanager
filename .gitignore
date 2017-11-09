@@ -90,13 +90,6 @@ docs/package-lock.json
 *.deb
 .snips_env
 
-Snipsfile
-Snipsfile.tmp
-Snipsfile.old
-Snipsfile.nyc
-Snipsfile.robin
-Snipsfile.base
-Snipsfile.sonos
-Snipsfile.blocks
-
-assistant.zip
+/Snipsfile*
+/assistant.zip
+/Snipsfiles

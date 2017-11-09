@@ -54,7 +54,7 @@ class SystemdBluetooth(Base):
 
 
     @staticmethod
-    def setup_from_params(mqtt_hostname="localhost", mqtt_port=9898):
+    def setup_from_params(mqtt_hostname="localhost", mqtt_port=1883):
         pp.pcommand("Setting up Bluetooth as a Systemd service")
 
         if not is_raspi_os():
