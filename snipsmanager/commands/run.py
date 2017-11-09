@@ -90,7 +90,7 @@ class SkillsRunner:
 
         self.registry = IntentRegistry()
         self.server = Server(mqtt_hostname, mqtt_port, tts_service_id, locale, self.registry, self.handle_intent_async, logger)
-
+        
         self.skilldefs = skilldefs
         self.skills = {}
         for skilldef in self.skilldefs:
@@ -136,6 +136,8 @@ class SkillsRunner:
 
         :param intent: the incoming intent to handle.
         """
+        tts_service = self.server.tts_service
+
         for skilldef in self.skilldefs:
             intent_def = skilldef.find(intent)
             if intent_def is None:
