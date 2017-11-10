@@ -89,7 +89,7 @@ class SkillsRunner:
         logger.info("Starting Snips Manager")
 
         self.registry = IntentRegistry()
-        self.server = Server(mqtt_hostname, mqtt_port, tts_service_id, locale, self.registry, self.handle_intent_async, logger)
+        self.server = Server(mqtt_hostname, mqtt_port, tts_service_id, locale, self.registry, self.handle_intent_async, self.handle_start_listening_async, self.handle_done_listening_async, logger)
         
         self.skilldefs = skilldefs
         self.skills = {}
@@ -161,3 +161,41 @@ class SkillsRunner:
                 exec(action)
             else:
                 getattr(skill, intent_def.action)()
+
+
+    def handle_start_listening_async(self):
+        """ Handle a start listening event."""
+        thread = threading.Thread(target=self.handle_notification, args=("start_listening", ))
+        thread.start()
+
+    def handle_done_listening_async(self):
+        """ Handle a done listening event."""
+        thread = threading.Thread(target=self.handle_notification, args=("done_listening", ))
+        thread.start()
+
+    def handle_notification(self, name):
+        """ Handle a start listening event asynchronously."""
+
+        for skilldef in self.skilldefs:
+            notification_def = skilldef.find_notification(name)
+            if notification_def is None:
+                continue
+            if skilldef.package_name in self.skills:
+                skill = self.skills[skilldef.package_name]
+            elif skilldef.name in self.skills:
+                skill = self.skills[skilldef.name]
+            else:
+                continue
+            if notification_def.action.startswith("{%"):
+                # Replace variables in scope with random variables
+                # to prevent the skill from accessing/editing them.
+                action = notification_def.action \
+                    .replace("{%", "") \
+                    .replace("%}", "") \
+                    .replace("skilldef", "_snips_eejycfyrdfzilgfb") \
+                    .replace("intent_def", "_snips_jkqdruouzuahmgns") \
+                    .replace("snipsfile", "_snips_pdzdcpaygyjklngz") \
+                    .strip()
+                exec(action)
+            else:
+                getattr(skill, notification_def.action)()

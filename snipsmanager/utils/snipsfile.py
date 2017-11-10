@@ -7,6 +7,7 @@ import yaml
 
 from ..models.skilldef import SkillDef
 from ..models.intentdef import IntentDef
+from ..models.notificationdef import NotificationDef
 
 
 class SnipsfileParseException(Exception):
@@ -58,6 +59,19 @@ def find_intent(intent_name, intent_defs):
     for intent_def in intent_defs:
         if intent_def.name == intent_name:
             return intent_def
+    return None
+
+
+def find_notification(notification_name, notification_defs):
+    """ Find a notification by name in a list of notification definitions.
+
+    :param notification_name: the name of the notification to look for.
+    :param notification_defs: a list of notification definitions.
+    :return: the notification_def with matching name, or None.
+    """
+    for notification_def in notification_defs:
+        if notification_def.name == notification_name:
+            return notification_def
     return None
 
 # pylint: disable=too-many-instance-attributes,too-many-locals
@@ -125,9 +139,11 @@ class Snipsfile:
             requires_tts = self.get_skill_attribute(skill, snipsspec_file, 'requires_tts', False)
             addons = self.get_skill_attribute(skill, snipsspec_file, 'addons', [])
             intent_defs = self.get_intent_defs(skill, snipsspec_file)
+            notification_defs = self.get_notification_defs(skill, snipsspec_file)
 
             self.skilldefs.append(SkillDef(name, package_name, class_name, url,
-                                           params, intent_defs, requires_tts, addons))
+                                           params, intent_defs, notification_defs,
+                                           requires_tts, addons))
 
     def get_skill_attribute(self, skill, snipsspec_file, attribute_name, default_value=None):
         """ Get an attribute for a skill. The value, if provided, by the Snipsfile
@@ -184,6 +200,41 @@ class Snipsfile:
                 intents.append(intent)
         return intents
 
+    def get_notification_defs(self, skill, snipsspec_file):
+        """ Get the intent definitions for a skill. The definitions for the
+            skills found in skill has precendence over those in the
+            snipsspec_file definitions, which act as fallbacks.
+
+
+        :param skill: the skill def, as extracted from the Snipsfile.
+        :param snipsspec_file: a SnipsSpec object, holding a fallback list of
+                               intents.
+        :return: the list of intents for the skill.
+        """
+        notifications_snipsfile = []
+        for notification in get(skill, ['notifications'], []):
+            name = get(notification, ['name'])
+            action = get(notification, ['action'])
+            notifications_snipsfile.append(NotificationDef(name, action))
+
+        if snipsspec_file is None:
+            return notifications_snipsfile
+
+        try:
+            notifications_snipsspec = snipsspec_file.notification_defs
+        except AttributeError as e:
+            return notifications_snipsfile
+
+        notifications = []
+        for notification in notifications_snipsfile:
+            notifications.append(intent)
+
+        for notification in notifications_snipsspec:
+            found = find_notification(notification.name, notifications_snipsfile)
+            if not found:
+                notifications.append(notification)
+        return notifications
+
     def get_skill_urls(self):
         skill_urls = []
         for skilldef in self.skilldefs:
@@ -237,6 +288,12 @@ class SnipsSpec:
             action = get(intent, ['action'])
             self.intent_defs.append(IntentDef(name, action))
 
+        self.notification_defs = []
+        for notification in get(yaml_config, ['notifications'], []):
+            name = get(notification, ['name'])
+            action = get(notification, ['action'])
+            self.notification_defs.append(NotificationDef(name, action))
+
 
 # pylint: disable=too-many-instance-attributes,too-many-locals
 class MicrophoneConfig:
@@ -252,7 +309,11 @@ class MicrophoneConfig:
         for key, value in get(yaml_config, ['microphone','params'], {}).items():
             self.params[key] = value
 
+
+# pylint: disable=too-many-instance-attributes,too-many-locals
 class SpeakerConfig:
+    """ Config holder for speaker. """
+
     def __init__(self, yaml_config):
         self.identifier = get(yaml_config, ['speaker', 'identifier'])
         self.modify_asoundrc = get(yaml_config, ['speaker', 'modify_asoundrc'], True)
