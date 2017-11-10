@@ -191,6 +191,13 @@ class Snipsfile:
                 skill_urls.append(skilldef.url)
         return skill_urls
 
+    def get_num_skills_without_url(self):
+        num = 0
+        for skilldef in self.skilldefs:
+            if skilldef.url is None:
+                num = num + 1
+        return num
+
 
 # pylint: disable=too-many-instance-attributes,too-many-locals
 class SnipsSpec:
