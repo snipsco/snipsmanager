@@ -6,15 +6,15 @@
 
 The Snips Manager is a tool for easily setting up and managing a [Snips](https://www.snips.ai) assistant.
 
-A single configuration file, the [Snipsfile](https://github.com/michaelfester/awesome-snips/), is required to create a Snips assistant. In it, you specify:
+A single configuration file, the [Snipsfile](https://github.com/snipsco/snipsmanager/wiki/The-Snipsfile), is required to create a Snips assistant. In it, you specify:
 
 - The URL of your assistant, as created in the [Snips Console](https://console.snips.ai)
-- The [skills](https://github.com/michaelfester/awesome-snips/) you want to install
+- The [skills](https://github.com/snipsco/awesome-snips) you want to install
 - Bindings between intents and skills
 - If required, additional parameters for you skill, such as an API key or the address of a lamp
 - Various configuration parameters, such as language and logging preferences.
 
-Check out [Awesome Snips](https://github.com/michaelfester/awesome-snips/), a curated list of Snips skills, assistants and other resources to get you started. In particular, make sure to read the [Getting Started guide](https://github.com/snipsco/snipsmanager/wiki/Getting-Started).
+Check out [Awesome Snips](https://github.com/snipsco/awesome-snips), a curated list of Snips skills, assistants and other resources to get you started. In particular, make sure to read the [Getting Started guide](https://github.com/snipsco/snipsmanager/wiki/Getting-Started).
 
 ## Installation
 
