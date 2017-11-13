@@ -4,7 +4,7 @@
 [![PyPi](https://img.shields.io/pypi/v/snipsmanager.svg)](https://pypi.python.org/pypi/snipsmanager)
 [![MIT License](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/snipsco/snipsmanager/master/LICENSE.txt)
 
-The Snips Manager Manager is a tool for easily setting up and managing a Snips assistant.
+The Snips Manager is a tool for easily setting up and managing a [Snips](https://www.snips.ai) assistant.
 
 A single configuration file, the [Snipsfile](https://github.com/michaelfester/awesome-snips/), is required to create a Snips assistant. In it, you specify:
 
