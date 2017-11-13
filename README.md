@@ -26,7 +26,7 @@ deb https://s3.amazonaws.com/snips-deb/ stable main
 
 Then run:
 
-```console
+```sh
 $ sudo apt-get update
 $ sudo apt-get install snipsmanager
 ```
@@ -63,7 +63,7 @@ For further explanations and examples, check out our [Snipsfile Wiki](https://gi
 
 Next, setup the system by running the `install` command:
 
-```console
+```sh
 $ snipsmanager install
 ```
 
@@ -71,7 +71,7 @@ $ snipsmanager install
 
 If you enabled Snips Manager to run on boot, simply reboot your device. Otherwise, start the service manually by running:
 
-```console
+```sh
 $ snipsmanager run
 ```
 
