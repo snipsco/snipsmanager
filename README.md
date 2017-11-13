@@ -1,10 +1,8 @@
 # Snips Manager
 
-|Build Status| |PyPI| |MIT License|
-
-[![Build Status][https://travis-ci.org/snipsco/snipsmanager.svg]][https://travis-ci.org/snipsco/snipsmanager]
-[![PyPi][https://img.shields.io/pypi/v/snipsmanager.svg]][https://pypi.python.org/pypi/snipsmanager]
-[![MIT License][https://img.shields.io/badge/license-MIT-blue.svg]][https://raw.githubusercontent.com/snipsco/snipsmanager/master/LICENSE.txt]
+[![Build Status](https://travis-ci.org/snipsco/snipsmanager.svg)](https://travis-ci.org/snipsco/snipsmanager)
+[![PyPi](https://img.shields.io/pypi/v/snipsmanager.svg)](https://pypi.python.org/pypi/snipsmanager)
+[![MIT License](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/snipsco/snipsmanager/master/LICENSE.txt)
 
 The Snips Manager Manager is a tool for easily setting up and managing a Snips assistant.
 
