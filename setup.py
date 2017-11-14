@@ -31,7 +31,7 @@ class RunTests(Command):
 setup(
     name = 'snipsmanager',
     version = __version__,
-    description = 'Snips Skills Manager',
+    description = 'Snips Manager',
     long_description = long_description,
     url = 'https://github.com/snipsco/snipsmanager',
     author = 'Snips',
