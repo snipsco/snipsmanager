@@ -9,8 +9,8 @@ Usage:
   snipsmanager install addon <addon_id> [--silent --non-interactive] [PARAMS ...]
   snipsmanager fetch assistant [--snipsfile=<snipsfile_path>] [--id=<id> --url=<url> --file=<file>] [--email=<email> --password=<password>] [--force-download]
   snipsmanager load assistant [--file=<file> --platform-only]
-  snipsmanager setup microphone [--snipsfile=<snipsfile_path>] [<microphone_id> [--skip-asoundrc] [--update-asoundconf] [PARAMS ...]]
-  snipsmanager setup speaker [--snipsfile=<snipsfile_path>] [<speaker_id> [--skip-asoundrc] [--update-asoundconf] [PARAMS ...]]
+  snipsmanager setup microphone [--snipsfile=<snipsfile_path>] [<microphone_id> [--skip-asoundconf] [PARAMS ...]]
+  snipsmanager setup speaker [--snipsfile=<snipsfile_path>] [<speaker_id> [--skip-asoundconf] [PARAMS ...]]
   snipsmanager setup systemd bluetooth [--mqtt-host=<mqtt_host> --mqtt-port=<mqtt_port>]
   snipsmanager setup systemd snips
   snipsmanager setup systemd skills [--snipsfile=<snipsfile_path>]

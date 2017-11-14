@@ -25,7 +25,6 @@ NODE_MODULES_DIR = os.path.join(NODE_MODULES_PARENT_DIR, "node_modules")
 DEFAULT_SNIPSFILE_PATH = os.path.join(os.getcwd(), "Snipsfile")
 SNIPS_CACHE_INTENTS_DIR = os.path.join(SNIPS_CACHE_DIR, "intents")
 SNIPS_CACHE_INTENT_REGISTRY_FILE = os.path.join(SNIPS_CACHE_INTENTS_DIR, "intent_registry.py")
-ASOUNDRC_DEST_PATH = os.path.join(HOME_DIR, ".asoundrc")
 ASOUNDCONF_DEST_PATH = "/etc/asound.conf"
 
 SHELL_COMMAND = which("bash", "/bin/bash")

@@ -6,39 +6,37 @@ import shutil
 
 from .os_helpers import cmd_exists, is_raspi_os, execute_command, pipe_commands
 
-from .. import ASOUNDRC_DEST_PATH
+from .. import ASOUNDCONF_DEST_PATH
 
 # pylint: disable=too-few-public-methods
 class MicrophoneSetup:
     """ Downloader for Snips assistants. """
 
-    ASOUNDRC_CONFIG_PATH = "../config/asoundrc"
+    ASOUNDCONF_PATH = "../config/asound.conf"
 
     @staticmethod
-    def setup_asoundrc(microphone_id):
+    def setup_asoundconf(microphone_id):
         if not is_raspi_os():
             return
         if microphone_id == 'respeaker':
-            MicrophoneSetup._copy_asoundrc("asoundrc.respeaker")
+            MicrophoneSetup._copy_asoundconf("asound.conf.respeaker")
         elif microphone_id == 'jabra':
-            MicrophoneSetup._copy_asoundrc("asoundrc.jabra")
+            MicrophoneSetup._copy_asoundconf("asound.conf.jabra")
         else:
-            MicrophoneSetup._copy_asoundrc("asoundrc.default")
+            MicrophoneSetup._copy_asoundconf("asound.conf.default")
 
 
     @staticmethod
-    def _copy_asoundrc(asoundrc_file):
-        """ Copy asoundrc configuration to local path.
+    def _copy_asoundconf(asoundconf_file):
+        """ Copy asound.conf configuration to local path.
 
-        :param asoundrc_file: the name of the asoundrc configuration, as
+        :param asoundconf_file: the name of the asound.conf configuration, as
                               present in the config folder.
         """
         this_dir, this_filename = os.path.split(__file__)
-        asoundrc_path = os.path.join(this_dir, MicrophoneSetup.ASOUNDRC_CONFIG_PATH, asoundrc_file)
-        destination = os.path.expanduser(ASOUNDRC_DEST_PATH)
+        asoundconf_path = os.path.join(this_dir, MicrophoneSetup.ASOUNDCONF_PATH, asoundconf_file)
+        destination = os.path.expanduser(ASOUNDCONF_DEST_PATH)
         shutil.copy2(asoundrc_path, destination)
-
-
 
 
 class RespeakerMicrophoneSetup:

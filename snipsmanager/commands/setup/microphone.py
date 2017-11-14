@@ -9,7 +9,7 @@ from ...utils.os_helpers import is_raspi_os
 from ...utils.microphone_setup import MicrophoneSetup, RespeakerMicrophoneSetup
 from ...utils.snipsfile import Snipsfile
 
-from ... import DEFAULT_SNIPSFILE_PATH, ASOUNDRC_DEST_PATH
+from ... import DEFAULT_SNIPSFILE_PATH, ASOUNDCONF_DEST_PATH
 
 from snipsmanagercore import pretty_printer as pp
 
@@ -29,15 +29,14 @@ class MicrophoneInstaller(Base):
 
         Docopt command:
         
-        snipsmanager setup microphone [--snipsfile=<snipsfile>] [<microphone_id> [--skip-asoundrc] [--update_asoundconf] [PARAMS ...]]
+        snipsmanager setup microphone [--snipsfile=<snipsfile>] [<microphone_id> [--skip-asoundconf] [PARAMS ...]]
         """
         try:
             microphone_id = self.options['<microphone_id>']
             if microphone_id is not None:
-                update_asoundrc = not self.options['--skip-asoundrc']
-                update_asoundconf = self.options['--update-asoundconf']
+                update_asoundconf = not self.options['--skip-asoundconf']
                 params = self.options['PARAMS']
-                MicrophoneInstaller.install_from_params(microphone_id, update_asoundrc, update_asoundconf, params_list=params)
+                MicrophoneInstaller.install_from_params(microphone_id, update_asoundconf, params_list=params)
             else:
                 MicrophoneInstaller.install(snipsfile_path=self.options['--snipsfile'])
         except MicrophoneInstallerWarning as e:
@@ -65,24 +64,23 @@ class MicrophoneInstaller(Base):
 
         microphone_id = snipsfile.microphone_config.identifier
         params_dict = snipsfile.microphone_config.params
-        modify_asoundrc = snipsfile.modify_asoundrc
         modify_asoundconf = snipsfile.modify_asoundconf
 
-        MicrophoneInstaller.install_from_params(microphone_id, modify_asoundrc, modify_asoundconf, params_dict=params_dict, silent=True)
+        MicrophoneInstaller.install_from_params(microphone_id, modify_asoundconf, params_dict=params_dict, silent=True)
         MicrophoneInstaller.print_done(silent)
 
 
     @staticmethod
-    def install_from_params(microphone_id, update_asoundrc, update_asoundconf, params_list=None, params_dict=None, silent=False):
+    def install_from_params(microphone_id, update_asoundconf, params_list=None, params_dict=None, silent=False):
         MicrophoneInstaller.print_start(microphone_id, silent)
 
         if not is_raspi_os():
             raise MicrophoneInstallerWarning("System is not Raspberry Pi. Skipping microphone setup")
         
-        if update_asoundrc:
-            message = pp.ConsoleMessage("Copying .asoundrc to {}".format(ASOUNDRC_DEST_PATH))
+        if update_asoundconf:
+            message = pp.ConsoleMessage("Copying asound configuration to {}".format(ASOUNDCONF_DEST_PATH))
             message.start()
-            MicrophoneSetup.setup_asoundrc(microphone_id)
+            MicrophoneSetup.setup_asoundconf(microphone_id)
             message.done()
 
         if microphone_id == 'respeaker':

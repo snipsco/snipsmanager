@@ -5,13 +5,16 @@ from ...utils.os_helpers import is_raspi_os
 from snipsmanagercore import pretty_printer as pp
 from ...utils.snipsfile import Snipsfile
 from ...utils.speaker_setup import  SpeakerSetup
-from ... import DEFAULT_SNIPSFILE_PATH, ASOUNDRC_DEST_PATH, ASOUNDCONF_DEST_PATH
+from ... import DEFAULT_SNIPSFILE_PATH, ASOUNDCONF_DEST_PATH
+
 
 class SpeakerInstallerException(Exception):
     pass
 
+
 class SpeakerInstallerWarning(Exception):
     pass
+
 
 class SpeakerInstaller(Base):
     """Speaker setup command"""
@@ -21,10 +24,9 @@ class SpeakerInstaller(Base):
         try:
             speaker_id = self.options['<speaker_id>']
             if speaker_id is not None:
-                update_asoundrc = not self.options['--skip-asoundrc']
                 update_asoundconf = not self.options['--skip-asoundconf']
                 params = self.options['PARAMS']
-                SpeakerInstaller.install_from_params(speaker_id, update_asoundrc, update_asoundconf, params_list=params)
+                SpeakerInstaller.install_from_params(speaker_id, update_asoundconf, params_list=params)
             else:
                 SpeakerInstaller.install(snipsfile_path=self.options['--snipsfile'])
         except SpeakerInstallerWarning as e:
@@ -52,14 +54,13 @@ class SpeakerInstaller(Base):
 
         speaker_id = snipsfile.speaker_config.identifier
         params_dict = snipsfile.speaker_config.params
-        modify_asoundrc = snipsfile.speaker_config.modify_asoundrc
         modify_asoundconf = snipsfile.speaker_config.modify_asoundconf
 
-        SpeakerInstaller.install_from_params(speaker_id, modify_asoundrc, modify_asoundconf, params_dict=params_dict, silent=True)
+        SpeakerInstaller.install_from_params(speaker_id, modify_asoundconf, params_dict=params_dict, silent=True)
         SpeakerInstaller.print_done(silent)
 
     @staticmethod
-    def install_from_params(speaker_id, update_asoundrc, update_asoundconf, params_list=None, params_dict=None, silent=False):
+    def install_from_params(speaker_id, update_asoundconf, params_list=None, params_dict=None, silent=False):
         SpeakerInstaller.print_start(speaker_id, silent)
 
         if not is_raspi_os():
@@ -69,13 +70,6 @@ class SpeakerInstaller(Base):
         message.start()
         SpeakerSetup.setup_driver(speaker_id)
         message.done()
-
-
-        if update_asoundrc:
-            message = pp.ConsoleMessage("Copying .asoundrc to {}".format(ASOUNDRC_DEST_PATH))
-            message.start()
-            SpeakerSetup.setup_asoundrc(speaker_id)
-            message.done()
 
         if update_asoundconf:
             message = pp.ConsoleMessage("Copying asound.conf to {}".format(ASOUNDCONF_DEST_PATH))

@@ -1,18 +1,11 @@
 import os
 import shutil
 from .os_helpers import is_raspi_os, execute_command
-from .. import ASOUNDRC_DEST_PATH, ASOUNDCONF_DEST_PATH
+from .. import ASOUNDCONF_DEST_PATH
 
 class SpeakerSetup:
-    ASOUNDRC_CONFIG_PATH = "../config/asoundrc/"
+    ASOUNDCONF_PATH = "../config/asound.conf/"
     SOUND_DRIVER_PATH = "../config/drivers/"
-
-    @staticmethod
-    def setup_asoundrc(speaker_id):
-        if not is_raspi_os():
-            return
-        elif speaker_id == 'adafruit-bonnet':
-            SpeakerSetup._copy_asoundrc("asoundrc.speakerbonnet")
 
     @staticmethod
     def setup_asoundconf(speaker_id):
@@ -30,24 +23,17 @@ class SpeakerSetup:
             SpeakerSetup._install_driver("adafruit_bonnet.sh")
 
     @staticmethod
-    def _copy_asoundrc(asoundrc_file):
-        """ Copy asoundrc configuration to local path.
+    def _copy_asoundconf(asoundconf_file):
+        """ Copy asoundconf configuration to local path.
 
-        :param asoundrc_file: the name of the asoundrc configuration, as
-                              present in the config folder.
+        :param asoundconf_file: the name of the asoundconf configuration, as
+                                present in the config folder.
         """
         this_dir, this_filename = os.path.split(__file__)
-        asoundrc_path = os.path.join(this_dir, SpeakerSetup.ASOUNDRC_CONFIG_PATH, asoundrc_file)
-        destination = os.path.expanduser(ASOUNDRC_DEST_PATH)
-        shutil.copy2(asoundrc_path, destination)
-
-    @staticmethod
-    def _copy_asoundconf(asoundconf_file):
-        """ Copy asoundconf to local path. """
-        this_dir, this_filename = os.path.split(__file__)
-        asoundrc_path = os.path.join(this_dir, SpeakerSetup.ASOUNDRC_CONFIG_PATH, asoundconf_file)
+        asoundconf_path = os.path.join(this_dir, SpeakerSetup.ASOUNDCONF_PATH, asoundconf_file)
         destination = os.path.expanduser(ASOUNDCONF_DEST_PATH)
-        shutil.copy2(asoundrc_path, destination)
+        shutil.copy2(asoundconf_path, destination)
+
 
     @staticmethod
     def _install_driver(driver_file):
