@@ -40,6 +40,6 @@ class {{to_camelcase_capitalized(intent.name)}}Intent:
             IntentParser.get_site_id(payload),
             IntentParser.get_custom_data(payload),
             {% for slot in intent.slots -%}
-            IntentParser.get_slot_value(payload, "{{ slot.name}}"){{"," if not loop.last}}
+            IntentParser.get_slot_value(payload, "{{ slot.name }}"){{"," if not loop.last}}
             {% endfor -%}
         )
