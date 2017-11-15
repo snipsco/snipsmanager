@@ -8,29 +8,27 @@ The Snips Manager is a tool for easily setting up and managing a [Snips](https:/
 
 A single configuration file, the [Snipsfile](https://github.com/snipsco/snipsmanager/wiki/The-Snipsfile), is required to create a Snips assistant. In it, you specify:
 
-- The URL of your assistant, as created in the [Snips Console](https://console.snips.ai)
-- The [skills](https://github.com/snipsco/awesome-snips) you want to install
-- Bindings between intents and skills
-- If required, additional parameters for you skill, such as an API key or the address of a lamp
+- The URL of your assistant model, as created in the [Snips Console](https://console.snips.ai)
+- The [lambdas](https://github.com/snipsco/snipsmanager/wiki/Creating-a-Lambda) you want to install
+- Bindings between intents and lambdas
+- If required, additional parameters for your lambdas, such as an API key or the address of a lamp
 - Various configuration parameters, such as language and logging preferences.
 
-Check out [Awesome Snips](https://github.com/snipsco/awesome-snips), a curated list of Snips skills, assistants and other resources to get you started. In particular, make sure to read the [Getting Started guide](https://github.com/snipsco/snipsmanager/wiki/Getting-Started).
+Check out [Awesome Snips](https://github.com/snipsco/awesome-snips), a curated list of Snips assistants, lambdas and other resources to get you started.
 
 ## Installation
 
 ### Debian package
 
-Snips Manager is available as an `apt-get` package. To install it, first add the Snips repository to your list of `apt-get` sources. In the folder `/etc/apt/sources.list.d`, create a file called `snips.list`, and add the line:
-
-```
-deb https://s3.amazonaws.com/snips-deb/ stable main
-```
-
-Then run:
+Snips Manager is available as an `apt-get` package. To install it, run the following:
 
 ```sh
 $ sudo apt-get update
-$ sudo apt-get install snipsmanager
+$ sudo apt-get install -y dirmngr
+$ sudo bash -c 'echo "deb https://raspbian.snips.ai/$(lsb_release -cs) stable main" > /etc/apt/sources.list.d/snips.list'
+$ sudo apt-key adv --keyserver pgp.mit.edu --recv-keys D4F50CDCA10A2849
+$ sudo apt-get update
+$ sudo apt-get install -y snipsmanager
 ```
 
 ### Python package
@@ -47,21 +45,21 @@ $ sudo apt-get install python-pip libsdl-mixer1.2 libusb-1.0 \
     portaudio19-dev nodejs build-essential -y
 ```
 
-Next, we want to create a Python virtual environment to avoid conflicts with existing dependencies, and to be able to run Snips Manager without root privileges:
+Next, create a Python virtual environment to avoid conflicts with existing dependencies, and to be able to run Snips Manager without root privileges:
 
 ```sh
 $ sudo pip install --upgrade virtualenv
-$ virtualenv --python=/usr/bin/python2.7 snipsmanager-env
-$ source snipsmanager-env/bin/activate
-(snipsmanager-env) $ pip install pip --upgrade
+$ virtualenv --python=/usr/bin/python2.7 snips
+$ source snips/bin/activate
+(snips) $ pip install pip --upgrade
 ```
 
-You may replace `snipsmanager-env` with any name for your virtual environment.
+You may replace `snips` with any name for your virtual environment.
 
 We are ready to install the `snipsmanager` package:
 
 ```sh
-(snipsmanager-env) $ pip install snipsmanager
+(snips) $ pip install snipsmanager
 ```
 
 ## macOS
@@ -81,15 +79,15 @@ Next, like with Raspbian, we create a Python virtual environment in which Snips 
 
 ```sh
 $ sudo pip install --upgrade virtualenv
-$ virtualenv --python=/usr/bin/python2.7 snipsmanager-env
-$ source snipsmanager-env/bin/activate
-(snipsmanager-env) $ pip install pip --upgrade
+$ virtualenv --python=/usr/bin/python2.7 snips
+$ source snips/bin/activate
+(snips) $ pip install pip --upgrade
 ```
 
-Snips Manager can now be installed.
+Snips Manager can now be installed:
 
 ```sh
-(snipsmanager-env) $ pip install snipsmanager
+(snips) $ pip install snipsmanager
 ```
 
 ## Usage
@@ -118,17 +116,15 @@ skills:
 
 For further explanations and examples, check out our [Snipsfile Wiki](https://github.com/snipsco/snipsmanager/wiki/The-Snipsfile).
 
-### Installing the skills
+### Installing the lambdas
 
-Next, setup the system by running the `install` command:
+Next, setup the assistant by running the `install` command:
 
 ```sh
 $ snipsmanager install
 ```
 
-### Launching the skills server
-
-If you enabled Snips Manager to run on boot, simply reboot your device. Otherwise, start the service manually by running:
+The `snipsmanager` service will automatically start on boot. You can also start it manually by running:
 
 ```sh
 $ snipsmanager run
