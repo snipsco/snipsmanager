@@ -1,5 +1,5 @@
 from unittest import TestCase
-from snipsskills.utils.assistant_downloader import AuthDownloader, AuthExceptionInvalidCredentials, AuthExceptionInvalidAssistantId
+from snipsmanager.utils.assistant_downloader import AuthDownloader, AuthExceptionInvalidCredentials, AuthExceptionInvalidAssistantId
 
 class AuthTest(TestCase):
     def setUp(self):

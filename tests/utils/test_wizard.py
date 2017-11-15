@@ -1,7 +1,7 @@
 from unittest import TestCase
 
-from snipsskills.utils.wizard import Wizard
-from snipsskills.utils.os_helpers import ask_yes_no
+from snipsmanager.utils.wizard import Wizard
+from snipsmanager.utils.os_helpers import ask_yes_no
 
 
 class BaseTest(TestCase):

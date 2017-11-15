@@ -1,9 +1,0 @@
-assistant_id: proj_9po3YAeBV
-skills:
-  - url: https://github.com/snipsco/snips-skill-hue
-    package_name: snipshue
-    class_name: SnipsHue
-    params:
-      hostname: 192.168.163.96
-      username: XyWT7TlG3RkMAzbKRt4fWpHEo1TudukIgH2OKz79
-      light_ids: [1, 2, 3, 4, 5, 6]
