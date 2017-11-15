@@ -89,7 +89,7 @@ class SkillsRunner:
         logger.info("Starting Snips Manager")
 
         self.registry = IntentRegistry()
-        self.server = Server(mqtt_hostname, mqtt_port, tts_service_id, locale, self.registry, self.handle_intent_async, self.handle_start_listening_async, self.handle_done_listening_async, logger)
+        self.server = Server(mqtt_hostname, mqtt_port, tts_service_id, locale, self.registry, self.handle_intent_async, self.handle_dialogue_events_async, self.handle_start_listening_async, self.handle_done_listening_async, logger)
         
         self.skilldefs = skilldefs
         self.skills = {}
@@ -162,6 +162,44 @@ class SkillsRunner:
             else:
                 getattr(skill, intent_def.action)()
 
+    def handle_dialogue_events_async(self, state):
+        """ Handle the dialogue API events."""
+        if(state == self.server.DIALOGUE_EVENT_STARTED):
+            state_name = "session_started"
+        elif(state == self.server.DIALOGUE_EVENT_ENDED):
+            state_name = "session_ended"
+        elif(state == self.server.DIALOGUE_EVENT_QUEUED):
+            state_name = "session_queued"
+
+        thread = threading.Thread(target=self.handle_dialogue_events, args=(state_name, ))
+        thread.start()
+
+    def handle_dialogue_events(self, name):
+        """ Handle the dialogue API events asynchronously."""
+
+        for skilldef in self.skilldefs:
+            dialogue_events_def = skilldef.find_dialogue_event(name)
+            if dialogue_events_def is None:
+                continue
+            if skilldef.package_name in self.skills:
+                skill = self.skills[skilldef.package_name]
+            elif skilldef.name in self.skills:
+                skill = self.skills[skilldef.name]
+            else:
+                continue
+            if dialogue_events_def.action.startswith("{%"):
+                # Replace variables in scope with random variables
+                # to prevent the skill from accessing/editing them.
+                action = dialogue_events_def.action \
+                    .replace("{%", "") \
+                    .replace("%}", "") \
+                    .replace("skilldef", "_snips_eejycfyrdfzilgfb") \
+                    .replace("intent_def", "_snips_jkqdruouzuahmgns")\
+                    .replace("snipsfile", "_snips_pdzdcpaygyjklngz") \
+                    .strip()
+                exec(action)
+            else:
+                getattr(skill, dialogue_events_def.action)()
 
     def handle_start_listening_async(self):
         """ Handle a start listening event."""
@@ -193,7 +231,7 @@ class SkillsRunner:
                     .replace("{%", "") \
                     .replace("%}", "") \
                     .replace("skilldef", "_snips_eejycfyrdfzilgfb") \
-                    .replace("intent_def", "_snips_jkqdruouzuahmgns") \
+                    .replace("intents_def", "_snips_jkqdruouzuahmgns") \
                     .replace("snipsfile", "_snips_pdzdcpaygyjklngz") \
                     .strip()
                 exec(action)

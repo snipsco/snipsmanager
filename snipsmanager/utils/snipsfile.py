@@ -8,6 +8,7 @@ import yaml
 from ..models.skilldef import SkillDef
 from ..models.intentdef import IntentDef
 from ..models.notificationdef import NotificationDef
+from ..models.dialoguedef import DialogueDef
 
 
 class SnipsfileParseException(Exception):
@@ -61,6 +62,17 @@ def find_intent(intent_name, intent_defs):
             return intent_def
     return None
 
+def find_dialogue_event(dialogue_event_name, dialogue_event_defs):
+    """ Find a dialogue event by name in a list of dialogue event definitions.
+
+    :param dialogue_event_name: the name of the dialogue event to look for.
+    :param dialogue_event_defs: a list of dialogue event definitions.
+    :return: the dialogue_event_def with matching name, or None.
+    """
+    for dialogue_event_def in dialogue_event_defs:
+        if dialogue_event_def.name == dialogue_event_name:
+            return dialogue_event_def
+    return None
 
 def find_notification(notification_name, notification_defs):
     """ Find a notification by name in a list of notification definitions.
@@ -139,9 +151,10 @@ class Snipsfile:
             addons = self.get_skill_attribute(skill, snipsspec_file, 'addons', [])
             intent_defs = self.get_intent_defs(skill, snipsspec_file)
             notification_defs = self.get_notification_defs(skill, snipsspec_file)
+            dialogue_events_defs = self.get_dialogue_events_defs(skill, snipsspec_file)
 
             self.skilldefs.append(SkillDef(name, package_name, class_name, url,
-                                           params, intent_defs, notification_defs,
+                                           params, intent_defs, dialogue_events_defs, notification_defs,
                                            requires_tts, addons))
 
     def get_skill_attribute(self, skill, snipsspec_file, attribute_name, default_value=None):
@@ -200,7 +213,7 @@ class Snipsfile:
         return intents
 
     def get_notification_defs(self, skill, snipsspec_file):
-        """ Get the intent definitions for a skill. The definitions for the
+        """ Get the notifications definitions for a skill. The definitions for the
             skills found in skill has precendence over those in the
             snipsspec_file definitions, which act as fallbacks.
 
@@ -226,13 +239,47 @@ class Snipsfile:
 
         notifications = []
         for notification in notifications_snipsfile:
-            notifications.append(intent)
+            notifications.append(notification)
 
         for notification in notifications_snipsspec:
             found = find_notification(notification.name, notifications_snipsfile)
             if not found:
                 notifications.append(notification)
         return notifications
+
+    def get_dialogue_events_defs(self, skill, snipsspec_file):
+        """ Get the dialogue events definitions for a skill. The definitions for the
+            skills found in skill has precendence over those in the
+            snipsspec_file definitions, which act as fallbacks.
+
+
+        :param skill: the skill def, as extracted from the Snipsfile.
+        :param snipsspec_file: a SnipsSpec object
+        :return: the list of dialogue events definitions for the skill.
+        """
+        dialogue_events_snipsfile = []
+        for dialogue_event in get(skill, ['dialogue_events'], []):
+            name = get(dialogue_event, ['name'])
+            action = get(dialogue_event, ['action'])
+            dialogue_events_snipsfile.append(DialogueDef(name, action))
+
+        if snipsspec_file is None:
+            return dialogue_events_snipsfile 
+
+        try:
+            dialogue_events_snipsspec = snipsspec_file.dialogue_events_defs
+        except AttributeError as e:
+            return dialogue_events_snipsfile 
+
+        dialogue_events = []
+        for dialogue_event in dialogue_events_snipsfile:
+            dialogue_events.append(dialogue_event)
+
+        for dialogue_event in dialogue_events_snipsspec:
+            found = find_dialogue_event(dialogue_event.name, dialogue_events_snipsfile)
+            if not found:
+                dialogue_events.append(dialogue_event)
+        return dialogue_events 
 
     def get_skill_urls(self):
         skill_urls = []
@@ -292,6 +339,12 @@ class SnipsSpec:
             name = get(notification, ['name'])
             action = get(notification, ['action'])
             self.notification_defs.append(NotificationDef(name, action))
+
+        self.dialogue_events_defs = []
+        for dialogue_event in get(yaml_config, ['dialogue_events'], []):
+            name = get(dialogue_event, ['name'])
+            action = get(dialogue_event, ['action'])
+            self.dialogue_events_defs.append(DialogueDef(name, action))
 
 
 # pylint: disable=too-many-instance-attributes,too-many-locals

@@ -3,7 +3,7 @@
 
 # pylint: disable=too-few-public-methods
 class NotificationDef:
-    """ Intent definition from a YAML config. """
+    """ Notification definition from a YAML config. """
 
     def __init__(self, name, action):
         """ Initialisation.

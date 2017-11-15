@@ -6,7 +6,7 @@ class SkillDef:
     """ Skill definition from a YAML config. """
 
     # pylint: disable=too-many-arguments
-    def __init__(self, name, package_name, class_name, url, params, intent_defs, notification_defs, requires_tts, addons):
+    def __init__(self, name, package_name, class_name, url, params, intent_defs, dialogue_events_defs, notification_defs, requires_tts, addons):
         """ Initialisation.
 
         :param name: skill name.
@@ -15,6 +15,7 @@ class SkillDef:
         :param url: the url package (name or url).
         :param params: the parameters to pass to the skills constructor.
         :param intent_defs: a list of intent definitions.
+        :param dialogue_events_defs: a list of notification definitions.
         :param notification_defs: a list of notification definitions.
         :param requires_tts: whether the skill requires TTS.
         :param addons: addon modules.
@@ -25,6 +26,7 @@ class SkillDef:
         self.url = url
         self.params = params
         self.intent_defs = intent_defs
+        self.dialogue_events_defs = dialogue_events_defs
         self.notification_defs = notification_defs
         self.requires_tts = requires_tts
         self.addons = addons
@@ -53,4 +55,17 @@ class SkillDef:
         for notification_def in self.notification_defs:
             if notification_def.name == name:
                 return notification_def
+        return None
+
+    def find_dialogue_event(self, name):
+        """ Find a dialogue event definition in the list of dialogue events
+            that the skill declares.
+
+        :param name: the name of the dialogue event object to look for.
+        :return: a dialogue event definition, from the skill definition,
+                 if found, or None.
+        """
+        for dialogue_event_def in self.dialogue_events_defs:
+            if dialogue_events_def.name == name:
+                return dialogue_events_def
         return None
