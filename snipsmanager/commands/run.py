@@ -140,27 +140,33 @@ class SkillsRunner:
 
         for skilldef in self.skilldefs:
             intent_def = skilldef.find(intent)
+            
+            if intent_def is None:
+                intent_def = skilldef.find_wildcard(intent)
+            
             if intent_def is None:
                 continue
+
             if skilldef.package_name in self.skills:
                 skill = self.skills[skilldef.package_name]
             elif skilldef.name in self.skills:
                 skill = self.skills[skilldef.name]
             else:
                 continue
-            if intent_def.action.startswith("{%"):
-                # Replace variables in scope with random variables
-                # to prevent the skill from accessing/editing them.
-                action = intent_def.action \
-                    .replace("{%", "") \
-                    .replace("%}", "") \
-                    .replace("skilldef", "_snips_eejycfyrdfzilgfb") \
-                    .replace("intent_def", "_snips_jkqdruouzuahmgns") \
-                    .replace("snipsfile", "_snips_pdzdcpaygyjklngz") \
-                    .strip()
-                exec(action)
-            else:
-                getattr(skill, intent_def.action)()
+            if intent_def.action is not None:
+                if intent_def.action.startswith("{%"):
+                    # Replace variables in scope with random variables
+                    # to prevent the skill from accessing/editing them.
+                    action = intent_def.action \
+                        .replace("{%", "") \
+                        .replace("%}", "") \
+                        .replace("skilldef", "_snips_eejycfyrdfzilgfb") \
+                        .replace("intent_def", "_snips_jkqdruouzuahmgns") \
+                        .replace("snipsfile", "_snips_pdzdcpaygyjklngz") \
+                        .strip()
+                    exec(action)
+                else:
+                    getattr(skill, intent_def.action)()
 
 
     def handle_start_listening_async(self):
