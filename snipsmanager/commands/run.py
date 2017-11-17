@@ -107,7 +107,7 @@ class SkillsRunner:
                             success = Addons.update_params(params=skilldef.params, addon_id=addon_id)
                             if not success:
                                 logger.info("{} add-on was not loaded. Run `snipsmanager install addon {}` to setup add-on".format(addon_id, addon_id))
-                    skill_instance = cls(**skilldef.params)
+                    skill_instance = cls(locale=locale, **skilldef.params)
                     self.skills[skilldef.package_name] = skill_instance
                     logger.info("Successfully loaded skill {}".format(skilldef.package_name))
                 elif skilldef.name is not None:
@@ -130,6 +130,10 @@ class SkillsRunner:
         thread.start()
 
     def handle_intent(self, intent, payload=None):
+        """
+
+        ANTHO : HEREEEEEEEE
+        """
         """ Handle an intent.
 
         :param intent: the incoming intent to handle.
