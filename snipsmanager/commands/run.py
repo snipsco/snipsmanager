@@ -140,9 +140,9 @@ class SkillsRunner:
 
         for skilldef in self.skilldefs:
             intent_def = skilldef.find(intent)
-            
+
             if intent_def is None:
-                intent_def = skilldef.find_wildcard(intent)
+                intent_def = skilldef.find_wildcard()
             
             if intent_def is None:
                 continue
