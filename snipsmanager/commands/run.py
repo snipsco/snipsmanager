@@ -101,8 +101,6 @@ class SkillsRunner:
                     module_name = skilldef.package_name + "." + skilldef.package_name
                     exec("from {} import {}".format(module_name, class_name))
                     cls = eval(class_name)
-                    if skilldef.requires_tts:
-                        skilldef.params[tts_service] = self.server.tts_service
                     if skilldef.addons is not None:
                         for addon_id in skilldef.addons:
                             logger.info("Loading add-on {}".format(addon_id))
@@ -153,6 +151,9 @@ class SkillsRunner:
                 skill = self.skills[skilldef.name]
             else:
                 continue
+
+            skill.tts_service = self.server.tts_service
+
             if intent_def.action is not None:
                 if intent_def.action.startswith("{%"):
                     # Replace variables in scope with random variables
