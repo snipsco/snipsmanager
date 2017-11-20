@@ -113,7 +113,7 @@ class Snipsfile:
         self.mqtt_hostname = get(
             yaml_config, ['mqtt_broker', 'hostname'], 'localhost')
         self.mqtt_port = get(yaml_config, ['mqtt_broker', 'port'], 1883)
-        self.modify_asoundconf = get(yaml_config, ['modify_asoundconf'], False)
+        self.modify_asoundconf = get(yaml_config, ['modify_asoundconf'], True)
         self.microphone_config = MicrophoneConfig(yaml_config)
         self.speaker_config = SpeakerConfig(yaml_config)
 
