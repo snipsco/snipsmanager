@@ -35,7 +35,7 @@ class MicrophoneSetup:
         """
         this_dir, this_filename = os.path.split(__file__)
         asoundconf_path = os.path.join(this_dir, MicrophoneSetup.ASOUNDCONF_PATH, asoundconf_file)
-        shutil.copy2(asoundrc_path, ASOUNDCONF_DEST_PATH)
+        shutil.copy2(asoundconf_path, ASOUNDCONF_DEST_PATH)
 
 
 class RespeakerMicrophoneSetup:
