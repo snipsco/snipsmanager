@@ -45,7 +45,8 @@ setup(
         'Jinja2',
         'pyyaml',
         'pip',
-        'snipsmanagercore==0.1.5.9.10'
+#        'snipsmanagercore==0.1.6.0.4'
+        'snipsmanagercore'
     ],
     extras_require = {
         'test': ['coverage', 'pytest', 'pytest-cov'],
