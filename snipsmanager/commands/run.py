@@ -101,14 +101,15 @@ class SkillsRunner:
                     module_name = skilldef.package_name + "." + skilldef.package_name
                     exec("from {} import {}".format(module_name, class_name))
                     cls = eval(class_name)
-                    if skilldef.requires_tts:
-                        skilldef.params[tts_service] = self.server.tts_service
+                    # if skilldef.requires_tts: TODO check how to fix
+                        # skilldef.params[tts_service_id] = self.server.tts_service
                     if skilldef.addons is not None:
                         for addon_id in skilldef.addons:
                             logger.info("Loading add-on {}".format(addon_id))
                             success = Addons.update_params(params=skilldef.params, addon_id=addon_id)
                             if not success:
                                 logger.info("{} add-on was not loaded. Run `snipsmanager install addon {}` to setup add-on".format(addon_id, addon_id))
+
                     skill_instance = cls(**skilldef.params)
                     self.skills[skilldef.package_name] = skill_instance
                     logger.info("Successfully loaded skill {}".format(skilldef.package_name))
@@ -142,12 +143,14 @@ class SkillsRunner:
             intent_def = skilldef.find(intent)
             if intent_def is None:
                 continue
+
             if skilldef.package_name in self.skills:
                 skill = self.skills[skilldef.package_name]
             elif skilldef.name in self.skills:
                 skill = self.skills[skilldef.name]
             else:
                 continue
+
             if intent_def.action.startswith("{%"):
                 # Replace variables in scope with random variables
                 # to prevent the skill from accessing/editing them.
@@ -158,6 +161,7 @@ class SkillsRunner:
                     .replace("intent_def", "_snips_jkqdruouzuahmgns") \
                     .replace("snipsfile", "_snips_pdzdcpaygyjklngz") \
                     .strip()
+
                 exec(action)
             else:
                 getattr(skill, intent_def.action)()

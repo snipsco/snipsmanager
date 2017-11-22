@@ -66,6 +66,6 @@ class SkillDef:
                  if found, or None.
         """
         for dialogue_event_def in self.dialogue_events_defs:
-            if dialogue_events_def.name == name:
-                return dialogue_events_def
+            if dialogue_event_def.name == name:
+                return dialogue_event_def
         return None

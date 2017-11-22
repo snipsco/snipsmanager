@@ -137,7 +137,7 @@ class Snipsfile:
             params = {}
             for key, value in get(skill, ['params'], {}).items():
                 params[key] = value
-        
+
             snipsspec_file = None
             try:
                 if package_name is not None:
@@ -149,6 +149,7 @@ class Snipsfile:
             class_name = self.get_skill_attribute(skill, snipsspec_file, 'class_name')
             requires_tts = self.get_skill_attribute(skill, snipsspec_file, 'requires_tts', False)
             addons = self.get_skill_attribute(skill, snipsspec_file, 'addons', [])
+
             intent_defs = self.get_intent_defs(skill, snipsspec_file)
             notification_defs = self.get_notification_defs(skill, snipsspec_file)
             dialogue_events_defs = self.get_dialogue_events_defs(skill, snipsspec_file)
@@ -259,7 +260,7 @@ class Snipsfile:
         """
         dialogue_events_snipsfile = []
         for dialogue_event in get(skill, ['dialogue_events'], []):
-            name = get(dialogue_event, ['name'])
+            name = get(dialogue_event, ['event'])
             action = get(dialogue_event, ['action'])
             dialogue_events_snipsfile.append(DialogueDef(name, action))
 
