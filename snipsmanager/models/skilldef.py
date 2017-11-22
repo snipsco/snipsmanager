@@ -39,10 +39,24 @@ class SkillDef:
         :return: an intent definition, from the skill definition, if found,
                  or None.
         """
+        if intent is None:
+            return None
         for intent_def in self.intent_defs:
             if intent_def.name == intent.intentName:
                 return intent_def
         return None
+
+    def find_wildcard(self):
+        """ Find a wildcard intent definition, i.e. one with name "*".
+
+        :return: an wildcard intent definition, from the skill definition,
+                 if found, or None.
+        """
+        for intent_def in self.intent_defs:
+            if intent_def.name == "*":
+                return intent_def
+        return None
+
 
     def find_notification(self, name):
         """ Find a notification definition in the list of notifications

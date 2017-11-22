@@ -2,7 +2,7 @@ include README.md
 include LICENSE.txt
 include setup.cfg
 include snipsmanager/config/*
-include snipsmanager/config/asoundrc/*
+include snipsmanager/config/asound.conf/*
 include snipsmanager/config/drivers/*
 include snipsmanager/config/systemd/*
 include snipsmanager/templates/*

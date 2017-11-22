@@ -132,7 +132,7 @@ $ snipsmanager run
 
 ## Contributing
 
-Please see the [Contribution Guidelines](https://github.com/snipsco/snipsmanager/blob/master/CONTRIBUTING.rst).
+Please see the [Contribution Guidelines](https://github.com/snipsco/snipsmanager/blob/master/CONTRIBUTING.md).
 
 ## Copyright
 
