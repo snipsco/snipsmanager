@@ -135,7 +135,7 @@ class SkillsRunner:
 
         :param intent: the incoming intent to handle.
         """
-        tts_service = self.server.tts_service
+        tts_service = self.server.tts_service_id
 
         for skilldef in self.skilldefs:
             intent_def = skilldef.find(intent)
