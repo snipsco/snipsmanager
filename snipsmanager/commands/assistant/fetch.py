@@ -4,6 +4,8 @@ import hashlib
 import os
 import shutil
 import time
+import requests
+
 
 from ..base import Base
 from ..session.login import Login
@@ -12,6 +14,7 @@ from ...utils.http_helpers import fetch_url
 from ...utils.os_helpers import write_binary_file, file_exists
 from ...utils.cache import Cache
 from ...utils.snipsfile import Snipsfile
+
 
 from ... import SNIPS_CACHE_DIR, DEFAULT_SNIPSFILE_PATH
 
@@ -25,9 +28,11 @@ class AssistantFetcher(Base):
 
     SNIPS_TEMP_ASSISTANT_FILENAME = "assistant.zip"
     SNIPS_TEMP_ASSISTANT_PATH = os.path.join(SNIPS_CACHE_DIR, SNIPS_TEMP_ASSISTANT_FILENAME)
-    CONSOLE_ASSISTANT_URL = "https://external-gateway.snips.ai/v1/assistant/{}/download"
-    # CONSOLE_ASSISTANT_URL = "https://console.snips.ai/api/assistants/{}/download"
-
+    CONSOLE_ASSISTANT_DOWNLOAD = "https://external-gateway.snips.ai/v2/assistant/{}/download"
+    CONSOLE_ASSISTANT_STATUS = "https://external-gateway.snips.ai/v2/assistant/{}/status"
+    CONSOLE_LANGUAGEMODEL_TRAINING_STATUS = "https://external-gateway.snips.ai/v1/languagemodel/status"
+    CONSOLE_LANGUAGEMODEL_TRAIN = "https://external-gateway.snips.ai/v1/languagemodel"
+    CONSOLE_ASSISTANT_TRAINING = "https://external-gateway.snips.ai/v1/training"
 
     def run(self):
         """ Command runner.
@@ -111,10 +116,12 @@ class AssistantFetcher(Base):
     @staticmethod
     def download_console_assistant(aid, email=None, password=None, force_download=False):
         start_message = "Fetching assistant $GREEN{}$RESET from the Snips Console".format(aid)
+        message = pp.ConsoleMessage(start_message)
 
         if not force_download and AssistantFetcher.exists_cached_from_assistant_id(aid):
             pp.psubsuccess(start_message)
             pp.psubsuccess("Using cached version: {}".format(AssistantFetcher.get_assistant_cache_path_from_assistant_id(aid)))
+            pp.phint("Use the option --force-download if you want to force the download of a new assistant")
             AssistantFetcher.copy_to_temp_assistant_from_assistant_id(aid)
             return
 
@@ -122,9 +129,38 @@ class AssistantFetcher(Base):
         if token is None:
             token = AssistantFetcher.get_token(email=email, password=password)
 
-        message = pp.ConsoleMessage(start_message)
-        message.start()
         try:
+            status = AssistantFetcher.check_console_assistant_status(aid, token)
+            needTraining = status['needTraining']
+
+            if status['needTraining'] is True:
+                AssistantFetcher.train_nlu(aid, token)
+                nluTrainingMessage = pp.ConsoleMessage("Training assistant's Natural Language Understanding.")
+                nluTrainingMessage.start()
+
+            while(needTraining):
+                time.sleep(2)
+                status = AssistantFetcher.check_console_assistant_status(aid, token)
+                needTraining = status['needTraining']
+                if needTraining is False:
+                    nluTrainingMessage.done()
+
+            trainingLMResponse = AssistantFetcher.train_languaguemodel(aid, token)
+            trainingLMStatusResponse = AssistantFetcher.check_languaguemodel_training_status(aid, token)
+            trainingLMStatus = trainingLMStatusResponse.json()['status']
+
+            if (trainingLMStatus != 'ok'):
+                pp.phint("Your assistant is now training. This final preparation makes your assistant better at understanding your speech. Usually this process takes about 1 minute, but it depends on the size of your assistant. While your assistant is being prepared you cannot make any changes to it.")
+                asrTrainingMessage = pp.ConsoleMessage("Training language model for the ASR")
+                asrTrainingMessage.start()
+
+            while(trainingLMStatus != 'ok'):
+                time.sleep(2)
+                trainingLMStatus = AssistantFetcher.check_languaguemodel_training_status(aid, token).json()['status']
+                if (trainingLMStatus == 'ok'):
+                    asrTrainingMessage.done()
+
+            message.start()
             content = AssistantFetcher.download_console_assistant_only(aid, token)
             message.done()
         except Exception as e:
@@ -148,9 +184,42 @@ class AssistantFetcher(Base):
         AssistantFetcher.copy_to_temp_assistant_from_assistant_id(aid)
 
 
+
+    @staticmethod
+    def train_nlu(aid, token):
+        url = AssistantFetcher.CONSOLE_ASSISTANT_TRAINING
+        response = requests.post(url, json={'assistantId': aid}, headers={'Authorization': token, 'Accept': 'application/json'})
+        return response
+
+    @staticmethod
+    def check_console_assistant_status(aid, token):
+        url = AssistantFetcher.CONSOLE_ASSISTANT_STATUS.format(aid)
+        response = requests.get(url, headers={'Authorization': token, 'Accept': 'application/json'})
+        return response.json()
+
+    @staticmethod
+    def check_console_assistant_training(aid, token):
+        url = AssistantFetcher.CONSOLE_ASSISTANT_TRAINING.format(aid)
+        response = requests.get(url, headers={'Authorization': token, 'Accept': 'application/json'})
+        return response
+
+    @staticmethod
+    def train_languaguemodel(aid, token):
+        url = AssistantFetcher.CONSOLE_LANGUAGEMODEL_TRAIN
+        data = {'assistant': aid}
+        response = requests.post(url, json={'assistantId': aid}, headers={'Authorization': token, 'Accept': 'application/json'})
+        return response
+
+    @staticmethod
+    def check_languaguemodel_training_status(aid, token):
+        url = AssistantFetcher.CONSOLE_LANGUAGEMODEL_TRAINING_STATUS
+        response = requests.get(url, params={'assistantId': aid},
+                                 headers={'Authorization': token, 'Accept': 'application/json'})
+        return response
+
     @staticmethod
     def download_console_assistant_only(aid, token):
-        url = AssistantFetcher.CONSOLE_ASSISTANT_URL.format(aid)
+        url = AssistantFetcher.CONSOLE_ASSISTANT_DOWNLOAD.format(aid)
         return fetch_url(url, headers={'Authorization': token, 'Accept': 'application/json'})
 
 

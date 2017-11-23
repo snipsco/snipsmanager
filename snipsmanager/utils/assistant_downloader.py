@@ -1,10 +1,10 @@
 # -*-: coding utf-8 -*-
 """ Downloader for Snips assistants. """
 
-from http_helpers import post_request_json
 import os
 import json
 import re
+import requests
 
 from ..utils.os_helpers import email_is_valid
 
@@ -20,8 +20,8 @@ class Auth:
     @staticmethod
     def retrieve_token(self, email, password):
         data = { 'email': email, 'password': password }
-        response, response_headers = post_request_json(AUTH_URL, data)
-        token = response_headers.getheader('Authorization')
+        response = requests.post(AUTH_URL, json=data)
+        token = response.headers['Authorization']
         return token
 
 
@@ -109,8 +109,8 @@ class AuthDownloader(Downloader):
         data = {'email': self.email, 'password': self.password}
 
         try:
-            response, response_headers = post_request_json(self.auth_url, data)
-            token = response_headers.getheader('Authorization')
+            response = requests.post(self.auth_url, json=data)
+            token = response.headers['Authorization']
             return token
         except URLError:
             raise DownloaderException
@@ -127,11 +127,12 @@ class AuthDownloader(Downloader):
                         output_dir,
                         filename)
 
-
+'''
 class AssistantDownloader(AuthDownloader):
     auth_url = "https://external-gateway.snips.ai/v1/user/auth"
-    download_url = "https://external-gateway.snips.ai/v1/assistant/{}/download"
+    download_url = "https://external-gateway.snips.ai/v2/assistant/{}/download"
 
     def __init__(self, email, password, assistantId):
         AuthDownloader.__init__(self, email, password, assistantId)
         self.download_url = self.download_url.format(self.assistant_id)
+'''

@@ -28,7 +28,8 @@ class Login(Base):
         if has_credentials:
             Logout.logout()
         token = Cache.get_login_token()
-        if not token:
+        isTokenValid = Auth.validate_token(token)
+        if not token and not isTokenValid:
             if not has_credentials:
                 pp.pcommand(greeting or "Please enter your Snips Console credentials")
                 email = ask_for_input("Email address:")
@@ -44,3 +45,7 @@ class Login(Base):
             if not silent:
                 pp.psuccess("You are already signed in")
         return token
+
+    @staticmethod
+    def validate_token(token):
+        return Auth.validate_token(token)
