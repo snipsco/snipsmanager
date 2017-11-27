@@ -123,73 +123,72 @@ class AssistantFetcher(Base):
             AssistantFetcher.copy_to_temp_assistant_from_assistant_id(aid)
             return
 
-        token = Cache.get_login_token()
-        if token is None:
-            token = AssistantFetcher.get_token(email=email, password=password)
-
         try:
-            needTraining = AssistantFetcher.check_console_assistant_status(aid, token).json()['needTraining']
+            token = Cache.get_login_token()
+            if token is None:
+                token = AssistantFetcher.get_token(email=email, password=password)
 
-            if needTraining is True:
-                AssistantFetcher.train_nlu(aid, token)
-                nluTrainingMessage = pp.ConsoleMessage("Training assistant's Natural Language Understanding.")
-                nluTrainingMessage.start()
-
-            while(needTraining):
-                time.sleep(2)
-                needTraining = AssistantFetcher.check_console_assistant_status(aid, token).json()['needTraining']
-                if needTraining is False:
-                    nluTrainingMessage.done()
-
-            trainingLMResponse = AssistantFetcher.train_languaguemodel(aid, token)
-            trainingLMStatus = AssistantFetcher.check_languaguemodel_training_status(aid, token).json()['status']
-
-            if (trainingLMStatus != 'ok'):
-                pp.phint("Your assistant is now training. This final preparation makes your assistant better at understanding your speech. "
-                         "Usually this process takes about 1 minute, but it depends on the size of your assistant. "
-                         "While your assistant is being prepared you cannot make any changes to it.")
-                asrTrainingMessage = pp.ConsoleMessage("Training language model for the ASR")
-                asrTrainingMessage.start()
-
-            while(trainingLMStatus != 'ok'):
-                time.sleep(2)
-                trainingLMStatus = AssistantFetcher.check_languaguemodel_training_status(aid, token).json()['status']
-                if (trainingLMStatus == 'ok'):
-                    asrTrainingMessage.done()
+            AssistantFetcher.console_assistant_nlu_training_logic(aid, token)
+            AssistantFetcher.console_assistant_asr_training_logic(aid, token)
 
             message.start()
             content = AssistantFetcher.download_console_assistant_only(aid, token)
             message.done()
+
+            filepath = AssistantFetcher.get_assistant_cache_path_from_assistant_id(aid)
+            message = pp.ConsoleMessage("Saving assistant to {}".format(filepath))
+            message.start()
+            write_binary_file(filepath, content)
+            message.done()
+            AssistantFetcher.copy_to_temp_assistant_from_assistant_id(aid)
+
         except InvalidTokenException as e:
             pp.perror(e)
             message.error()
             Logout.logout()
-            AssistantFetcher.download_console_assistant(aid, email, password)
+            AssistantFetcher.download_console_assistant(aid, email, password, force_download)
         except Exception as e:
             pp.perror(e)
             message.error()
             raise AssistantFetcherException(
                 "Error fetching assistant from the console. Please make sure the ID is correct, and that you are signed in")
 
-            """
-            AssistantFetcher.download_console_assistant(aid, email, password)
-            token = AssistantFetcher.get_token(email=email, password=password)
-            message = pp.ConsoleMessage("Retrying to fetch assistant $GREEN{}$RESET from the Snips Console".format(aid))
-            message.start()
-            try:
-                content = AssistantFetcher.download_console_assistant_only(aid, token)
-                message.done()
-            except Exception:
-                message.error()
-                raise AssistantFetcherException("Error fetching assistant from the console. Please make sure the ID is correct, and that you are signed in")
-            """
 
-        filepath = AssistantFetcher.get_assistant_cache_path_from_assistant_id(aid)
-        message = pp.ConsoleMessage("Saving assistant to {}".format(filepath))
-        message.start()
-        write_binary_file(filepath, content)
-        message.done()
-        AssistantFetcher.copy_to_temp_assistant_from_assistant_id(aid)
+    @staticmethod
+    def console_assistant_nlu_training_logic(aid, token):
+        needTraining = AssistantFetcher.check_console_assistant_status(aid, token).json()['needTraining']
+
+        if needTraining is True:
+            AssistantFetcher.train_nlu(aid, token)
+            nluTrainingMessage = pp.ConsoleMessage("Training assistant's Natural Language Understanding.")
+            nluTrainingMessage.start()
+
+        while (needTraining):
+            time.sleep(2)
+            needTraining = AssistantFetcher.check_console_assistant_status(aid, token).json()['needTraining']
+            if needTraining is False:
+                nluTrainingMessage.done()
+
+
+    @staticmethod
+    def console_assistant_asr_training_logic(aid, token):
+        AssistantFetcher.train_languaguemodel(aid, token)
+
+        trainingLMStatus = AssistantFetcher.check_languaguemodel_training_status(aid, token).json()['status']
+
+        if (trainingLMStatus != 'ok'):
+            pp.phint(
+                "Your assistant is now training. This final preparation makes your assistant better at understanding your speech. "
+                "Usually this process takes about 1 minute, but it depends on the size of your assistant. "
+                "While your assistant is being prepared you cannot make any changes to it.")
+            asrTrainingMessage = pp.ConsoleMessage("Training language model for the ASR")
+            asrTrainingMessage.start()
+
+        while (trainingLMStatus != 'ok'):
+            time.sleep(2)
+            trainingLMStatus = AssistantFetcher.check_languaguemodel_training_status(aid, token).json()['status']
+            if (trainingLMStatus == 'ok'):
+                asrTrainingMessage.done()
 
 
     @staticmethod
@@ -284,8 +283,7 @@ class AssistantFetcher(Base):
         try:
             return Login.login(email=email, password=password, greeting="Please enter your Snips Console credentials to download your assistant.", silent=True)
         except Exception as e:
-            raise AssistantFetcherException("Error logging in: {}".format(str(e)))
-
+            raise InvalidTokenException("Error logging in")
 
     @staticmethod
     def copy_to_temp_assistant_from_url(url):
