@@ -7,9 +7,9 @@ import time
 import requests
 
 from ..base import Base
-from ..session.login import Login
+from ..session.login import Login, InvalidTokenException
 from ..session.logout import Logout
-from ...utils.http_helpers import fetch_url
+from ...utils.http_helpers import fetch_url, check_auth
 from ...utils.os_helpers import write_binary_file, file_exists
 from ...utils.cache import Cache
 from ...utils.snipsfile import Snipsfile
@@ -128,27 +128,26 @@ class AssistantFetcher(Base):
             token = AssistantFetcher.get_token(email=email, password=password)
 
         try:
-            status = AssistantFetcher.check_console_assistant_status(aid, token)
-            needTraining = status['needTraining']
+            needTraining = AssistantFetcher.check_console_assistant_status(aid, token).json()['needTraining']
 
-            if status['needTraining'] is True:
+            if needTraining is True:
                 AssistantFetcher.train_nlu(aid, token)
                 nluTrainingMessage = pp.ConsoleMessage("Training assistant's Natural Language Understanding.")
                 nluTrainingMessage.start()
 
             while(needTraining):
                 time.sleep(2)
-                status = AssistantFetcher.check_console_assistant_status(aid, token)
-                needTraining = status['needTraining']
+                needTraining = AssistantFetcher.check_console_assistant_status(aid, token).json()['needTraining']
                 if needTraining is False:
                     nluTrainingMessage.done()
 
             trainingLMResponse = AssistantFetcher.train_languaguemodel(aid, token)
-            trainingLMStatusResponse = AssistantFetcher.check_languaguemodel_training_status(aid, token)
-            trainingLMStatus = trainingLMStatusResponse.json()['status']
+            trainingLMStatus = AssistantFetcher.check_languaguemodel_training_status(aid, token).json()['status']
 
             if (trainingLMStatus != 'ok'):
-                pp.phint("Your assistant is now training. This final preparation makes your assistant better at understanding your speech. Usually this process takes about 1 minute, but it depends on the size of your assistant. While your assistant is being prepared you cannot make any changes to it.")
+                pp.phint("Your assistant is now training. This final preparation makes your assistant better at understanding your speech. "
+                         "Usually this process takes about 1 minute, but it depends on the size of your assistant. "
+                         "While your assistant is being prepared you cannot make any changes to it.")
                 asrTrainingMessage = pp.ConsoleMessage("Training language model for the ASR")
                 asrTrainingMessage.start()
 
@@ -161,9 +160,19 @@ class AssistantFetcher(Base):
             message.start()
             content = AssistantFetcher.download_console_assistant_only(aid, token)
             message.done()
-        except Exception as e:
+        except InvalidTokenException as e:
+            pp.perror(e)
             message.error()
             Logout.logout()
+            AssistantFetcher.download_console_assistant(aid, email, password)
+        except Exception as e:
+            pp.perror(e)
+            message.error()
+            raise AssistantFetcherException(
+                "Error fetching assistant from the console. Please make sure the ID is correct, and that you are signed in")
+
+            """
+            AssistantFetcher.download_console_assistant(aid, email, password)
             token = AssistantFetcher.get_token(email=email, password=password)
             message = pp.ConsoleMessage("Retrying to fetch assistant $GREEN{}$RESET from the Snips Console".format(aid))
             message.start()
@@ -173,6 +182,7 @@ class AssistantFetcher(Base):
             except Exception:
                 message.error()
                 raise AssistantFetcherException("Error fetching assistant from the console. Please make sure the ID is correct, and that you are signed in")
+            """
 
         filepath = AssistantFetcher.get_assistant_cache_path_from_assistant_id(aid)
         message = pp.ConsoleMessage("Saving assistant to {}".format(filepath))
@@ -182,38 +192,46 @@ class AssistantFetcher(Base):
         AssistantFetcher.copy_to_temp_assistant_from_assistant_id(aid)
 
 
-
     @staticmethod
+    @check_auth
     def train_nlu(aid, token):
         url = AssistantFetcher.CONSOLE_ASSISTANT_TRAINING
         response = requests.post(url, json={'assistantId': aid}, headers={'Authorization': token, 'Accept': 'application/json'})
         return response
 
+
     @staticmethod
+    @check_auth
     def check_console_assistant_status(aid, token):
         url = AssistantFetcher.CONSOLE_ASSISTANT_STATUS.format(aid)
         response = requests.get(url, headers={'Authorization': token, 'Accept': 'application/json'})
-        return response.json()
+        return response
+
 
     @staticmethod
+    @check_auth
     def check_console_assistant_training(aid, token):
         url = AssistantFetcher.CONSOLE_ASSISTANT_TRAINING.format(aid)
         response = requests.get(url, headers={'Authorization': token, 'Accept': 'application/json'})
         return response
 
+
     @staticmethod
+    @check_auth
     def train_languaguemodel(aid, token):
         url = AssistantFetcher.CONSOLE_LANGUAGEMODEL_TRAIN
-        data = {'assistant': aid}
         response = requests.post(url, json={'assistantId': aid}, headers={'Authorization': token, 'Accept': 'application/json'})
         return response
 
+
     @staticmethod
+    @check_auth
     def check_languaguemodel_training_status(aid, token):
         url = AssistantFetcher.CONSOLE_LANGUAGEMODEL_TRAINING_STATUS
         response = requests.get(url, params={'assistantId': aid},
                                  headers={'Authorization': token, 'Accept': 'application/json'})
         return response
+
 
     @staticmethod
     def download_console_assistant_only(aid, token):
