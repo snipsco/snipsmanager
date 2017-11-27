@@ -107,9 +107,13 @@ class SkillsRunner:
                             success = Addons.update_params(params=skilldef.params, addon_id=addon_id)
                             if not success:
                                 logger.info("{} add-on was not loaded. Run `snipsmanager install addon {}` to setup add-on".format(addon_id, addon_id))
-                    skill_instance = cls(locale=locale, **skilldef.params)
+
                     if tts_service_id is not None:
                         skilldef.params["tts_service"] = self.server.dialogue
+
+                    if locale is not None:
+                        skilldef.params['locale'] = locale
+
                     skill_instance = cls(**skilldef.params)
                     self.skills[skilldef.package_name] = skill_instance
                     logger.info("Successfully loaded skill {}".format(skilldef.package_name))
