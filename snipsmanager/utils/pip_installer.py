@@ -22,7 +22,6 @@ class PipInstaller:
 
         :param url_or_pip: URL of the module, or pip ID.
         """
-        print("this the log we are looking for: " + str(url_or_pip));
         if is_valid_github_url(url_or_pip):
             PipInstaller.install_url(url_or_pip, force_download=force_download)
         else:
