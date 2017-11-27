@@ -6,7 +6,6 @@ import shutil
 import time
 import requests
 
-
 from ..base import Base
 from ..session.login import Login
 from ..session.logout import Logout
@@ -14,7 +13,6 @@ from ...utils.http_helpers import fetch_url
 from ...utils.os_helpers import write_binary_file, file_exists
 from ...utils.cache import Cache
 from ...utils.snipsfile import Snipsfile
-
 
 from ... import SNIPS_CACHE_DIR, DEFAULT_SNIPSFILE_PATH
 
