@@ -179,6 +179,8 @@ class SkillsRunner:
             state_name = "session_ended"
         elif(state == self.server.DIALOGUE_EVENT_QUEUED):
             state_name = "session_queued"
+        else:
+            raise NotImplementedError( 'Dialogue event unrecognised, please update handle_dialogue_events_async in run.py' )
 
         thread = threading.Thread(target=self.handle_dialogue_events, args=(state_name, ))
         thread.start()
