@@ -168,6 +168,9 @@ class SkillsRunner:
 
             skill.tts_service = dialogue
 
+            siteId = payload.get('siteId')
+            sessionId = payload.get('sessionId')
+
             if intent_def.action is not None:
                 if intent_def.action.startswith("{%"):
                     # Replace variables in scope with random variables
@@ -179,6 +182,8 @@ class SkillsRunner:
                         .replace("intent_def", "_snips_jkqdruouzuahmgns") \
                         .replace("snipsfile", "_snips_pdzdcpaygyjklngz") \
                         .strip()
+                    action = "__sessionId__ = \"{}\"\n".format(sessionId) + action
+                    action = "__siteId__ = \"{}\"\n".format(siteId) + action
                     exec(action)
                 else:
                     getattr(skill, intent_def.action)()
