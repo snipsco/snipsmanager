@@ -91,10 +91,6 @@ class SkillsRunner:
         self.registry = IntentRegistry()
         self.server = Server(mqtt_hostname, mqtt_port, tts_service_id, locale, self.registry, self.handle_intent_async, self.handle_dialogue_events_async, self.handle_start_listening_async, self.handle_done_listening_async, logger)
 
-        ##
-        ## TODO testing
-        self.dialogue
-        ##
         self.skilldefs = skilldefs
         self.skills = {}
         for skilldef in self.skilldefs:
