@@ -222,8 +222,8 @@ class SkillsRunner:
                     .replace("snipsfile", "_snips_pdzdcpaygyjklngz") \
                     .strip()
 
-                action = "__sessionId__ = {}\n".format(sessionId) + action
-                action = "__siteId__ = {}\n".format(siteId) + action
+                action = "__sessionId__ = \"{}\"\n".format(sessionId) + action
+                action = "__siteId__ = \"{}\"\n".format(siteId) + action
                 exec(action)
             else:
                 getattr(skill, dialogue_events_def.action)()
