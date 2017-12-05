@@ -215,12 +215,6 @@ class SkillsRunner:
             else:
                 continue
 
-            ## TODO
-            if skill is not None;
-                skill._dialog.sessionId =
-                pass
-            ## TODO ^
-
             if dialogue_events_def.action.startswith("{%"):
                 # Replace variables in scope with random variables
                 # to prevent the skill from accessing/editing them.
