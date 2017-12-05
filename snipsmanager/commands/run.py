@@ -108,14 +108,13 @@ class SkillsRunner:
                             if not success:
                                 logger.info("{} add-on was not loaded. Run `snipsmanager install addon {}` to setup add-on".format(addon_id, addon_id))
 
-                    # TODO check if uncommenting (breaking)
+                    # TODO check if uncommenting (breaking compatibility)
                     # if tts_service_id is not None:
                         # skilldef.params["tts_service"] = self.server.dialogue
 
-                    ## TODO check / testing
                     dialogue_param = SnipsDialogueAPI(self.server.client, tts_service_id, locale)
                     skilldef.params["snips_dialog"] = dialogue_param
-                    ##
+
 
 
                     if locale is not None:
