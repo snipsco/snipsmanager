@@ -90,7 +90,11 @@ class SkillsRunner:
 
         self.registry = IntentRegistry()
         self.server = Server(mqtt_hostname, mqtt_port, tts_service_id, locale, self.registry, self.handle_intent_async, self.handle_dialogue_events_async, self.handle_start_listening_async, self.handle_done_listening_async, logger)
-        
+
+        ##
+        ## TODO testing
+        self.dialogue
+        ##
         self.skilldefs = skilldefs
         self.skills = {}
         for skilldef in self.skilldefs:
@@ -108,8 +112,15 @@ class SkillsRunner:
                             if not success:
                                 logger.info("{} add-on was not loaded. Run `snipsmanager install addon {}` to setup add-on".format(addon_id, addon_id))
 
-                    if tts_service_id is not None:
-                        skilldef.params["tts_service"] = self.server.dialogue
+                    # TODO check if uncommenting (breaking)
+                    # if tts_service_id is not None:
+                        # skilldef.params["tts_service"] = self.server.dialogue
+
+                    ## TODO check / testing
+                    dialogue_param = SnipsDialogueAPI(self.server.client, tts_service_id, locale)
+                    skilldef.params["snips_dialog"] = dialogue_param
+                    ##
+
 
                     if locale is not None:
                         skilldef.params['locale'] = locale
@@ -176,7 +187,7 @@ class SkillsRunner:
                 else:
                     getattr(skill, intent_def.action)()
 
-    def handle_dialogue_events_async(self, state):
+    def handle_dialogue_events_async(self, state, sessionId, siteId):
         """ Handle the dialogue API events."""
         if(state == self.server.DIALOGUE_EVENT_STARTED):
             state_name = "session_started"
@@ -187,10 +198,10 @@ class SkillsRunner:
         else:
             raise NotImplementedError( 'Dialogue event unrecognised, please update handle_dialogue_events_async in run.py' )
 
-        thread = threading.Thread(target=self.handle_dialogue_events, args=(state_name, ))
+        thread = threading.Thread(target=self.handle_dialogue_events, args=(state_name, sessionId, siteId))
         thread.start()
 
-    def handle_dialogue_events(self, name):
+    def handle_dialogue_events(self, name, sessionId, siteId):
         """ Handle the dialogue API events asynchronously."""
 
         for skilldef in self.skilldefs:
@@ -203,6 +214,13 @@ class SkillsRunner:
                 skill = self.skills[skilldef.name]
             else:
                 continue
+
+            ## TODO
+            if skill is not None;
+                skill._dialog.sessionId =
+                pass
+            ## TODO ^
+
             if dialogue_events_def.action.startswith("{%"):
                 # Replace variables in scope with random variables
                 # to prevent the skill from accessing/editing them.
@@ -213,6 +231,9 @@ class SkillsRunner:
                     .replace("intent_def", "_snips_jkqdruouzuahmgns")\
                     .replace("snipsfile", "_snips_pdzdcpaygyjklngz") \
                     .strip()
+
+                action = "__sessionId__ = {}\n".format(sessionId) + action
+                action = "__siteId__ = {}\n".format(siteId) + action
                 exec(action)
             else:
                 getattr(skill, dialogue_events_def.action)()
