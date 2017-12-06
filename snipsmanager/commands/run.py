@@ -17,6 +17,8 @@ from ..utils.addons import Addons
 from .. import DEFAULT_SNIPSFILE_PATH, SNIPS_CACHE_INTENTS_DIR, logger
 
 from snipsmanagercore.server import Server
+from snipsmanagercore.snips_dialogue_api import SnipsDialogueAPI
+
 # This is used potentially by code blocks in Snipsfile and Snipsspec files.
 from snipsmanagercore.instant_time import InstantTime
 from snipsmanagercore.time_interval import TimeInterval
