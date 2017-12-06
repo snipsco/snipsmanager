@@ -115,8 +115,6 @@ class SkillsRunner:
                     dialogue_param = SnipsDialogueAPI(self.server.client, tts_service_id, locale)
                     skilldef.params["snips_dialog"] = dialogue_param
 
-
-
                     if locale is not None:
                         skilldef.params['locale'] = locale
 
@@ -154,7 +152,7 @@ class SkillsRunner:
 
             if intent_def is None:
                 intent_def = skilldef.find_wildcard()
-            
+
             if intent_def is None:
                 continue
 
@@ -181,8 +179,8 @@ class SkillsRunner:
                         .replace("intent_def", "_snips_jkqdruouzuahmgns") \
                         .replace("snipsfile", "_snips_pdzdcpaygyjklngz") \
                         .strip()
-                    action = "__sessionId__ = \"{}\"\n".format(sessionId) + action
-                    action = "__siteId__ = \"{}\"\n".format(siteId) + action
+                    action = "__sessionId__ = \"{}\"\n".format(sessionId) + action  # We expose the sessionId in the scope of the action code block
+                    action = "__siteId__ = \"{}\"\n".format(siteId) + action # We expose the siteId in the scope of the action code block
                     exec(action)
                 else:
                     getattr(skill, intent_def.action)()
@@ -196,7 +194,7 @@ class SkillsRunner:
         elif(state == self.server.DIALOGUE_EVENT_QUEUED):
             state_name = "session_queued"
         else:
-            raise NotImplementedError( 'Dialogue event unrecognised, please update handle_dialogue_events_async in run.py' )
+            raise NotImplementedError('Dialogue event unrecognized, please update handle_dialogue_events_async in run.py')
 
         thread = threading.Thread(target=self.handle_dialogue_events, args=(state_name, sessionId, siteId))
         thread.start()
@@ -226,8 +224,8 @@ class SkillsRunner:
                     .replace("snipsfile", "_snips_pdzdcpaygyjklngz") \
                     .strip()
 
-                action = "__sessionId__ = \"{}\"\n".format(sessionId) + action
-                action = "__siteId__ = \"{}\"\n".format(siteId) + action
+                action = "__sessionId__ = \"{}\"\n".format(sessionId) + action # We expose the sessionId in the scope of the action code block
+                action = "__siteId__ = \"{}\"\n".format(siteId) + action # We expose the siteId in the scope of the action code block
                 exec(action)
             else:
                 getattr(skill, dialogue_events_def.action)()
