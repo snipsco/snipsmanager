@@ -115,7 +115,7 @@ class SkillsRunner:
                         # skilldef.params["tts_service"] = self.server.dialogue
 
                     dialogue_param = SnipsDialogueAPI(self.server.client, tts_service_id, locale)
-                    skilldef.params["snips_dialog"] = dialogue_param
+                    skilldef.params["snips_dialogue"] = dialogue_param
 
                     if locale is not None:
                         skilldef.params['locale'] = locale
