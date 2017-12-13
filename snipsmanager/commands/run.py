@@ -17,6 +17,7 @@ from ..utils.addons import Addons
 from .. import DEFAULT_SNIPSFILE_PATH, SNIPS_CACHE_INTENTS_DIR, logger
 
 from snipsmanagercore.server import Server
+from snipsmanagercore.snips_dialogue_api import SnipsDialogueAPI
 # This is used potentially by code blocks in Snipsfile and Snipsspec files.
 from snipsmanagercore.instant_time import InstantTime
 from snipsmanagercore.time_interval import TimeInterval
@@ -112,8 +113,9 @@ class SkillsRunner:
                     # if tts_service_id is not None:
                         # skilldef.params["tts_service"] = self.server.dialogue
 
-                    dialogue_param = SnipsDialogueAPI(self.server.client, tts_service_id, locale)
-                    skilldef.params["snips_dialog"] = dialogue_param
+                    # TODO del TODEL
+                    # dialogue_param = SnipsDialogueAPI(self.server.client, tts_service_id, locale)
+                    # skilldef.params["snips_dialog"] = dialogue_param
 
 
 
@@ -181,9 +183,13 @@ class SkillsRunner:
                         .replace("intent_def", "_snips_jkqdruouzuahmgns") \
                         .replace("snipsfile", "_snips_pdzdcpaygyjklngz") \
                         .strip()
-                    action = "__sessionId__ = \"{}\"\n".format(sessionId) + action
-                    action = "__siteId__ = \"{}\"\n".format(siteId) + action
-                    exec(action)
+                    dialog_object = SnipsDialogueAPI(self.server.client, self.server.tts_service_id, self.server.locale)
+                    action_scope = {
+                        "__dialog__": dialog_object,
+                        "__sessionId__": sessionId,
+                        "__siteId__": sessionId
+                    }
+                    exec (action, action_scope)
                 else:
                     getattr(skill, intent_def.action)()
 
@@ -226,9 +232,13 @@ class SkillsRunner:
                     .replace("snipsfile", "_snips_pdzdcpaygyjklngz") \
                     .strip()
 
-                action = "__sessionId__ = \"{}\"\n".format(sessionId) + action
-                action = "__siteId__ = \"{}\"\n".format(siteId) + action
-                exec(action)
+                dialog_object = SnipsDialogueAPI(self.server.client, self.server.tts_service_id, self.server.locale)
+                action_scope = {
+                    "__dialog__": dialog_object,
+                    "__sessionId__": sessionId,
+                    "__siteId__": sessionId
+                }
+                exec(action, action_scope)
             else:
                 getattr(skill, dialogue_events_def.action)()
 
