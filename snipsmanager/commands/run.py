@@ -18,6 +18,7 @@ from .. import DEFAULT_SNIPSFILE_PATH, SNIPS_CACHE_INTENTS_DIR, logger
 
 from snipsmanagercore.server import Server
 from snipsmanagercore.snips_dialogue_api import SnipsDialogueAPI
+
 # This is used potentially by code blocks in Snipsfile and Snipsspec files.
 from snipsmanagercore.instant_time import InstantTime
 from snipsmanagercore.time_interval import TimeInterval
@@ -109,16 +110,6 @@ class SkillsRunner:
                             if not success:
                                 logger.info("{} add-on was not loaded. Run `snipsmanager install addon {}` to setup add-on".format(addon_id, addon_id))
 
-                    # TODO check if uncommenting (breaking compatibility)
-                    # if tts_service_id is not None:
-                        # skilldef.params["tts_service"] = self.server.dialogue
-
-                    # TODO del TODEL
-                    # dialogue_param = SnipsDialogueAPI(self.server.client, tts_service_id, locale)
-                    # skilldef.params["snips_dialog"] = dialogue_param
-
-
-
                     if locale is not None:
                         skilldef.params['locale'] = locale
 
@@ -156,7 +147,7 @@ class SkillsRunner:
 
             if intent_def is None:
                 intent_def = skilldef.find_wildcard()
-            
+
             if intent_def is None:
                 continue
 
@@ -187,7 +178,7 @@ class SkillsRunner:
                     action_scope = {
                         "__dialog__": dialog_object,
                         "__sessionId__": sessionId,
-                        "__siteId__": sessionId
+                        "__siteId__": siteId
                     }
                     exec (action, action_scope)
                 else:
@@ -202,7 +193,7 @@ class SkillsRunner:
         elif(state == self.server.DIALOGUE_EVENT_QUEUED):
             state_name = "session_queued"
         else:
-            raise NotImplementedError( 'Dialogue event unrecognised, please update handle_dialogue_events_async in run.py' )
+            raise NotImplementedError('Dialogue event unrecognized, please update handle_dialogue_events_async in run.py')
 
         thread = threading.Thread(target=self.handle_dialogue_events, args=(state_name, sessionId, siteId))
         thread.start()
@@ -236,7 +227,7 @@ class SkillsRunner:
                 action_scope = {
                     "__dialog__": dialog_object,
                     "__sessionId__": sessionId,
-                    "__siteId__": sessionId
+                    "__siteId__": siteId
                 }
                 exec(action, action_scope)
             else:
