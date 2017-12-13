@@ -1,14 +1,14 @@
 # -*-: coding utf-8 -*-
-""" Notification definition from a YAML config. """
+""" Dialogue definition from a YAML config. """
 
 # pylint: disable=too-few-public-methods
-class NotificationDef:
-    """ Notification definition from a YAML config. """
+class DialogueDef:
+    """ Dialogue definition from a YAML config. """
 
     def __init__(self, name, action):
         """ Initialisation.
 
-        :param name: the name of the notification.
+        :param name: the name of the dialogue event.
         :param action: the code to execute.
         """
         self.name = name

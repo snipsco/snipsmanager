@@ -13,10 +13,13 @@ from .base import Base
 from ..utils.snipsfile import Snipsfile
 from ..utils.os_helpers import file_exists
 from ..utils.addons import Addons
+from ..utils.object_from_dict import ObjectFromDict
 
 from .. import DEFAULT_SNIPSFILE_PATH, SNIPS_CACHE_INTENTS_DIR, logger
 
 from snipsmanagercore.server import Server
+from snipsmanagercore.snips_dialogue_api import SnipsDialogueAPI
+
 # This is used potentially by code blocks in Snipsfile and Snipsspec files.
 from snipsmanagercore.instant_time import InstantTime
 from snipsmanagercore.time_interval import TimeInterval
@@ -89,8 +92,8 @@ class SkillsRunner:
         logger.info("Starting Snips Manager")
 
         self.registry = IntentRegistry()
-        self.server = Server(mqtt_hostname, mqtt_port, tts_service_id, locale, self.registry, self.handle_intent_async, self.handle_start_listening_async, self.handle_done_listening_async, logger)
-        
+        self.server = Server(mqtt_hostname, mqtt_port, tts_service_id, locale, self.registry, self.handle_intent_async, self.handle_dialogue_events_async, self.handle_start_listening_async, self.handle_done_listening_async, logger)
+
         self.skilldefs = skilldefs
         self.skills = {}
         for skilldef in self.skilldefs:
@@ -107,7 +110,11 @@ class SkillsRunner:
                             success = Addons.update_params(params=skilldef.params, addon_id=addon_id)
                             if not success:
                                 logger.info("{} add-on was not loaded. Run `snipsmanager install addon {}` to setup add-on".format(addon_id, addon_id))
-                    skill_instance = cls(locale=locale, **skilldef.params)
+
+                    if locale is not None:
+                        skilldef.params['locale'] = locale
+
+                    skill_instance = cls(**skilldef.params)
                     self.skills[skilldef.package_name] = skill_instance
                     logger.info("Successfully loaded skill {}".format(skilldef.package_name))
                 elif skilldef.name is not None:
@@ -134,14 +141,14 @@ class SkillsRunner:
 
         :param intent: the incoming intent to handle.
         """
-        tts_service = self.server.tts_service
+        dialogue = self.server.dialogue
 
         for skilldef in self.skilldefs:
             intent_def = skilldef.find(intent)
 
             if intent_def is None:
                 intent_def = skilldef.find_wildcard()
-            
+
             if intent_def is None:
                 continue
 
@@ -152,23 +159,79 @@ class SkillsRunner:
             else:
                 continue
 
-            skill.tts_service = self.server.tts_service
+            skill.tts_service = dialogue
+
+            siteId = payload.get('siteId')
+            sessionId = payload.get('sessionId')
 
             if intent_def.action is not None:
                 if intent_def.action.startswith("{%"):
-                    # Replace variables in scope with random variables
-                    # to prevent the skill from accessing/editing them.
                     action = intent_def.action \
                         .replace("{%", "") \
                         .replace("%}", "") \
-                        .replace("skilldef", "_snips_eejycfyrdfzilgfb") \
-                        .replace("intent_def", "_snips_jkqdruouzuahmgns") \
-                        .replace("snipsfile", "_snips_pdzdcpaygyjklngz") \
                         .strip()
-                    exec(action)
+
+                    dialog_object = SnipsDialogueAPI(self.server.client, self.server.tts_service_id, self.server.locale)
+
+                    action_scope = {
+                        "snips": ObjectFromDict({
+                            "dialogue": dialog_object,
+                            "session_id": sessionId,
+                            "site_id": siteId,
+                            "skill": skill,
+                            "intent": intent
+                        })
+                    }
+                    exec(action, action_scope)
                 else:
                     getattr(skill, intent_def.action)()
 
+    def handle_dialogue_events_async(self, state, sessionId, siteId):
+        """ Handle the dialogue API events."""
+        if(state == self.server.DIALOGUE_EVENT_STARTED):
+            state_name = "session_started"
+        elif(state == self.server.DIALOGUE_EVENT_ENDED):
+            state_name = "session_ended"
+        elif(state == self.server.DIALOGUE_EVENT_QUEUED):
+            state_name = "session_queued"
+        else:
+            raise NotImplementedError('Dialogue event unrecognized, please update handle_dialogue_events_async in run.py')
+
+        thread = threading.Thread(target=self.handle_dialogue_events, args=(state_name, sessionId, siteId))
+        thread.start()
+
+    def handle_dialogue_events(self, name, sessionId, siteId):
+        """ Handle the dialogue API events asynchronously."""
+
+        for skilldef in self.skilldefs:
+            dialogue_events_def = skilldef.find_dialogue_event(name)
+            if dialogue_events_def is None:
+                continue
+            if skilldef.package_name in self.skills:
+                skill = self.skills[skilldef.package_name]
+            elif skilldef.name in self.skills:
+                skill = self.skills[skilldef.name]
+            else:
+                continue
+
+            if dialogue_events_def.action.startswith("{%"):
+                action = dialogue_events_def.action \
+                    .replace("{%", "") \
+                    .replace("%}", "") \
+                    .strip()
+
+                dialog_object = SnipsDialogueAPI(self.server.client, self.server.tts_service_id, self.server.locale)
+                action_scope = {
+                    "snips": ObjectFromDict({
+                        "dialogue": dialog_object,
+                        "session_id": sessionId,
+                        "site_id": siteId,
+                        "skill": skill
+                    })
+                }
+                exec(action, action_scope)
+            else:
+                getattr(skill, dialogue_events_def.action)()
 
     def handle_start_listening_async(self):
         """ Handle a start listening event."""
@@ -194,15 +257,17 @@ class SkillsRunner:
             else:
                 continue
             if notification_def.action.startswith("{%"):
-                # Replace variables in scope with random variables
-                # to prevent the skill from accessing/editing them.
                 action = notification_def.action \
                     .replace("{%", "") \
                     .replace("%}", "") \
-                    .replace("skilldef", "_snips_eejycfyrdfzilgfb") \
-                    .replace("intent_def", "_snips_jkqdruouzuahmgns") \
-                    .replace("snipsfile", "_snips_pdzdcpaygyjklngz") \
                     .strip()
-                exec(action)
+
+                action_scope = {
+                    "snips": ObjectFromDict({
+                        "skill": skill
+                    })
+                }
+
+                exec (action, action_scope)
             else:
                 getattr(skill, notification_def.action)()

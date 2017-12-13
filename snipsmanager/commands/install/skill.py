@@ -44,4 +44,5 @@ class SkillInstaller(Base):
             message.error()
             if debug:
                 raise e
+
             raise SkillInstallerWarning("Error installing skill {}: make sure you have the required access rights, and that the module is available".format(url_or_pip))
