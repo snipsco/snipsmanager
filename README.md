@@ -130,6 +130,30 @@ The `snipsmanager` service will automatically start on boot. You can also start 
 $ snipsmanager run
 ```
 
+## Advanced Dialogue
+
+First you can have a look at the new fonctionalities of the [Snips Dialogue API](https://github.com/snipsco/snips-platform-documentation/wiki/5.-Build-rich-interactions)
+
+The object `snips.dialogue` provide a way to interact with this new API.
+
+Some information are also exposed in `snips.session_id` and `snips.site_id`. They provide the current state of the session.
+
+Also there is a new section in the Snipsfile and Snipsspec:
+```
+    dialogue_events:
+     - event: session_started
+       action: |
+         {%
+         print("->>>> Session started <<<<-")
+         snips.dialogue.speak("Hello word, Session Started.", snips.session_id)
+         %}
+```
+It enables you to act on events `session_started`, `session_queued` and `session_ended`
+
+/!\ Important when calling `snips.dialogue.speak` in session_started no intent will be detected because the default behaviour of `.speak` is to end the specified session.
+
+
+
 ## Contributing
 
 Please see the [Contribution Guidelines](https://github.com/snipsco/snipsmanager/blob/master/CONTRIBUTING.md).
