@@ -13,6 +13,7 @@ from .base import Base
 from ..utils.snipsfile import Snipsfile
 from ..utils.os_helpers import file_exists
 from ..utils.addons import Addons
+from ..utils.object_from_dict import ObjectFromDict
 
 from .. import DEFAULT_SNIPSFILE_PATH, SNIPS_CACHE_INTENTS_DIR, logger
 
@@ -165,22 +166,23 @@ class SkillsRunner:
 
             if intent_def.action is not None:
                 if intent_def.action.startswith("{%"):
-                    # Replace variables in scope with random variables
-                    # to prevent the skill from accessing/editing them.
                     action = intent_def.action \
                         .replace("{%", "") \
                         .replace("%}", "") \
-                        .replace("skilldef", "_snips_eejycfyrdfzilgfb") \
-                        .replace("intent_def", "_snips_jkqdruouzuahmgns") \
-                        .replace("snipsfile", "_snips_pdzdcpaygyjklngz") \
                         .strip()
+
                     dialog_object = SnipsDialogueAPI(self.server.client, self.server.tts_service_id, self.server.locale)
+
                     action_scope = {
-                        "__dialog__": dialog_object,
-                        "__sessionId__": sessionId,
-                        "__siteId__": siteId
+                        "snips": ObjectFromDict({
+                            "dialogue": dialog_object,
+                            "session_id": sessionId,
+                            "site_id": siteId,
+                            "skill": skill,
+                            "intent": intent
+                        })
                     }
-                    exec (action, action_scope)
+                    exec(action, action_scope)
                 else:
                     getattr(skill, intent_def.action)()
 
@@ -213,21 +215,19 @@ class SkillsRunner:
                 continue
 
             if dialogue_events_def.action.startswith("{%"):
-                # Replace variables in scope with random variables
-                # to prevent the skill from accessing/editing them.
                 action = dialogue_events_def.action \
                     .replace("{%", "") \
                     .replace("%}", "") \
-                    .replace("skilldef", "_snips_eejycfyrdfzilgfb") \
-                    .replace("intent_def", "_snips_jkqdruouzuahmgns")\
-                    .replace("snipsfile", "_snips_pdzdcpaygyjklngz") \
                     .strip()
 
                 dialog_object = SnipsDialogueAPI(self.server.client, self.server.tts_service_id, self.server.locale)
                 action_scope = {
-                    "__dialog__": dialog_object,
-                    "__sessionId__": sessionId,
-                    "__siteId__": siteId
+                    "snips": ObjectFromDict({
+                        "dialogue": dialog_object,
+                        "session_id": sessionId,
+                        "site_id": siteId,
+                        "skill": skill
+                    })
                 }
                 exec(action, action_scope)
             else:
@@ -257,15 +257,17 @@ class SkillsRunner:
             else:
                 continue
             if notification_def.action.startswith("{%"):
-                # Replace variables in scope with random variables
-                # to prevent the skill from accessing/editing them.
                 action = notification_def.action \
                     .replace("{%", "") \
                     .replace("%}", "") \
-                    .replace("skilldef", "_snips_eejycfyrdfzilgfb") \
-                    .replace("intent_def", "_snips_jkqdruouzuahmgns") \
-                    .replace("snipsfile", "_snips_pdzdcpaygyjklngz") \
                     .strip()
-                exec(action)
+
+                action_scope = {
+                    "snips": ObjectFromDict({
+                        "skill": skill
+                    })
+                }
+
+                exec (action, action_scope)
             else:
                 getattr(skill, notification_def.action)()
