@@ -1,6 +1,6 @@
 # -*-: coding utf-8 -*-
 """ snipsmanager module """
-__version__ = '0.1.6.41'
+__version__ = '0.1.6.42'
 
 import os
 import logging
