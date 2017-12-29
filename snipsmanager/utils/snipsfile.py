@@ -130,6 +130,7 @@ class Snipsfile:
         self.speaker_config = SpeakerConfig(yaml_config)
 
         self.skilldefs = []
+
         for skill in get(yaml_config, ['skills'], []):
             url = get(skill, ['url'], get(skill, ['pip']))
             package_name = get(skill, ['package_name'])
@@ -144,7 +145,6 @@ class Snipsfile:
                     snipsspec_file = SnipsSpec(package_name)
             except (SnipsspecNotFoundError, SnipsfileParseException) as e:
                 pass
-
             name = self.get_skill_attribute(skill, snipsspec_file, 'name')
             class_name = self.get_skill_attribute(skill, snipsspec_file, 'class_name')
             requires_tts = self.get_skill_attribute(skill, snipsspec_file, 'requires_tts', False)
@@ -307,6 +307,7 @@ class SnipsSpec:
         :param package_name: the name of the skills package, in which to look
                              for a Snipsspec file.
         """
+
         try:
             data = pkgutil.get_data(package_name, 'Snipsspec')
         except IOError:

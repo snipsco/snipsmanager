@@ -179,7 +179,11 @@ class SkillsRunner:
                             "session_id": sessionId,
                             "site_id": siteId,
                             "skill": skill,
-                            "intent": intent
+                            "intent": intent,
+                            "types": ObjectFromDict({
+                                "InstantTime": InstantTime,
+                                "TimeInterval": TimeInterval
+                            })
                         })
                     }
                     exec(action, action_scope)
@@ -226,7 +230,11 @@ class SkillsRunner:
                         "dialogue": dialog_object,
                         "session_id": sessionId,
                         "site_id": siteId,
-                        "skill": skill
+                        "skill": skill,
+                        "types": ObjectFromDict({
+                            "InstantTime": InstantTime,
+                            "TimeInterval": TimeInterval
+                        })
                     })
                 }
                 exec(action, action_scope)
@@ -264,7 +272,11 @@ class SkillsRunner:
 
                 action_scope = {
                     "snips": ObjectFromDict({
-                        "skill": skill
+                        "skill": skill,
+                        "types": ObjectFromDict({
+                            "InstantTime": InstantTime,
+                            "TimeInterval": TimeInterval
+                        })
                     })
                 }
 
