@@ -171,7 +171,8 @@ class SkillsRunner:
                         .replace("%}", "") \
                         .strip()
 
-                    dialog_object = SnipsDialogueAPI(self.server.client, self.server.tts_service_id, self.server.locale)
+                    dialog_object = SnipsDialogueAPI(self.server.client, self.server.tts_service_id,
+                                                     self.server.locale, sessionId)
 
                     action_scope = {
                         "snips": ObjectFromDict({
@@ -224,7 +225,8 @@ class SkillsRunner:
                     .replace("%}", "") \
                     .strip()
 
-                dialog_object = SnipsDialogueAPI(self.server.client, self.server.tts_service_id, self.server.locale)
+                dialog_object = SnipsDialogueAPI(self.server.client, self.server.tts_service_id,
+                                                 self.server.locale, sessionId)
                 action_scope = {
                     "snips": ObjectFromDict({
                         "dialogue": dialog_object,
