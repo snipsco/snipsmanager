@@ -20,7 +20,6 @@ class {{to_camelcase_capitalized(intent.name)}}Intent:
 
     intentName = "{{ intent.name }}"
 
-    {% if intent.slots is defined and intent.slots|length > 0 -%}
     def __init__(self, sessionId, siteId, customData{% for slot in intent.slots -%}, {{slot.name}}=None{% endfor %}):
         self.sessionId = sessionId
         self.siteId = siteId
@@ -28,7 +27,6 @@ class {{to_camelcase_capitalized(intent.name)}}Intent:
         {% for slot in intent.slots -%}
         self.{{slot.name}} = {{slot.name}}
         {% endfor %}
-    {% endif -%}
 
     @staticmethod
     def parse(payload):
