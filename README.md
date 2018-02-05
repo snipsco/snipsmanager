@@ -37,7 +37,7 @@ Snips Manager also comes as a `pip` package. This however requires installing a 
 
 ```sh
 $ sudo apt-get update
-$ sudo apt-get install python-pip libsdl-mixer1.2 libusb-1.0 \
+$ sudo apt-get install git python-pip libsdl-mixer1.2 libusb-1.0 \
     python-pyaudio libsdl1.2-dev cython cython3 libudev-dev \
     python-dev libsdl-image1.2-dev libsdl-mixer1.2-dev \
     libsdl-ttf2.0-dev libsmpeg-dev python-numpy libportmidi-dev \
