@@ -134,7 +134,7 @@ class SkillsRunner:
 
         :param intent: the incoming intent to handle.
         """
-        tts_service = self.server.tts_service
+        tts_service = self.server.tts_service_id
 
         for skilldef in self.skilldefs:
             intent_def = skilldef.find(intent)
@@ -152,7 +152,7 @@ class SkillsRunner:
             else:
                 continue
 
-            skill.tts_service = self.server.tts_service
+            skill.tts_service = self.server.tts_service_id
 
             if intent_def.action is not None:
                 if intent_def.action.startswith("{%"):
