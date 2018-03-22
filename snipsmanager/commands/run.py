@@ -89,7 +89,7 @@ class SkillsRunner:
         logger.info("Starting Snips Manager")
 
         self.registry = IntentRegistry()
-        self.server = Server(mqtt_hostname, mqtt_port, tts_service_id, locale, self.registry, self.handle_intent_async, self.handle_start_listening_async, self.handle_done_listening_async, logger)
+        self.server = Server(mqtt_hostname, mqtt_port, tts_service_id, locale, self.registry, self.handle_intent_async, None, self.handle_start_listening_async, self.handle_done_listening_async, logger)
         
         self.skilldefs = skilldefs
         self.skills = {}
