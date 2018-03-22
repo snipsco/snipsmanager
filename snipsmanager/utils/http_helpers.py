@@ -4,7 +4,7 @@
 import json
 import urllib2
 import requests
-from ..commands.session.login import Login
+from ..commands.session.login import Login, InvalidTokenException
 
 try:
     from urllib.request import urlopen, Request

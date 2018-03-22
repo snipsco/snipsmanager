@@ -26,8 +26,8 @@ class AssistantFetcher(Base):
 
     SNIPS_TEMP_ASSISTANT_FILENAME = "assistant.zip"
     SNIPS_TEMP_ASSISTANT_PATH = os.path.join(SNIPS_CACHE_DIR, SNIPS_TEMP_ASSISTANT_FILENAME)
-    CONSOLE_ASSISTANT_DOWNLOAD = "https://external-gateway.snips.ai/v2/assistant/{}/download"
-    CONSOLE_ASSISTANT_STATUS = "https://external-gateway.snips.ai/v2/assistant/{}/status"
+    CONSOLE_ASSISTANT_DOWNLOAD = "https://external-gateway.snips.ai/v3/assistant/{}/download"
+    CONSOLE_ASSISTANT_STATUS = "https://external-gateway.snips.ai/v3/assistant/{}/status"
     CONSOLE_LANGUAGEMODEL_TRAINING_STATUS = "https://external-gateway.snips.ai/v1/languagemodel/status"
     CONSOLE_LANGUAGEMODEL_TRAIN = "https://external-gateway.snips.ai/v1/languagemodel"
     CONSOLE_ASSISTANT_TRAINING = "https://external-gateway.snips.ai/v1/training"
