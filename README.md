@@ -136,4 +136,4 @@ Please see the [Contribution Guidelines](https://github.com/snipsco/snipsmanager
 
 ## Copyright
 
-This skill is provided by [Snips](https://www.snips.ai) as Open Source software. See [LICENSE.txt](https://github.com/snipsco/snipsmanager/blob/master/LICENSE.txt) for more information.
+This library is provided by [Snips](https://www.snips.ai) as Open Source software. See [LICENSE.txt](https://github.com/snipsco/snipsmanager/blob/master/LICENSE.txt) for more information.
