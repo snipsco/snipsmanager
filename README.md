@@ -1,11 +1,11 @@
-# Snips Manager
+# Snips Manager [❗️DEPRECATED]
 
 [![Build Status](https://travis-ci.org/snipsco/snipsmanager.svg)](https://travis-ci.org/snipsco/snipsmanager)
 [![PyPi](https://img.shields.io/pypi/v/snipsmanager.svg)](https://pypi.python.org/pypi/snipsmanager)
 [![MIT License](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/snipsco/snipsmanager/master/LICENSE.txt)
 
 
-> ❗️ The SnipsManager project is now deprecated. We now offer a more native way to run intents actions with the `snips-skills-server`
+> ❗️ The SnipsManager project is now deprecated. We now offer a more native way to run intents actions with the `snips-skills-server`.
 > A migration guide can be found [here](https://snips.gitbook.io/tutorials/t/technical-guides/snipsmanager-migration-guide). 
 
 
