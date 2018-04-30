@@ -7,10 +7,13 @@
 > ❗️ The SnipsManager project is now deprecated. We now offer a more native way to run intents actions with the `snips-skills-server`.
 > A migration guide can be found [here](https://snips.gitbook.io/tutorials/t/technical-guides/snipsmanager-migration-guide). 
 
-## Deprecation
+## Notice of Deprecation
 
-The `snipsmanager` project is now deprecated as the snips platform now offers a more native way to run skills **actions**. 
+As of 30/04/2018, the `snipsmanager` project is now deprecated as the snips platform now offers a more native way to run skills **actions**. 
 All skills written with `snipsmanager` can easily be ported to the `snips-skills-server`. It is also possible to run `snipsmanager` within `snips-skills-server`. 
+
+A migration guide can be found [here](https://snips.gitbook.io/tutorials/t/technical-guides/snipsmanager-migration-guide). 
+
 
 ## Introduction
 
