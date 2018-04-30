@@ -4,6 +4,11 @@
 [![PyPi](https://img.shields.io/pypi/v/snipsmanager.svg)](https://pypi.python.org/pypi/snipsmanager)
 [![MIT License](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/snipsco/snipsmanager/master/LICENSE.txt)
 
+
+> ❗️ The SnipsManager project is now deprecated. We now offer a more native way to run intents actions with the `snips-skills-server`
+> A migration guide can be found [here](https://snips.gitbook.io/tutorials/t/technical-guides/snipsmanager-migration-guide). 
+
+
 The Snips Manager is a tool for easily setting up and managing a [Snips](https://www.snips.ai) assistant.
 
 A single configuration file, the [Snipsfile](https://github.com/snipsco/snipsmanager/wiki/The-Snipsfile), is required to create a Snips assistant. In it, you specify:
